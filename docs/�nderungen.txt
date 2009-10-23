@@ -1,0 +1,53 @@
+v3.1.3.9947
+------
+~ Versionsnummern der von WoW angepasst
+~ Unterstützung für 3.1.3.9947
+
+v2.0.0
+------
+~ Der aktuellen MaNGOS-Version angepasst
+- Das Extrahieren der Karten entfernt
+
+v1.5.8
+------
+~ 3.0.9.9551 kompatibel (die 3.0.8 db kann weiterverwendet werden!)
+~ Kleine (interne) Änderungen
+
+v1.4.7
+------
+~ 3.0.8.9464 kompatibel (alte DB muß gesichert und gelöscht werden!)
+~ executesql.cmd: Ausgabe erweitert
+~ sql insert/update: Optimiert
++ item_template: ScalingStatDistribution und ScalingStatValue sowie ItemLimitCategory Ausgaben hinzugefügt
+- item_template: Fehler der beim Update/Insert durch RandomPropertyId auftreten konnten gefixt
+- item_template: Fehler bei der Umsetzung von unendlich `stackable` Daten gefixt bei Items
+- creature_template: Automatischer SQL-Fix für Modelids jetzt intern (Core-Bug besteht weiterhin!)
+- creature_template: Mehrfach Setzungen von RacialLeader unterbunden im sql
+
+v1.2.1
+------
+~ Schreibfehler bei einer Abfrage gefixt (konnte evtl. zu falschen Daten führen)
++ Fehlende Item-Spalte `StatsCount` im INSERT und UPDATE aufgenommen
+
+v1.1.9
+------
+- Crash beim Kommando -insert gefixt
++ Die Spalte IconName beim Creature -insert/-update Kommando hinzugefügt
+
+v1.1.7
+------
+~ Falsche Spaltennamen im creaturecache entfernt
+~ Problem mit Leerzeichen in den Pfaden (bei der Konfig.) gefixt
+~ Tippfehler bei der Versionsanzeige unter Windows gefixt
+
+v1.1.4
+------
++ Export von SQL-Dateien hinzugefügt, um neue Daten einzuspielen / unterschiedliche zu fixen (alte CFG muß gelöscht werden!)
+~ Tabellennamen sind nicht länger mit Erweiterung
+~ WDB-DB Tabellen-Struktur geändert/gefixt (alte DB muß gesichert und gelöscht werden!)
+~ Interne Änderungen
+- Mögliches Problem beim Laden der CFG gefixt
+
+v1.0.0
+------
+- Erste Veröffentlichung mit Support für v3.0.3.9183 Clienten

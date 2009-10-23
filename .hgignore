@@ -3,13 +3,13 @@ syntax: glob
 
 libs/Release/
 Release/
-setup/
 .directory
 *.orig
 *.rej
 *~
 *.ncb
 *.suo
+DataTrap*.exe
 
 # use regexp syntax.
 syntax: regexp
@@ -20,4 +20,3 @@ relre:.directory
 glob:dep/lib/
 relre:.user
 relre:helper/
-glob:*.aps
