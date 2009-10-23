@@ -66,12 +66,12 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
 
     "INSERT INTO `creature_template` "
     "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,"
-    "`modelid_A`,`modelid_A2`,`modelid_H`,`modelid_H2`,`unk16`,`unk17`,`RacialLeader`,"
+    "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`unk16`,`unk17`,`RacialLeader`,"
     "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`movementId`,"
     "`minlevel`,`maxlevel`,`minhealth`,`maxhealth`,`faction_A`,`faction_H`,`scale`) VALUES\n('");
 
     query.append("SELECT `entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,"
-        "`modelid_A`,`modelid_A2`,`modelid_H`,`modelid_H2`,`unk16`,`unk17`,`RacialLeader`,"
+        "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`unk16`,`unk17`,`RacialLeader`,"
         "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`movementId`"
         " FROM `").append(wdbdb).append("`.`creaturecache` WHERE `entry` NOT IN "
         "(SELECT `entry` FROM `").append(worlddb).append("`.`creature_template`)");
@@ -150,7 +150,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
 
                     insertsql.append("INSERT INTO `creature_template` "
                     "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,"
-                    "`modelid_A`,`modelid_A2`,`modelid_H`,`modelid_H2`,`unk16`,`unk17`,`RacialLeader`,"
+                    "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`unk16`,`unk17`,`RacialLeader`,"
                     "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`movementId`,"
                     "`minlevel`,`maxlevel`,`minhealth`,`maxhealth`,`faction_A`,`faction_H`,`scale`) VALUES\n('");
 
@@ -516,12 +516,11 @@ void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Da
                                 #######################################################################
                                 # Faction-"Korrektur" wegen core! :-( Das selbe wie bei den ModelIDs!
                                 #######################################################################
-                                UPDATE `itemcache` SET `reqfactionlvl`='0' WHERE `reqfaction`='0'; */
+                                UPDATE `itemcache` SET `reqfactionlvl`='0' WHERE `reqfaction`='0';*/
                                 if (i == 21 && tmpuint > 0)
                                     if (fields[20].GetUInt32() == 0) tmpuint = 0;
 
-                                // Randomproperty mit dem Wert 4294967295
-                                if (i == 99 && tmpuint == 4294967295) tmpuint = 0;
+                                if (tmpuint == 4294967295) tmpuint = 0;
 
                                 sprintf(tmp, "%u", tmpuint);
                                 if (i+1 < 125) insertsql.append(tmp).append("','");
@@ -1038,8 +1037,8 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
 
     query.append("SELECT WDB.entry, WDB.name, WORLD.name, WDB.subname, WORLD.subname, WDB.IconName, WORLD.IconName, "
         "WDB.type_flags, WORLD.type_flags, WDB.unit_flags, WORLD.unit_flags, WDB.`type`, WORLD.`type`, WDB.family, "
-        "WORLD.family, WDB.rank, WORLD.rank, WDB.modelid_A, WORLD.modelid_A, WDB.modelid_A2, WORLD.modelid_A2, WDB.modelid_H, WORLD.modelid_H, WDB.modelid_H2, "
-        "WORLD.modelid_H2, WDB.unk16, WORLD.unk16, WDB.unk17, WORLD.unk17, WDB.RacialLeader, WORLD.RacialLeader, "
+        "WORLD.family, WDB.rank, WORLD.rank, WDB.modelid1, WORLD.modelid1, WDB.modelid2, WORLD.modelid2, WDB.modelid3, WORLD.modelid3, WDB.modelid4, "
+        "WORLD.modelid4, WDB.unk16, WORLD.unk16, WDB.unk17, WORLD.unk17, WDB.RacialLeader, WORLD.RacialLeader, "
         "WDB.questItem1, WORLD.questItem1, WDB.questItem2, WORLD.questItem2, WDB.questItem3, WORLD.questItem3, WDB.questItem4, WORLD.questItem4, WDB.movementId, WORLD.movementId"
         " FROM `");
     query.append(wdbdb).append("`.`creaturecache` AS WDB, `");
@@ -1047,8 +1046,8 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
         "(WDB.name != WORLD.name || WDB.subname != WORLD.subname || WDB.IconName != WORLD.IconName || "
         "WDB.type_flags != WORLD.type_flags || WDB.unit_flags != WORLD.unit_flags || "
         "WDB.`type` != WORLD.`type` || WDB.family != WORLD.family || WDB.rank != WORLD.rank || "
-        "WDB.modelid_A != WORLD.modelid_A || WDB.modelid_A2 != WORLD.modelid_A2 || WDB.modelid_H != WORLD.modelid_H || "
-        "WDB.modelid_H2 != WORLD.modelid_H2 || WDB.unk16 != WORLD.unk16 || WDB.unk17 != WORLD.unk17 || WDB.RacialLeader != WORLD.RacialLeader || "
+        "WDB.modelid1 != WORLD.modelid1 || WDB.modelid2 != WORLD.modelid2 || WDB.modelid3 != WORLD.modelid3 || "
+        "WDB.modelid4 != WORLD.modelid4 || WDB.unk16 != WORLD.unk16 || WDB.unk17 != WORLD.unk17 || WDB.RacialLeader != WORLD.RacialLeader || "
         "WDB.questItem1 != WORLD.questItem1 || WDB.questItem2 != WORLD.questItem2 || WDB.questItem3 != WORLD.questItem3 || WDB.questItem4 != WORLD.questItem4 || "
         "WDB.movementId != WORLD.movementId)");
 
@@ -1070,7 +1069,7 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
         FILE* sqlfile = fopen(fstr.c_str(), "w");
         if (!sqlfile) io.SayError("Can't create: '%s'", fstr.c_str());
 
-        const char* column[9] = {"type_flags", "unit_flags", "type", "family", "rank", "modelid_A", "modelid_A2", "modelid_H", "modelid_H2"};
+        const char* column[9] = {"type_flags", "unit_flags", "type", "family", "rank", "modelid1", "modelid2", "modelid3", "modelid4"};
 
         do
         {
@@ -2030,7 +2029,10 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                     if (first) updatesql.append("SET `spellid_1`='");
                     else updatesql.append("`spellid_1`='");
                     tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[127].GetUInt32());
+                    if (fields[127].GetUInt32() == 4294967295)
+                        sprintf(tmp, "%u", 0);
+                    else
+                        sprintf(tmp, "%u", fields[127].GetUInt32());
                     updatesql.append(tmp).append("',");
                     free(tmp);
                     first = false;
@@ -2097,7 +2099,10 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                     if (first) updatesql.append("SET `spellid_2`='");
                     else updatesql.append("`spellid_2`='");
                     tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[139].GetUInt32());
+                    if (fields[139].GetUInt32() == 4294967295)
+                        sprintf(tmp, "%u", 0);
+                    else
+                        sprintf(tmp, "%u", fields[139].GetUInt32());
                     updatesql.append(tmp).append("',");
                     free(tmp);
                     first = false;
@@ -2164,7 +2169,10 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                     if (first) updatesql.append("SET `spellid_3`='");
                     else updatesql.append("`spellid_3`='");
                     tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[151].GetUInt32());
+                    if (fields[151].GetUInt32() == 4294967295)
+                        sprintf(tmp, "%u", 0);
+                    else
+                        sprintf(tmp, "%u", fields[151].GetUInt32());
                     updatesql.append(tmp).append("',");
                     free(tmp);
                     first = false;
@@ -2231,7 +2239,10 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                     if (first) updatesql.append("SET `spellid_4`='");
                     else updatesql.append("`spellid_4`='");
                     tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[163].GetUInt32());
+                    if (fields[163].GetUInt32() == 4294967295)
+                        sprintf(tmp, "%u", 0);
+                    else
+                        sprintf(tmp, "%u", fields[163].GetUInt32());
                     updatesql.append(tmp).append("',");
                     free(tmp);
                     first = false;
@@ -2298,7 +2309,10 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                     if (first) updatesql.append("SET `spellid_5`='");
                     else updatesql.append("`spellid_5`='");
                     tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[175].GetUInt32());
+                    if (fields[175].GetUInt32() == 4294967295)
+                        sprintf(tmp, "%u", 0);
+                    else
+                        sprintf(tmp, "%u", fields[175].GetUInt32());
                     updatesql.append(tmp).append("',");
                     free(tmp);
                     first = false;

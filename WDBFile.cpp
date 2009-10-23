@@ -123,10 +123,10 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_uint32, "rank");
 		        def->addField(t_undef,  "");// WEDER PETSPELLDATA NOCH KILLCREDIT! KA WO MANGOS 2x KILLCREDIT + PETSPELLDATA HERHOLT! :-(
 		        def->addField(t_undef,  "");// WEDER PETSPELLDATA NOCH KILLCREDIT! KA WO MANGOS 2x KILLCREDIT + PETSPELLDATA HERHOLT! :-(
-		        def->addField(t_uint32, "modelid_A");
-		        def->addField(t_uint32, "modelid_A2");
-		        def->addField(t_uint32, "modelid_H");
-		        def->addField(t_uint32, "modelid_H2");
+		        def->addField(t_uint32, "modelid1");
+		        def->addField(t_uint32, "modelid2");
+		        def->addField(t_uint32, "modelid3");
+		        def->addField(t_uint32, "modelid4");
 		        def->addField(t_float,  "unk16");
 		        def->addField(t_float,  "unk17");
  		        def->addField(t_uint8,  "RacialLeader");
