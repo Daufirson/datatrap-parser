@@ -1196,7 +1196,7 @@ void IO::DumpDBDatas(const char* mysqlpath, const char* db, const char* user, co
     if (system(cmd.c_str())) SayError("Can't dump database");
 }
 
-void IO::FillDBCColumnNames() // 233 (MAX_DBCS) @ 3.1.3.9947
+void IO::FillDBCColumnNames()
 {   // Alle Leeren initialisieren
     for (uint16 i=0; i<MAX_DBCS; i++)
         for (uint32 j=0; j<=strlen(DBCFileList[0].format); j++)

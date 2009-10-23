@@ -11,8 +11,8 @@ void System::SayWelcome(char* str)
     system("clear");
 #endif
     printf("-------------------------------------------------------------------------\n"
-        " DataTrap v%s - http://www.uwom.de - datatrap@uwom.de - Freeware\n"
-        "   Created and Copyright ©%s by WarHead - United Worlds of MaNGOS\n"
+        "    DataTrap v%s - http://www.uwom.de - datatrap@uwom.de - Freeware\n"
+        "  Created and Copyright © %s by WarHead - United Worlds of MaNGOS\n"
         "-------------------------------------------------------------------------\n\n",
            _VERSION, _YEAR);
 
@@ -356,7 +356,7 @@ void System::ExtractMPQDBCFiles()
 {
     int FirstLocale = -1;
 
-    for (uint8 i=0; i<LANG_COUNT; i++)
+    for (uint8 i=0; i<MAX_LOCALE; i++)
     {
         char tmp[MAX_PATH];
         sprintf(tmp, "%s/Data/%s/locale-%s.MPQ", cfg->wowpath.c_str(), langs[i], langs[i]);

@@ -20,3 +20,4 @@ relre:.directory
 glob:dep/lib/
 relre:.user
 relre:helper/
+glob:*.aps

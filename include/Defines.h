@@ -72,13 +72,6 @@
 typedef uint16      WORD;
 typedef uint32      DWORD;
 #endif //COMPILER
-/*
-#define TILESIZE    (533.33333f)
-#define CHUNKSIZE   ((TILESIZE) / 16.0f)
-#define UNITSIZE    (CHUNKSIZE / 8.0f)*/
-#define LANG_COUNT  12/*
-#define ADT_RES     64
-*/
 
 #include <iostream>
 #include <conio.h>
@@ -111,13 +104,6 @@ typedef unsigned __int8     uint8;
 typedef unsigned __int16    uint16;
 typedef unsigned __int32    uint32;
 typedef unsigned __int64    uint64;
-/*
-#define TILESIZE    (533.33333f)
-#define CHUNKSIZE   ((TILESIZE) / 16.0f)
-#define UNITSIZE    (CHUNKSIZE / 8.0f)
-*/
-
-#define MAX_LOCALE 12
 
 #if COMPILER == COMPILER_MICROSOFT
 #include <float.h>
@@ -144,23 +130,14 @@ inline float finiteAlways(float f) { return finite(f) ? f : 0.0f; }
 
 #define STRINGIZE(a) #a
 
-#define MAX_DBCS            233
-#define _VERSION            "3.1.3.9947"
-#define _CLIENT_VERSION     "3.1.3.9947"
-#define _YEAR               "2008/09"
+#define MAX_QUERY_LEN       32*1024
+#define MAX_DBCS            236
+#define MAX_LOCALE          12
+
+#define _VERSION            "2.1.0"
+#define _CLIENT_VERSION     "3.2.2.10505"
+#define _YEAR               "2008-2009"
 #define _CONFIGFILE         "DataTrap.cfg"
 #define _LOGFILE            "DataTrap.log"
-
-/*
-// Default Routinen nicht statisch nutzen 
-#pragma comment( linker, "/NODEFAULTLIB:libc.lib" ) 
-#pragma comment( linker, "/NODEFAULTLIB:libcd.lib" ) 
-// ...sondern aus der MSVCRT.DLL holen 
-#pragma comment( lib, "msvcrt.lib" ) 
-#pragma comment( lib, "kernel32.lib" ) 
-#pragma comment( lib, "user32.lib" )  
-*/
-
-#define MAX_QUERY_LEN 32*1024
 
 #endif
