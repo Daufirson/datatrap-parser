@@ -1,10 +1,10 @@
 -----------------------------------------------------------------------
-DataTrap v3.1.3.9947 - http://www.uwom.de - datatrap@uwom.de - Freeware
-  Created and Copyright ©2008/09 by WarHead - United Worlds of MaNGOS
+    DataTrap v2.1.0 - http://www.uwom.de - datatrap@uwom.de - Freeware
+ Created and Copyright ©2008-2009 by WarHead - United Worlds of MaNGOS
 -----------------------------------------------------------------------
 
 With this programm everyone should understand the original data of
-the World of Warcraft®™ v3.1.3.9947 client.
+the World of Warcraft®™ v3.2.2.10505 client.
 
 This programm is Win32 console based. If you have no idea what this 
 means you should better delete this tool from your HardDisk. It
