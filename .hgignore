@@ -1,0 +1,22 @@
+# use glob syntax.
+syntax: glob
+
+libs/Release/
+Release/
+setup/
+.directory
+*.orig
+*.rej
+*~
+*.ncb
+*.suo
+
+# use regexp syntax.
+syntax: regexp
+
+relre:.directory
+glob:bin/
+relre:.directory
+glob:dep/lib/
+relre:.user
+relre:helper/
