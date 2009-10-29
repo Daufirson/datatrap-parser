@@ -93,27 +93,100 @@ void IO::FixPathes()
 
 void IO::FixDirs()
 {
-    std::string dbcpath = Homepath.c_str();
-    std::string wdbpath = Homepath.c_str();
-    std::string dumppath = Homepath.c_str();
-    std::string sqlpath = Homepath.c_str();
+    std::string dbcpath     = Homepath.c_str();
+    std::string wdbpath     = Homepath.c_str();
+    std::string dumppath    = Homepath.c_str();
+    std::string sqlpath     = Homepath.c_str();
+    std::string miscpath    = Homepath.c_str();
 
 #if PLATFORM == PLATFORM_WINDOWS 
     dbcpath.append("\\dbc");
     wdbpath.append("\\wdb");
     dumppath.append("\\dump");
     sqlpath.append("\\sql");
+    miscpath.append("\\misc");
 #else
     dbcpath.append("/dbc");
     wdbpath.append("/wdb");
-//    mappath.append("/maps");
     dumppath.append("/dump");
     sqlpath.append("/sql");
+    miscpath.append("/misc");
 #endif
-    if (!DirExists(dbcpath.c_str())) CreateDir(dbcpath.c_str());
-    if (!DirExists(wdbpath.c_str())) CreateDir(wdbpath.c_str());
-    if (!DirExists(dumppath.c_str())) CreateDir(dumppath.c_str());
-    if (!DirExists(sqlpath.c_str())) CreateDir(sqlpath.c_str());
+    if (!DirExists(dbcpath.c_str()))    CreateDir(dbcpath.c_str());
+    if (!DirExists(wdbpath.c_str()))    CreateDir(wdbpath.c_str());
+    if (!DirExists(dumppath.c_str()))   CreateDir(dumppath.c_str());
+    if (!DirExists(sqlpath.c_str()))    CreateDir(sqlpath.c_str());
+    if (!DirExists(miscpath.c_str()))   CreateDir(miscpath.c_str());
+}
+
+void IO::FixFiles()
+{
+    std::string cr_file = Homepath.c_str();
+    std::string go_file = Homepath.c_str();
+    std::string qu_file = Homepath.c_str();
+    std::string it_file = Homepath.c_str();
+    std::string np_file = Homepath.c_str();
+    std::string pa_file = Homepath.c_str();
+
+#if PLATFORM == PLATFORM_WINDOWS 
+    cr_file.append("\\misc\\");
+    go_file.append("\\misc\\");
+    qu_file.append("\\misc\\");
+    it_file.append("\\misc\\");
+    np_file.append("\\misc\\");
+    pa_file.append("\\misc\\");
+#else
+    cr_file.append("/misc/");
+    go_file.append("/misc/");
+    qu_file.append("/misc/");
+    it_file.append("/misc/");
+    np_file.append("/misc/");
+    pa_file.append("/misc/");
+#endif
+
+    cr_file.append(_CREATURE_COLUMNS);
+    go_file.append(_GAMEOBJECT_COLUMNS);
+    qu_file.append(_QUEST_COLUMNS);
+    it_file.append(_ITEM_COLUMNS);
+    np_file.append(_NPCTEXT_COLUMNS);
+    pa_file.append(_PAGETEXT_COLUMNS);
+
+    if (!FileExists(cr_file.c_str()))
+    {
+        FILE* file = fopen(cr_file.c_str(), "a+");
+        if (!file) SayError("Can't create: %s", cr_file.c_str());
+        fclose(file);
+    }
+    if (!FileExists(go_file.c_str()))
+    {
+        FILE* file = fopen(go_file.c_str(), "a+");
+        if (!file) SayError("Can't create: %s", go_file.c_str());
+        fclose(file);
+    }
+    if (!FileExists(qu_file.c_str()))
+    {
+        FILE* file = fopen(qu_file.c_str(), "a+");
+        if (!file) SayError("Can't create: %s", qu_file.c_str());
+        fclose(file);
+    }
+    if (!FileExists(it_file.c_str()))
+    {
+        FILE* file = fopen(it_file.c_str(), "a+");
+        if (!file) SayError("Can't create: %s", it_file.c_str());
+        fclose(file);
+    }
+    if (!FileExists(np_file.c_str()))
+    {
+        FILE* file = fopen(np_file.c_str(), "a+");
+        if (!file) SayError("Can't create: %s", np_file.c_str());
+        fclose(file);
+    }
+    if (!FileExists(pa_file.c_str()))
+    {
+        FILE* file = fopen(pa_file.c_str(), "a+");
+        if (!file) SayError("Can't create: %s", pa_file.c_str());
+        fclose(file);
+    }
 }
 
 void IO::UpdateCfgHeader()
@@ -742,7 +815,7 @@ void IO::GetDBCDatasAndWriteToDatabase(const char* db, const char* user, const c
                         structcreated = true;
                     }
                     sqlinsert.resize(sqlinsert.size()-1);
-                    if (!DB.DirectExecute(sqlinsert.c_str())) SayError("Can't insert table datas");
+                    if (!DB.DirectExecute(sqlinsert.c_str())) SayError("Can't insert table data");
                     sqlinsert.clear();
                     sqlinsert = "INSERT INTO `";
                     sqlinsert += tmptablename.c_str();
@@ -870,12 +943,12 @@ void IO::GetDBCDatasAndWriteToDatabase(const char* db, const char* user, const c
             // SQL Insert Query senden
             std::string sql = sqlinsert.c_str();
             sqlinsert.clear();
-            if (!DB.DirectExecute(sql.c_str())) SayError("Can't insert table datas");
+            if (!DB.DirectExecute(sql.c_str())) SayError("Can't insert table data");
             sql.clear();
 
             // SQL Sort Query
             if (!noprimarykey)
-                if (!DB.DirectExecute(sortcommand.c_str())) SayError("Can't sort table datas");
+                if (!DB.DirectExecute(sortcommand.c_str())) SayError("Can't sort table data");
             sortcommand.clear();
         }
     }
@@ -1150,7 +1223,7 @@ void IO::GetWDBDatasAndWriteToDatabase(const char* db, const char* user, const c
                         if (k == nFields && (sqlinsert.size()+1024) > MAX_QUERY_LEN && (j+1) < wdb.m_records.size())
                         {
                             sqlinsert.resize(sqlinsert.size()-1);
-                            if (!DB.DirectExecute(sqlinsert.c_str())) SayError("Can't insert table datas");
+                            if (!DB.DirectExecute(sqlinsert.c_str())) SayError("Can't insert table data");
                             sqlinsert.clear();
                             sqlinsert.append("REPLACE INTO `").append(tmptablename.c_str()).append("` VALUES\n");
                         }
@@ -1159,9 +1232,9 @@ void IO::GetWDBDatasAndWriteToDatabase(const char* db, const char* user, const c
                 printf("\n");
 
                 if (!empty)
-                    if (!DB.DirectExecute(sqlinsert.c_str())) SayError("Can't insert table datas");
+                    if (!DB.DirectExecute(sqlinsert.c_str())) SayError("Can't insert table data");
                 // SQL Sortcmd
-                if (!DB.DirectExecute(sortcmd.c_str())) SayError("Can't sort table datas");
+                if (!DB.DirectExecute(sortcmd.c_str())) SayError("Can't sort table data");
 
             } else SayError("Can't load '%s'", fpath.c_str());
 

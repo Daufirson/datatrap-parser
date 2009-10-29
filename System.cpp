@@ -20,6 +20,8 @@ void System::SayWelcome(char* str)
     SetHomepath(str);
     // Nötige Verzeichnisse erstellen, wenn notwendig
     FixDirs();
+    // Nötige Dateien erstellen, wenn notwendig
+    FixFiles();
     // Config laden
     LoadCFG();
 }
@@ -137,7 +139,7 @@ void System::HandleArgs(int argc, char* argv[])
                 break;
             }
 
-            if (ParamExists(argc, argv, "-insert") || ParamExists(argc, argv, "-update"))
+            if (ParamExists(argc, argv, "-insert") || ParamExists(argc, argv, "-update") || ParamExists(argc, argv, "-column"))
             {
                 HandleDatabaseUpdateParams(argc, argv);
                 return;
@@ -254,17 +256,7 @@ void System::HandleDatabaseUpdateParams(int argc, char* argv[])
 
     DatabaseUpdate DU;
 
-    bool insert = false;
-    bool update = false;
-
-    bool creature = false;
-    bool gameobject = false;
-    bool quest = false;
-    bool item = false;
-    bool npctext = false;
-    bool pagetext = false;
-
-    uint8 todo = 0;
+    uint32 todo = 0;
 
     for (uint8 i=1; i<argc; i++)
     {
@@ -278,6 +270,7 @@ void System::HandleDatabaseUpdateParams(int argc, char* argv[])
         if (strcmp(_strupr(tmp), "NPCTEXT")==0)     todo = todo | NPCTEXT;
         if (strcmp(_strupr(tmp), "PAGETEXT")==0)    todo = todo | PAGETEXT;
         if (strcmp(_strupr(tmp), "-OWNGOS")==0)     todo = todo | OWN_GOS;
+        if (strcmp(_strupr(tmp), "COLUMN")==0)      todo = todo | COLUMN;
 
         free(tmp);
     }
@@ -295,6 +288,11 @@ void System::HandleDatabaseUpdateParams(int argc, char* argv[])
         DU.WriteUpdateSQL(cfg->db_user.c_str(), cfg->db_pw.c_str(), cfg->db_host.c_str(),
             cfg->wdb_db.c_str(), cfg->world_db.c_str(), todo, Homepath.c_str());
     }
+    else if (ParamExists(argc, argv, "-column"))
+    {
+        DU.WriteColumnUpdateSQL(cfg->db_user.c_str(), cfg->db_pw.c_str(), cfg->db_host.c_str(),
+            cfg->wdb_db.c_str(), cfg->world_db.c_str(), todo, Homepath.c_str());
+    }
 
     DU.CreateApplySQLFile(Homepath.c_str(), cfg->db_user.c_str(), cfg->db_pw.c_str(),
         cfg->db_host.c_str(), cfg->world_db.c_str(), cfg->mysqlpath.c_str());
@@ -303,7 +301,7 @@ void System::HandleDatabaseUpdateParams(int argc, char* argv[])
 void System::HandleImportCommand()
 {
     if (!cfg->db_user.size() || !cfg->db_pw.size())
-        SayError("No user and/or password specified to import datas");
+        SayError("No user and/or password specified to import data");
 
     switch(import)
     {
@@ -326,11 +324,11 @@ void System::HandleImportCommand()
 void System::HandleDumpCommand()
 {
     if (!cfg->db_user.size() || !cfg->db_pw.size())
-        SayError("No user and/or password specified to dump datas");
+        SayError("No user and/or password specified to dump data");
 
 #if PLATFORM == PLATFORM_WINDOWS 
     if (!cfg->mysqlpath.size())
-        SayError("To dump datas you have to set the MySQL path");
+        SayError("To dump data you have to set the MySQL path");
 #endif
 
     switch(dump)

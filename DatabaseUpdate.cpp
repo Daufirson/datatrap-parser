@@ -4,7 +4,7 @@ DatabaseUpdate::DatabaseUpdate(void) { }
 DatabaseUpdate::~DatabaseUpdate(void) { }
 
 void DatabaseUpdate::WriteInsertSQL(const char* user, const char* pw, const char* host, const char* wdbdb,
-                                    const char* worlddb, uint8 todo, const char* home)
+                                    const char* worlddb, uint32 todo, const char* home)
 {
     Database* DB = new Database;
     IO io;
@@ -22,28 +22,76 @@ void DatabaseUpdate::WriteInsertSQL(const char* user, const char* pw, const char
     if (todo & NPCTEXT)     CreateNPCTextInsert(wdbdb, worlddb, DB, home);
     if (todo & PAGETEXT)    CreatePageTextInsert(wdbdb, worlddb, DB, home);
     if (todo & QUEST)       CreateQuestInsert(wdbdb, worlddb, DB, home);
+
+    delete DB;
 }
 
 void DatabaseUpdate::WriteUpdateSQL(const char* user, const char* pw, const char* host, const char* wdbdb,
-                                    const char* worlddb, uint8 todo, const char* home)
+                                    const char* worlddb, uint32 todo, const char* home)
 {
     Database* DB = new Database;
     IO io;
+    bool owngos = false;
 
     // MySQL Initialisieren
     if (!DB->Initialize(user, pw, NULL, host)) io.SayError("Can't connect to mysql server");
 
-    bool own_style = false;
-    bool own_gos = false;
-
-    if (todo & OWN_GOS)     own_gos = true;
+    if (todo & OWN_GOS) owngos = true;
 
     if (todo & CREATURE)    CreateCreatureUpdate(wdbdb, worlddb, DB, home);
-    if (todo & GAMEOBJECT)  CreateGameobjectUpdate(wdbdb, worlddb, DB, home, own_gos); // own_gos -> lootid
+    if (todo & GAMEOBJECT)  CreateGameobjectUpdate(wdbdb, worlddb, DB, home, owngos); // owngos -> lootid
     if (todo & ITEM)        CreateItemUpdate(wdbdb, worlddb, DB, home);
     if (todo & NPCTEXT)     CreateNPCTextUpdate(wdbdb, worlddb, DB, home);
     if (todo & PAGETEXT)    CreatePageTextUpdate(wdbdb, worlddb, DB, home);
     if (todo & QUEST)       CreateQuestUpdate(wdbdb, worlddb, DB, home);
+
+    delete DB;
+}
+
+void DatabaseUpdate::WriteColumnUpdateSQL(const char* user, const char* pw, const char* host, const char* wdbdb,
+                                    const char* worlddb, uint32 todo, const char* home)
+{
+    Database* DB = new Database;
+    IO io;
+    bool owngos = false;
+
+    // MySQL Initialisieren
+    if (!DB->Initialize(user, pw, NULL, host)) io.SayError("Can't connect to mysql server");
+
+    if (todo & OWN_GOS) owngos = true;
+
+    if (todo & CREATURE)    CreateCreatureColumnUpdate(wdbdb, worlddb, DB, home);
+    if (todo & GAMEOBJECT)  CreateGameobjectColumnUpdate(wdbdb, worlddb, DB, home, owngos); // owngos -> lootid
+    if (todo & ITEM)        CreateItemColumnUpdate(wdbdb, worlddb, DB, home);
+    if (todo & NPCTEXT)     CreateNPCTextColumnUpdate(wdbdb, worlddb, DB, home);
+    if (todo & PAGETEXT)    CreatePageTextColumnUpdate(wdbdb, worlddb, DB, home);
+    if (todo & QUEST)       CreateQuestColumnUpdate(wdbdb, worlddb, DB, home);
+
+    delete DB;
+}
+
+void DatabaseUpdate::CreateCreatureColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
+{
+}
+
+void DatabaseUpdate::CreateGameobjectColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool owngos)
+{
+}
+
+void DatabaseUpdate::CreateItemColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
+{
+}
+
+void DatabaseUpdate::CreateNPCTextColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
+{
+}
+
+void DatabaseUpdate::CreatePageTextColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
+{
+}
+
+void DatabaseUpdate::CreateQuestColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
+{
 }
 
 void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home)

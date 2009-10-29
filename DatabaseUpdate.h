@@ -44,6 +44,7 @@ enum UPDATE_TABLES
     NPCTEXT     = 16,
     PAGETEXT    = 32,
     OWN_GOS     = 64,
+    COLUMN      = 128,
 };
 
 class DatabaseUpdate
@@ -53,10 +54,13 @@ public:
     ~DatabaseUpdate(void);
 
     void WriteInsertSQL(const char* user, const char* pw, const char* host, const char* wdbdb,
-        const char* worlddb, uint8 todo, const char* home);
+        const char* worlddb, uint32 todo, const char* home);
 
     void WriteUpdateSQL(const char* user, const char* pw, const char* host, const char* wdbdb,
-        const char* worlddb, uint8 todo, const char* home);
+        const char* worlddb, uint32 todo, const char* home);
+
+    void WriteColumnUpdateSQL(const char* user, const char* pw, const char* host, const char* wdbdb,
+        const char* worlddb, uint32 todo, const char* home);
 
     void CreateApplySQLFile(const char* home, const char* user, const char* pw,
         const char* host, const char* worlddb, const char* mysqlpath);
@@ -75,6 +79,13 @@ private:
     void CreateItemUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
     void CreateNPCTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
     void CreatePageTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
+
+    void CreateCreatureColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
+    void CreateGameobjectColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool owngos); // owngos -> lootid
+    void CreateItemColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
+    void CreateNPCTextColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
+    void CreatePageTextColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
+    void CreateQuestColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
 };
 
 #endif

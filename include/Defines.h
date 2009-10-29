@@ -140,4 +140,11 @@ inline float finiteAlways(float f) { return finite(f) ? f : 0.0f; }
 #define _CONFIGFILE         "DataTrap.cfg"
 #define _LOGFILE            "DataTrap.log"
 
+#define _CREATURE_COLUMNS   "creature_columns.txt"
+#define _GAMEOBJECT_COLUMNS "gameobject_columns.txt"
+#define _QUEST_COLUMNS      "quest_columns.txt"
+#define _ITEM_COLUMNS       "item_columns.txt"
+#define _NPCTEXT_COLUMNS    "npctext_columns.txt"
+#define _PAGETEXT_COLUMNS   "pagetext_columns.txt"
+
 #endif

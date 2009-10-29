@@ -124,6 +124,7 @@ public:
 
     void FixPathes();
     void FixDirs();
+    void FixFiles();
     bool DirExists(const char* pzPath);
     bool FileExists(const char* FileName);
 
