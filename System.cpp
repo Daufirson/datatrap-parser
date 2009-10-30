@@ -254,8 +254,6 @@ void System::HandleDatabaseUpdateParams(int argc, char* argv[])
     if (!cfg->db_user.size() || !cfg->db_pw.size())
         SayError("No user and/or password specified for the mysql access");
 
-    DatabaseUpdate DU;
-
     uint32 todo = 0;
 
     for (uint8 i=1; i<argc; i++)
@@ -283,15 +281,13 @@ void System::HandleDatabaseUpdateParams(int argc, char* argv[])
         if (ParamExists(argc, argv, "-update")) printf("\n");
     }
 
-    if (ParamExists(argc, argv, "-update"))
+    if (ParamExists(argc, argv, "-update") && ParamExists(argc, argv, "-column"))
+        SayError("You can't combine the parameter '-update' and '-column'");
+
+    if (ParamExists(argc, argv, "-update") || ParamExists(argc, argv, "-column"))
     {
         DU.WriteUpdateSQL(cfg->db_user.c_str(), cfg->db_pw.c_str(), cfg->db_host.c_str(),
-            cfg->wdb_db.c_str(), cfg->world_db.c_str(), todo, Homepath.c_str());
-    }
-    else if (ParamExists(argc, argv, "-column"))
-    {
-        DU.WriteColumnUpdateSQL(cfg->db_user.c_str(), cfg->db_pw.c_str(), cfg->db_host.c_str(),
-            cfg->wdb_db.c_str(), cfg->world_db.c_str(), todo, Homepath.c_str());
+            cfg->wdb_db.c_str(), cfg->world_db.c_str(), todo, Homepath.c_str(), ParamExists(argc, argv, "-column"));
     }
 
     DU.CreateApplySQLFile(Homepath.c_str(), cfg->db_user.c_str(), cfg->db_pw.c_str(),

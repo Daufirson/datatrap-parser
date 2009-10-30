@@ -19,6 +19,8 @@ public:
     void SayBye();
 
 private:
+    DatabaseUpdate DU;
+
     void ShowUsage();
     void ShowCFG();
 

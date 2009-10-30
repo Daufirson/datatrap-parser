@@ -20,7 +20,7 @@ IO::IO(void)
     cfg->wdb_db     = "wdbdata";
     cfg->wowpath    = "";
     cfg->mysqlpath  = ""; // Wegen mysqldump unter Win nötig, wenn MySQL nicht im System-Pfad steht
-    cfg->world_db   = "mangos";
+    cfg->world_db   = "world";
 
     cfg_header = new cfgheader;
 
@@ -29,6 +29,8 @@ IO::IO(void)
 
 IO::~IO(void)
 {
+    delete cfg;
+    delete cfg_header;
 }
 
 void IO::SetHomepath(char* str)
@@ -53,7 +55,8 @@ void IO::SetHomepath(char* str)
         }
         *iter++;
     }
-    if (!Homepath.size()) Homepath = ".";
+    if (!Homepath.size())
+        Homepath = ".";
 }
 
 void IO::CreateDir(const std::string& Path)
@@ -67,8 +70,11 @@ void IO::CreateDir(const std::string& Path)
 
 bool IO::DirExists(const char* pzPath)
 {
-    DIR* pDir = opendir(pzPath);
-    if (pDir) { closedir(pDir); return true; }
+    if (DIR* pDir = opendir(pzPath))
+    {
+        closedir(pDir);
+        return true;
+    }
     return false;
 }
 
@@ -187,6 +193,32 @@ void IO::FixFiles()
         if (!file) SayError("Can't create: %s", pa_file.c_str());
         fclose(file);
     }
+}
+
+std::string IO::GetColumnFileData(const char* columnfile)
+{
+    std::string filestr = Homepath.c_str();
+
+    if (filestr == "") filestr = ".";
+
+#if PLATFORM == PLATFORM_WINDOWS 
+    filestr.append("\\misc\\");
+#else
+    filestr.append("/misc/");
+#endif
+    filestr.append(columnfile);
+
+    if (!FileExists(filestr.c_str()))
+        SayError("Can't open: %s", filestr.c_str());
+    else
+    {
+        FILE* file = fopen(filestr.c_str(), "r+");
+        char str[4096];
+        fgets(str, sizeof(str), file);
+        fclose(file);
+        return str;
+    }
+    return NULL;
 }
 
 void IO::UpdateCfgHeader()
@@ -369,14 +401,21 @@ void IO::SayError(const char* _Format, ...)
 // Schaut ob _search in _array vorhanden ist, und gibt einen Zeiger darauf zurück
 uint32* IO::BinSearch(uint32 _array[], size_t l, uint32 _search)
 {
-    if (l<1) { return NULL; }
-    else if (l==1) { return (_array[0]==_search ? &_array[0] : NULL); }
+    if (l<1)
+        return NULL;
+    else
+        if (l==1)
+            return (_array[0]==_search ? &_array[0] : NULL);
     else
     {
         uint32 index = l/2;
-        if (_array[index]==_search) { return &_array[index]; }
-        else if (_array[index] > _search) { return BinSearch(_array, index, _search); }
-        else { return BinSearch(&_array[index+1], l - index - 1, _search); }
+        if (_array[index]==_search)
+            return &_array[index];
+        else
+            if (_array[index] > _search)
+                return BinSearch(_array, index, _search);
+        else
+            return BinSearch(&_array[index+1], l - index - 1, _search);
     }
 }
 

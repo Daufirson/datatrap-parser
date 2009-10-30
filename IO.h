@@ -127,6 +127,7 @@ public:
     void FixFiles();
     bool DirExists(const char* pzPath);
     bool FileExists(const char* FileName);
+    std::string GetColumnFileData(const char* columnfile);
 
     void _ExtractMPQDBCFiles(int locale, bool basicLocale);
     void LoadLocaleMPQFiles(int const locale);

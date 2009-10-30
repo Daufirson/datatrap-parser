@@ -7,96 +7,128 @@ void DatabaseUpdate::WriteInsertSQL(const char* user, const char* pw, const char
                                     const char* worlddb, uint32 todo, const char* home)
 {
     Database* DB = new Database;
-    IO io;
 
     // MySQL Initialisieren
-    if (!DB->Initialize(user, pw, NULL, host)) io.SayError("Can't connect to mysql server");
+    if (!DB->Initialize(user, pw, NULL, host))
+        io.SayError("Can't connect to mysql server");
 
     bool own_gos = false;
 
-    if (todo & OWN_GOS)     own_gos = true;
+    if (todo & OWN_GOS)
+        own_gos = true;
 
-    if (todo & CREATURE)    CreateCreatureInsert(wdbdb, worlddb, DB, home);
-    if (todo & GAMEOBJECT)  CreateGameobjectInsert(wdbdb, worlddb, DB, home, own_gos); // own_gos -> lootid
-    if (todo & ITEM)        CreateItemInsert(wdbdb, worlddb, DB, home);
-    if (todo & NPCTEXT)     CreateNPCTextInsert(wdbdb, worlddb, DB, home);
-    if (todo & PAGETEXT)    CreatePageTextInsert(wdbdb, worlddb, DB, home);
-    if (todo & QUEST)       CreateQuestInsert(wdbdb, worlddb, DB, home);
+    if (todo & CREATURE)
+        CreateCreatureInsert(wdbdb, worlddb, DB, home);
+
+    if (todo & GAMEOBJECT)
+        CreateGameobjectInsert(wdbdb, worlddb, DB, home, own_gos); // own_gos -> lootid
+
+    if (todo & ITEM)
+        CreateItemInsert(wdbdb, worlddb, DB, home);
+
+    if (todo & NPCTEXT)
+        CreateNPCTextInsert(wdbdb, worlddb, DB, home);
+
+    if (todo & PAGETEXT)
+        CreatePageTextInsert(wdbdb, worlddb, DB, home);
+
+    if (todo & QUEST)
+        CreateQuestInsert(wdbdb, worlddb, DB, home);
 
     delete DB;
 }
 
 void DatabaseUpdate::WriteUpdateSQL(const char* user, const char* pw, const char* host, const char* wdbdb,
-                                    const char* worlddb, uint32 todo, const char* home)
+                                    const char* worlddb, uint32 todo, const char* home, bool column)
 {
     Database* DB = new Database;
-    IO io;
     bool owngos = false;
+    std::string str;
+    Tokens toks;
 
     // MySQL Initialisieren
-    if (!DB->Initialize(user, pw, NULL, host)) io.SayError("Can't connect to mysql server");
+    if (!DB->Initialize(user, pw, NULL, host))
+        io.SayError("Can't connect to mysql server");
 
-    if (todo & OWN_GOS) owngos = true;
+    if (todo & OWN_GOS)
+        owngos = true;
 
-    if (todo & CREATURE)    CreateCreatureUpdate(wdbdb, worlddb, DB, home);
-    if (todo & GAMEOBJECT)  CreateGameobjectUpdate(wdbdb, worlddb, DB, home, owngos); // owngos -> lootid
-    if (todo & ITEM)        CreateItemUpdate(wdbdb, worlddb, DB, home);
-    if (todo & NPCTEXT)     CreateNPCTextUpdate(wdbdb, worlddb, DB, home);
-    if (todo & PAGETEXT)    CreatePageTextUpdate(wdbdb, worlddb, DB, home);
-    if (todo & QUEST)       CreateQuestUpdate(wdbdb, worlddb, DB, home);
+    if (todo & CREATURE)
+    {
+        if (column)
+        {
+            str = io.GetColumnFileData(_CREATURE_COLUMNS);
+            toks = io.StrSplit(str, " ");
+            if (toks.empty())
+                io.SayError("No column names found in the creature column file");
+        }
+        CreateCreatureUpdate(wdbdb, worlddb, DB, home, toks);
+    }
 
+    if (todo & GAMEOBJECT)
+    {
+        if (column)
+        {
+            str = io.GetColumnFileData(_GAMEOBJECT_COLUMNS);
+            toks = io.StrSplit(str, " ");
+            if (toks.empty())
+                io.SayError("No column names found in the gameobject column file");
+        }
+        CreateGameobjectUpdate(wdbdb, worlddb, DB, home, owngos, toks); // owngos -> lootid
+    }
+
+    if (todo & ITEM)
+    {
+        if (column)
+        {
+            str = io.GetColumnFileData(_ITEM_COLUMNS);
+            toks = io.StrSplit(str, " ");
+            if (toks.empty())
+                io.SayError("No column names found in the npctext column file");
+        }
+        CreateItemUpdate(wdbdb, worlddb, DB, home, toks);
+    }
+
+    if (todo & NPCTEXT)
+    {
+        if (column)
+        {
+            str = io.GetColumnFileData(_NPCTEXT_COLUMNS);
+            toks = io.StrSplit(str, " ");
+            if (toks.empty())
+                io.SayError("No column names found in the pagetext column file");
+        }
+        CreateNPCTextUpdate(wdbdb, worlddb, DB, home, toks);
+    }
+
+    if (todo & PAGETEXT)
+    {
+        if (column)
+        {
+            str = io.GetColumnFileData(_PAGETEXT_COLUMNS);
+            toks = io.StrSplit(str, " ");
+            if (toks.empty())
+                io.SayError("No column names found in the quest column file");
+        }
+        CreatePageTextUpdate(wdbdb, worlddb, DB, home, toks);
+    }
+
+    if (todo & QUEST)
+    {
+        if (column)
+        {
+            str = io.GetColumnFileData(_QUEST_COLUMNS);
+            toks = io.StrSplit(str, " ");
+            if (toks.empty())
+                io.SayError("No column names found in the item column file");
+        }
+        CreateQuestUpdate(wdbdb, worlddb, DB, home, toks);
+    }
     delete DB;
-}
-
-void DatabaseUpdate::WriteColumnUpdateSQL(const char* user, const char* pw, const char* host, const char* wdbdb,
-                                    const char* worlddb, uint32 todo, const char* home)
-{
-    Database* DB = new Database;
-    IO io;
-    bool owngos = false;
-
-    // MySQL Initialisieren
-    if (!DB->Initialize(user, pw, NULL, host)) io.SayError("Can't connect to mysql server");
-
-    if (todo & OWN_GOS) owngos = true;
-
-    if (todo & CREATURE)    CreateCreatureColumnUpdate(wdbdb, worlddb, DB, home);
-    if (todo & GAMEOBJECT)  CreateGameobjectColumnUpdate(wdbdb, worlddb, DB, home, owngos); // owngos -> lootid
-    if (todo & ITEM)        CreateItemColumnUpdate(wdbdb, worlddb, DB, home);
-    if (todo & NPCTEXT)     CreateNPCTextColumnUpdate(wdbdb, worlddb, DB, home);
-    if (todo & PAGETEXT)    CreatePageTextColumnUpdate(wdbdb, worlddb, DB, home);
-    if (todo & QUEST)       CreateQuestColumnUpdate(wdbdb, worlddb, DB, home);
-
-    delete DB;
-}
-
-void DatabaseUpdate::CreateCreatureColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
-{
-}
-
-void DatabaseUpdate::CreateGameobjectColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool owngos)
-{
-}
-
-void DatabaseUpdate::CreateItemColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
-{
-}
-
-void DatabaseUpdate::CreateNPCTextColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
-{
-}
-
-void DatabaseUpdate::CreatePageTextColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
-{
-}
-
-void DatabaseUpdate::CreateQuestColumnUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
-{
 }
 
 void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -228,7 +260,6 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
 
 void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool own_style)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -392,7 +423,6 @@ void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* world
 
 void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -639,7 +669,6 @@ void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Da
 
 void DatabaseUpdate::CreateNPCTextInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -783,7 +812,6 @@ void DatabaseUpdate::CreateNPCTextInsert(const char* wdbdb, const char* worlddb,
 
 void DatabaseUpdate::CreatePageTextInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -892,7 +920,6 @@ void DatabaseUpdate::CreatePageTextInsert(const char* wdbdb, const char* worlddb
 
 void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -1064,9 +1091,8 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
     } else printf("no new quests found.\n");
 }
 
-void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
+void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -1299,9 +1325,8 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
     }
 }
 
-void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool own_style)
+void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool own_style, Tokens columns)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -1552,9 +1577,8 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
     }
 }
 
-void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
+void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens column)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -2625,9 +2649,8 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
     }
 }
 
-void DatabaseUpdate::CreateNPCTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
+void DatabaseUpdate::CreateNPCTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens column)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -2817,9 +2840,8 @@ void DatabaseUpdate::CreateNPCTextUpdate(const char* wdbdb, const char* worlddb,
     } else printf("no differences found.\n");
 }
 
-void DatabaseUpdate::CreatePageTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
+void DatabaseUpdate::CreatePageTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens column)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -2924,9 +2946,8 @@ void DatabaseUpdate::CreatePageTextUpdate(const char* wdbdb, const char* worlddb
     } else printf("no differences found.\n");
 }
 
-void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home)
+void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens column)
 {
-    IO io;
     QueryResult* result;
     Field* fields;
 
@@ -3262,7 +3283,6 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
 void DatabaseUpdate::CreateApplySQLFile(const char* home, const char* user, const char* pw,
                                         const char* host, const char* worlddb, const char* mysqlpath)
 {
-    IO io;
     std::string fstr = home;
     std::string fdir = home;
     std::string fline = "";
