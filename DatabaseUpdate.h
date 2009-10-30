@@ -65,6 +65,8 @@ public:
 private:
     IO io;
 
+    bool ColumnExists(Tokens toks, const char* search);
+
     void CreateCreatureInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
     void CreateGameobjectInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool own_gos = false);
     void CreateQuestInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home);

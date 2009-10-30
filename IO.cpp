@@ -45,7 +45,7 @@ void IO::SetHomepath(char* str)
     {
         if (iter+1 != toks.end())
         {
-            Homepath.append((*iter).c_str());
+            Homepath.append(iter->c_str());
             if (iter+2 != toks.end())
 #if PLATFORM == PLATFORM_WINDOWS
                 Homepath.append("\\");
@@ -53,7 +53,7 @@ void IO::SetHomepath(char* str)
                 Homepath.append("/");
 #endif
         }
-        *iter++;
+        ++iter;
     }
     if (!Homepath.size())
         Homepath = ".";

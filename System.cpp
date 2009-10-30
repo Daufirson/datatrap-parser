@@ -278,7 +278,7 @@ void System::HandleDatabaseUpdateParams(int argc, char* argv[])
         DU.WriteInsertSQL(cfg->db_user.c_str(), cfg->db_pw.c_str(), cfg->db_host.c_str(),
             cfg->wdb_db.c_str(), cfg->world_db.c_str(), todo, Homepath.c_str());
 
-        if (ParamExists(argc, argv, "-update")) printf("\n");
+        if (ParamExists(argc, argv, "-update") || ParamExists(argc, argv, "-column")) printf("\n");
     }
 
     if (ParamExists(argc, argv, "-update") && ParamExists(argc, argv, "-column"))

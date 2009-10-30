@@ -2,7 +2,9 @@
 syntax: glob
 
 libs/Release/
+libs/Debug/
 Release/
+Debug/
 .directory
 *.orig
 *.rej
