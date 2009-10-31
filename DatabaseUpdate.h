@@ -74,12 +74,12 @@ private:
     void CreateNPCTextInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
     void CreatePageTextInsert(const char* wdbdb, const char* worlddb, Database* DB, const char* home);
 
-    void CreateCreatureUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns);
-    void CreateGameobjectUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool own_gos, Tokens columns);
-    void CreateQuestUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns);
-    void CreateItemUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns);
-    void CreateNPCTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns);
-    void CreatePageTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns);
+    void CreateCreatureUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns, bool docolumn);
+    void CreateGameobjectUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool own_gos, Tokens columns, bool docolumn);
+    void CreateQuestUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns, bool docolumn);
+    void CreateItemUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns, bool docolumn);
+    void CreateNPCTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns, bool docolumn);
+    void CreatePageTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns, bool docolumn);
 };
 
 #endif

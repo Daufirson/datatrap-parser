@@ -62,7 +62,6 @@ void DatabaseUpdate::WriteUpdateSQL(const char* user, const char* pw, const char
 {
     Database* DB = new Database;
     bool owngos = false;
-    std::string str;
     Tokens toks;
 
     // MySQL Initialisieren
@@ -75,73 +74,44 @@ void DatabaseUpdate::WriteUpdateSQL(const char* user, const char* pw, const char
     if (todo & CREATURE)
     {
         if (column)
-        {
-            str = io.GetColumnFileData(_CREATURE_COLUMNS);
-            toks = io.StrSplit(str, " ");
-            if (toks.empty())
-                io.SayError("No column names found in the creature column file");
-        }
-        CreateCreatureUpdate(wdbdb, worlddb, DB, home, toks);
-    }
+            toks = io.StrSplit(io.GetColumnFileData(_CREATURE_COLUMNS), " ");
 
+        CreateCreatureUpdate(wdbdb, worlddb, DB, home, toks, column);
+    }
     if (todo & GAMEOBJECT)
     {
         if (column)
-        {
-            str = io.GetColumnFileData(_GAMEOBJECT_COLUMNS);
-            toks = io.StrSplit(str, " ");
-            if (toks.empty())
-                io.SayError("No column names found in the gameobject column file");
-        }
-        CreateGameobjectUpdate(wdbdb, worlddb, DB, home, owngos, toks); // owngos -> lootid
-    }
+            toks = io.StrSplit(io.GetColumnFileData(_GAMEOBJECT_COLUMNS), " ");
 
+        CreateGameobjectUpdate(wdbdb, worlddb, DB, home, owngos, toks, column); // owngos -> lootid
+    }
     if (todo & ITEM)
     {
         if (column)
-        {
-            str = io.GetColumnFileData(_ITEM_COLUMNS);
-            toks = io.StrSplit(str, " ");
-            if (toks.empty())
-                io.SayError("No column names found in the npctext column file");
-        }
-        CreateItemUpdate(wdbdb, worlddb, DB, home, toks);
-    }
+            toks = io.StrSplit(io.GetColumnFileData(_ITEM_COLUMNS), " ");
 
+        CreateItemUpdate(wdbdb, worlddb, DB, home, toks, column);
+    }
     if (todo & NPCTEXT)
     {
         if (column)
-        {
-            str = io.GetColumnFileData(_NPCTEXT_COLUMNS);
-            toks = io.StrSplit(str, " ");
-            if (toks.empty())
-                io.SayError("No column names found in the pagetext column file");
-        }
-        CreateNPCTextUpdate(wdbdb, worlddb, DB, home, toks);
-    }
+            toks = io.StrSplit(io.GetColumnFileData(_NPCTEXT_COLUMNS), " ");
 
+        CreateNPCTextUpdate(wdbdb, worlddb, DB, home, toks, column);
+    }
     if (todo & PAGETEXT)
     {
         if (column)
-        {
-            str = io.GetColumnFileData(_PAGETEXT_COLUMNS);
-            toks = io.StrSplit(str, " ");
-            if (toks.empty())
-                io.SayError("No column names found in the quest column file");
-        }
-        CreatePageTextUpdate(wdbdb, worlddb, DB, home, toks);
-    }
+            toks = io.StrSplit(io.GetColumnFileData(_PAGETEXT_COLUMNS), " ");
 
+        CreatePageTextUpdate(wdbdb, worlddb, DB, home, toks, column);
+    }
     if (todo & QUEST)
     {
         if (column)
-        {
-            str = io.GetColumnFileData(_QUEST_COLUMNS);
-            toks = io.StrSplit(str, " ");
-            if (toks.empty())
-                io.SayError("No column names found in the item column file");
-        }
-        CreateQuestUpdate(wdbdb, worlddb, DB, home, toks);
+            toks = io.StrSplit(io.GetColumnFileData(_QUEST_COLUMNS), " ");
+
+        CreateQuestUpdate(wdbdb, worlddb, DB, home, toks, column);
     }
     delete DB;
 }
@@ -361,13 +331,17 @@ void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* world
                             }
                             else
                             {
-                                sprintf(tmp, "%u", fields[i].GetUInt32());
+                                uint32 uitmp = fields[i].GetUInt32();
+                                if (uitmp == 4294967295) uitmp = 0;
+                                sprintf(tmp, "%u", uitmp);
                                 insertsql.append(tmp).append("','");
                             }
                         }
                         else
                         {
-                            sprintf(tmp, "%u", fields[i].GetUInt32());
+                            uint32 uitmp = fields[i].GetUInt32();
+                            if (uitmp == 4294967295) uitmp = 0;
+                            sprintf(tmp, "%u", uitmp);
                             insertsql.append(tmp).append("','");
                         }
                     }
@@ -1110,7 +1084,7 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
     } else printf("no new quests found.\n");
 }
 
-void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns)
+void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns, bool docolumn)
 {
     QueryResult* result;
     Field* fields;
@@ -1171,141 +1145,176 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
 
             if (fields)
             {
-                if (strcmp(fields[1].GetCppString().c_str(), fields[2].GetCppString().c_str()) != 0)
+                if ((docolumn && ColumnExists(columns, "name")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET `name`='").append(io.Terminator(fields[1].GetCppString())).append("',");
-                    else updatesql.append("`name`='").append(io.Terminator(fields[1].GetCppString())).append("',");
-                    first = false;
+                    if (strcmp(fields[1].GetCppString().c_str(), fields[2].GetCppString().c_str()) != 0)
+                    {
+                        if (first) updatesql.append("SET `name`='").append(io.Terminator(fields[1].GetCppString())).append("',");
+                        else updatesql.append("`name`='").append(io.Terminator(fields[1].GetCppString())).append("',");
+                        first = false;
+                    }
                 }
-                if (strcmp(fields[3].GetCppString().c_str(), fields[4].GetCppString().c_str()) != 0)
+                if ((docolumn && ColumnExists(columns, "subname")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET `subname`='").append(io.Terminator(fields[3].GetCppString())).append("',");
-                    else updatesql.append("`subname`='").append(io.Terminator(fields[3].GetCppString())).append("',");
-                    first = false;
+                    if (strcmp(fields[3].GetCppString().c_str(), fields[4].GetCppString().c_str()) != 0)
+                    {
+                        if (first) updatesql.append("SET `subname`='").append(io.Terminator(fields[3].GetCppString())).append("',");
+                        else updatesql.append("`subname`='").append(io.Terminator(fields[3].GetCppString())).append("',");
+                        first = false;
+                    }
                 }
-                if (strcmp(fields[5].GetCppString().c_str(), fields[6].GetCppString().c_str()) != 0)
+                if ((docolumn && ColumnExists(columns, "IconName")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET `IconName`='").append(io.Terminator(fields[5].GetCppString())).append("',");
-                    else updatesql.append("`IconName`='").append(io.Terminator(fields[5].GetCppString())).append("',");
-                    first = false;
+                    if (strcmp(fields[5].GetCppString().c_str(), fields[6].GetCppString().c_str()) != 0)
+                    {
+                        if (first) updatesql.append("SET `IconName`='").append(io.Terminator(fields[5].GetCppString())).append("',");
+                        else updatesql.append("`IconName`='").append(io.Terminator(fields[5].GetCppString())).append("',");
+                        first = false;
+                    }
                 }
-
                 for (uint8 i=0; i<9; i++)
                 {
-                    if (fields[7+i*2].GetUInt32() != fields[8+i*2].GetUInt32())
+                    if ((docolumn && ColumnExists(columns, column[i])) || !docolumn)
                     {
-                        uint32 tmpuint = fields[7+i*2].GetUInt32();
-                        uint32 tmpentry = fields[0].GetUInt32();
-
-                        // KEIN MODELUPDATE FÜR DIESE ENTRIES, WEIL FALSCHE DATEN IN DEN WDBS STEHEN!!!
-                        if (tmpentry == 24938 || tmpentry == 25115 || tmpentry == 25001 || tmpentry == 26477) continue;
-                        else
+                        if (fields[7+i*2].GetUInt32() != fields[8+i*2].GetUInt32())
                         {
-                            if (first) updatesql.append("SET `").append(column[i]).append("`='");
-                            else updatesql.append("`").append(column[i]).append("`='");
-                            char* tmp = (char*)malloc(32);
-                            sprintf(tmp, "%u", tmpuint);
-                            updatesql.append(tmp).append("',");
-                            first = false;
-                            free(tmp);
+                            uint32 tmpuint = fields[7+i*2].GetUInt32();
+                            uint32 tmpentry = fields[0].GetUInt32();
+
+                            // KEIN MODELUPDATE FÜR DIESE ENTRIES, WEIL FALSCHE DATEN IN DEN WDBS STEHEN!!!
+                            if (tmpentry == 24938 || tmpentry == 25115 || tmpentry == 25001 || tmpentry == 26477) continue;
+                            else
+                            {
+                                if (first) updatesql.append("SET `").append(column[i]).append("`='");
+                                else updatesql.append("`").append(column[i]).append("`='");
+                                char* tmp = (char*)malloc(32);
+                                sprintf(tmp, "%u", tmpuint);
+                                updatesql.append(tmp).append("',");
+                                first = false;
+                                free(tmp);
+                            }
                         }
                     }
                 }
-                // unk16
-                if (fields[25].GetFloat() != fields[26].GetFloat())
+                if ((docolumn && ColumnExists(columns, "unk16")) || !docolumn)
                 {
-                    float tmpfloat = fields[25].GetFloat();
-                    if (first) updatesql.append("SET `unk16`='");
-                    else updatesql.append("`unk16`='");
-                    char* tmp = (char*)malloc(32);
-                    sprintf(tmp, "%f", tmpfloat);
-                    updatesql.append(tmp).append("',");
-                    first = false;
-                    free(tmp);
+                    // unk16
+                    if (fields[25].GetFloat() != fields[26].GetFloat())
+                    {
+                        float tmpfloat = fields[25].GetFloat();
+                        if (first) updatesql.append("SET `unk16`='");
+                        else updatesql.append("`unk16`='");
+                        char* tmp = (char*)malloc(32);
+                        sprintf(tmp, "%f", tmpfloat);
+                        updatesql.append(tmp).append("',");
+                        first = false;
+                        free(tmp);
+                    }
                 }
-                // unk17
-                if (fields[27].GetFloat() != fields[28].GetFloat())
+                if ((docolumn && ColumnExists(columns, "unk17")) || !docolumn)
                 {
-                    float tmpfloat = fields[27].GetFloat();
-                    if (first) updatesql.append("SET `unk17`='");
-                    else updatesql.append("`unk17`='");
-                    char* tmp = (char*)malloc(32);
-                    sprintf(tmp, "%f", tmpfloat);
-                    updatesql.append(tmp).append("',");
-                    first = false;
-                    free(tmp);
+                    // unk17
+                    if (fields[27].GetFloat() != fields[28].GetFloat())
+                    {
+                        float tmpfloat = fields[27].GetFloat();
+                        if (first) updatesql.append("SET `unk17`='");
+                        else updatesql.append("`unk17`='");
+                        char* tmp = (char*)malloc(32);
+                        sprintf(tmp, "%f", tmpfloat);
+                        updatesql.append(tmp).append("',");
+                        first = false;
+                        free(tmp);
+                    }
                 }
-                // RacialLeader
-                if (fields[29].GetUInt32() != fields[30].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "RacialLeader")) || !docolumn)
                 {
-                    uint32 tmpuint = fields[29].GetUInt32();
-                    if (first) updatesql.append("SET `RacialLeader`='");
-                    else updatesql.append("`RacialLeader`='");
-                    char* tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", tmpuint);
-                    updatesql.append(tmp).append("',");
-                    first = false;
-                    free(tmp);
+                    // RacialLeader
+                    if (fields[29].GetUInt32() != fields[30].GetUInt32())
+                    {
+                        uint32 tmpuint = fields[29].GetUInt32();
+                        if (first) updatesql.append("SET `RacialLeader`='");
+                        else updatesql.append("`RacialLeader`='");
+                        char* tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", tmpuint);
+                        updatesql.append(tmp).append("',");
+                        first = false;
+                        free(tmp);
+                    }
                 }
-                // questItem1
-                if (fields[31].GetUInt32() != fields[32].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "questItem1")) || !docolumn)
                 {
-                    uint32 tmpuint = fields[31].GetUInt32();
-                    if (first) updatesql.append("SET `questItem1`='");
-                    else updatesql.append("`questItem1`='");
-                    char* tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", tmpuint);
-                    updatesql.append(tmp).append("',");
-                    first = false;
-                    free(tmp);
+                    // questItem1
+                    if (fields[31].GetUInt32() != fields[32].GetUInt32())
+                    {
+                        uint32 tmpuint = fields[31].GetUInt32();
+                        if (first) updatesql.append("SET `questItem1`='");
+                        else updatesql.append("`questItem1`='");
+                        char* tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", tmpuint);
+                        updatesql.append(tmp).append("',");
+                        first = false;
+                        free(tmp);
+                    }
                 }
-                // questItem2
-                if (fields[33].GetUInt32() != fields[34].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "questItem2")) || !docolumn)
                 {
-                    uint32 tmpuint = fields[33].GetUInt32();
-                    if (first) updatesql.append("SET `questItem2`='");
-                    else updatesql.append("`questItem2`='");
-                    char* tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", tmpuint);
-                    updatesql.append(tmp).append("',");
-                    first = false;
-                    free(tmp);
+                    // questItem2
+                    if (fields[33].GetUInt32() != fields[34].GetUInt32())
+                    {
+                        uint32 tmpuint = fields[33].GetUInt32();
+                        if (first) updatesql.append("SET `questItem2`='");
+                        else updatesql.append("`questItem2`='");
+                        char* tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", tmpuint);
+                        updatesql.append(tmp).append("',");
+                        first = false;
+                        free(tmp);
+                    }
                 }
-                // questItem3
-                if (fields[35].GetUInt32() != fields[36].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "questItem3")) || !docolumn)
                 {
-                    uint32 tmpuint = fields[35].GetUInt32();
-                    if (first) updatesql.append("SET `questItem3`='");
-                    else updatesql.append("`questItem3`='");
-                    char* tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", tmpuint);
-                    updatesql.append(tmp).append("',");
-                    first = false;
-                    free(tmp);
+                    // questItem3
+                    if (fields[35].GetUInt32() != fields[36].GetUInt32())
+                    {
+                        uint32 tmpuint = fields[35].GetUInt32();
+                        if (first) updatesql.append("SET `questItem3`='");
+                        else updatesql.append("`questItem3`='");
+                        char* tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", tmpuint);
+                        updatesql.append(tmp).append("',");
+                        first = false;
+                        free(tmp);
+                    }
                 }
-                // questItem4
-                if (fields[37].GetUInt32() != fields[38].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "questItem4")) || !docolumn)
                 {
-                    uint32 tmpuint = fields[37].GetUInt32();
-                    if (first) updatesql.append("SET `questItem4`='");
-                    else updatesql.append("`questItem4`='");
-                    char* tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", tmpuint);
-                    updatesql.append(tmp).append("',");
-                    first = false;
-                    free(tmp);
+                    // questItem4
+                    if (fields[37].GetUInt32() != fields[38].GetUInt32())
+                    {
+                        uint32 tmpuint = fields[37].GetUInt32();
+                        if (first) updatesql.append("SET `questItem4`='");
+                        else updatesql.append("`questItem4`='");
+                        char* tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", tmpuint);
+                        updatesql.append(tmp).append("',");
+                        first = false;
+                        free(tmp);
+                    }
                 }
-                // movementId
-                if (fields[39].GetUInt32() != fields[40].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "movementId")) || !docolumn)
                 {
-                    uint32 tmpuint = fields[39].GetUInt32();
-                    if (first) updatesql.append("SET `movementId`='");
-                    else updatesql.append("`movementId`='");
-                    char* tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", tmpuint);
-                    updatesql.append(tmp).append("',");
-                    first = false;
-                    free(tmp);
+                    // movementId
+                    if (fields[39].GetUInt32() != fields[40].GetUInt32())
+                    {
+                        uint32 tmpuint = fields[39].GetUInt32();
+                        if (first) updatesql.append("SET `movementId`='");
+                        else updatesql.append("`movementId`='");
+                        char* tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", tmpuint);
+                        updatesql.append(tmp).append("',");
+                        first = false;
+                        free(tmp);
+                    }
                 }
             }
             if (!first)
@@ -1344,7 +1353,7 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
     }
 }
 
-void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool own_style, Tokens columns)
+void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, bool own_style, Tokens columns, bool docolumn)
 {
     QueryResult* result;
     Field* fields;
@@ -1423,7 +1432,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
             {
                 char* tmp;
 
-                if (ColumnExists(columns, "type") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "type")) || !docolumn)
                 {
                     // type
                     if (fields[1].GetUInt32() != fields[2].GetUInt32())
@@ -1438,7 +1447,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         first = false;
                     }
                 }
-                if (ColumnExists(columns, "displayId") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "displayId")) || !docolumn)
                 {
                     // displayId
                     if (fields[3].GetUInt32() != fields[4].GetUInt32())
@@ -1453,7 +1462,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         first = false;
                     }
                 }
-                if (ColumnExists(columns, "name") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "name")) || !docolumn)
                 {
                     // name
                     if (strcmp(fields[5].GetCppString().c_str(), fields[6].GetCppString().c_str()) != 0)
@@ -1463,7 +1472,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         first = false;
                     }
                 }
-                if (ColumnExists(columns, "IconName") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "IconName")) || !docolumn)
                 {
                     // IconName
                     if (strcmp(fields[7].GetCppString().c_str(), fields[8].GetCppString().c_str()) != 0)
@@ -1473,7 +1482,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         first = false;
                     }
                 }
-                if (ColumnExists(columns, "castBarCaption") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "castBarCaption")) || !docolumn)
                 {
                     // castBarCaption
                     if (strcmp(fields[9].GetCppString().c_str(), fields[10].GetCppString().c_str()) != 0)
@@ -1483,7 +1492,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         first = false;
                     }
                 }
-                if (ColumnExists(columns, "unk1") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "unk1")) || !docolumn)
                 {
                     // unk1
                     if (strcmp(fields[11].GetCppString().c_str(), fields[12].GetCppString().c_str()) != 0)
@@ -1495,7 +1504,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                 }
                 for (uint8 i=0; i<24; i++)
                 {
-                    if (ColumnExists(columns, column[i]) || columns.empty())
+                    if ((docolumn && ColumnExists(columns, column[i])) || !docolumn)
                     {
                         // lootid auf entry setzen
                         if (own_style && i == 1 && fields[0].GetUInt32() != fields[14+i*2].GetUInt32() &&
@@ -1526,7 +1535,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         }
                     }
                 }
-                if (ColumnExists(columns, "size") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "size")) || !docolumn)
                 {
                     // size
                     if (fields[61].GetFloat() != fields[62].GetFloat())
@@ -1540,7 +1549,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         first = false;
                     }
                 }
-                if (ColumnExists(columns, "questItem1") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "questItem1")) || !docolumn)
                 {
                     // questItem1
                     if (fields[63].GetUInt32() != fields[64].GetUInt32())
@@ -1554,7 +1563,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         first = false;
                     }
                 }
-                if (ColumnExists(columns, "questItem2") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "questItem2")) || !docolumn)
                 {
                     // questItem2
                     if (fields[65].GetUInt32() != fields[66].GetUInt32())
@@ -1568,7 +1577,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         first = false;
                     }
                 }
-                if (ColumnExists(columns, "questItem3") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "questItem3")) || !docolumn)
                 {
                     // questItem3
                     if (fields[67].GetUInt32() != fields[68].GetUInt32())
@@ -1582,7 +1591,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         first = false;
                     }
                 }
-                if (ColumnExists(columns, "questItem4") || columns.empty())
+                if ((docolumn && ColumnExists(columns, "questItem4")) || !docolumn)
                 {
                     // questItem4
                     if (fields[69].GetUInt32() != fields[70].GetUInt32())
@@ -1633,7 +1642,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
     }
 }
 
-void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens column)
+void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns, bool docolumn)
 {
     QueryResult* result;
     Field* fields;
@@ -1847,113 +1856,943 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
             {
                 char* tmp;
 
-                // class
-                if (fields[1].GetUInt32() != fields[2].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "class")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET `class`='");
-                    else updatesql.append("`class`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[1].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
+                    // class
+                    if (fields[1].GetUInt32() != fields[2].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `class`='");
+                        else updatesql.append("`class`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[1].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
                 }
-                // subclass
-                if (fields[3].GetUInt32() != fields[4].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "subclass")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET `subclass`='");
-                    else updatesql.append("`subclass`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[3].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
+                    // subclass
+                    if (fields[3].GetUInt32() != fields[4].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `subclass`='");
+                        else updatesql.append("`subclass`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[3].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
                 }
-                // unk0
-                if (fields[5].GetInt32() != fields[6].GetInt32())
+                if ((docolumn && ColumnExists(columns, "unk0")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET `unk0`='");
-                    else updatesql.append("`unk0`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[5].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
+                    // unk0
+                    if (fields[5].GetInt32() != fields[6].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `unk0`='");
+                        else updatesql.append("`unk0`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[5].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
                 }
-                // name
-                if (strcmp(fields[7].GetCppString().c_str(), fields[8].GetCppString().c_str()) != 0)
+                if ((docolumn && ColumnExists(columns, "name")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET `name`='").append(io.Terminator(fields[7].GetCppString())).append("',");
-                    else updatesql.append("`name`='").append(io.Terminator(fields[7].GetCppString())).append("',");
-                    first = false;
+                    // name
+                    if (strcmp(fields[7].GetCppString().c_str(), fields[8].GetCppString().c_str()) != 0)
+                    {
+                        if (first) updatesql.append("SET `name`='").append(io.Terminator(fields[7].GetCppString())).append("',");
+                        else updatesql.append("`name`='").append(io.Terminator(fields[7].GetCppString())).append("',");
+                        first = false;
+                    }
                 }
                 // column1
                 for (uint8 i=0; i<6; i++)
                 {
-                    if (fields[9+i*2].GetUInt32() != fields[10+i*2].GetUInt32())
+                    if ((docolumn && ColumnExists(columns, column1[i])) || !docolumn)
                     {
-                        if (first) updatesql.append("SET `").append(column1[i]).append("`='");
-                        else updatesql.append("`").append(column1[i]).append("`='");
-                        tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", fields[9+i*2].GetUInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
+                        if (fields[9+i*2].GetUInt32() != fields[10+i*2].GetUInt32())
+                        {
+                            if (first) updatesql.append("SET `").append(column1[i]).append("`='");
+                            else updatesql.append("`").append(column1[i]).append("`='");
+                            tmp = (char*)malloc(32);
+                            sprintf(tmp, "%u", fields[9+i*2].GetUInt32());
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
                     }
                 }
-                // AllowableClass
-                if (fields[21].GetInt32() != fields[22].GetInt32())
+                if ((docolumn && ColumnExists(columns, "AllowableClass")) || !docolumn)
                 {
-                    int32 tmpwdb = fields[21].GetInt32();
-                    int32 tmpworld = fields[22].GetInt32();
-
-                    // Flags > 3551 in -1 wandeln, weil der Wert zu groß ist für die Spalte, -1 paßt aber!
-                    if (tmpwdb > 3551) tmpwdb = -1;
-                    if (tmpwdb != tmpworld)
+                    // AllowableClass
+                    if (fields[21].GetInt32() != fields[22].GetInt32())
                     {
-                        if (first) updatesql.append("SET `AllowableClass`='");
-                        else updatesql.append("`AllowableClass`='");
-                        tmp = (char*)malloc(32);
-                        sprintf(tmp, "%i", tmpwdb);
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
+                        int32 tmpwdb = fields[21].GetInt32();
+                        int32 tmpworld = fields[22].GetInt32();
+
+                        // Flags > 3551 in -1 wandeln, weil der Wert zu groß ist für die Spalte, -1 paßt aber!
+                        if (tmpwdb > 3551) tmpwdb = -1;
+                        if (tmpwdb != tmpworld)
+                        {
+                            if (first) updatesql.append("SET `AllowableClass`='");
+                            else updatesql.append("`AllowableClass`='");
+                            tmp = (char*)malloc(32);
+                            sprintf(tmp, "%i", tmpwdb);
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
                     }
                 }
-                // AllowableRace
-                if (fields[23].GetInt32() != fields[24].GetInt32())
+                if ((docolumn && ColumnExists(columns, "AllowableRace")) || !docolumn)
                 {
-                    int32 tmpwdb = fields[23].GetInt32();
-                    int32 tmpworld = fields[24].GetInt32();
-
-                    // Flags > 3551 in -1 wandeln, weil der Wert zu groß ist für die Spalte, -1 paßt aber!
-                    if (tmpwdb > 3551) tmpwdb = -1;
-                    if (tmpwdb != tmpworld)
+                    // AllowableRace
+                    if (fields[23].GetInt32() != fields[24].GetInt32())
                     {
-                        if (first) updatesql.append("SET `AllowableRace`='");
-                        else updatesql.append("`AllowableRace`='");
-                        tmp = (char*)malloc(32);
-                        sprintf(tmp, "%i", tmpwdb);
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
+                        int32 tmpwdb = fields[23].GetInt32();
+                        int32 tmpworld = fields[24].GetInt32();
+
+                        // Flags > 3551 in -1 wandeln, weil der Wert zu groß ist für die Spalte, -1 paßt aber!
+                        if (tmpwdb > 3551) tmpwdb = -1;
+                        if (tmpwdb != tmpworld)
+                        {
+                            if (first) updatesql.append("SET `AllowableRace`='");
+                            else updatesql.append("`AllowableRace`='");
+                            tmp = (char*)malloc(32);
+                            sprintf(tmp, "%i", tmpwdb);
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
                     }
                 }
                 // column2
                 for (uint8 i=0; i<9; i++)
                 {
-                    if (fields[25+i*2].GetUInt32() != fields[26+i*2].GetUInt32())
+                    if ((docolumn && ColumnExists(columns, column2[i])) || !docolumn)
                     {
-                        uint32 tmpuint = fields[25+i*2].GetUInt32();
-
-                        // Faction-"Korrektur" wegen core! :-( Das selbe wie bei den ModelIDs!
-                        if ((25+i*2) == 41 && tmpuint > 0)
-                            if (fields[39].GetUInt32() == 0) tmpuint = 0;
-
-                        if (tmpuint != fields[26+i*2].GetUInt32())
+                        if (fields[25+i*2].GetUInt32() != fields[26+i*2].GetUInt32())
                         {
-                            if (first) updatesql.append("SET `").append(column2[i]).append("`='");
-                            else updatesql.append("`").append(column2[i]).append("`='");
+                            uint32 tmpuint = fields[25+i*2].GetUInt32();
+
+                            // Faction-"Korrektur" wegen core! :-( Das selbe wie bei den ModelIDs!
+                            if ((25+i*2) == 41 && tmpuint > 0)
+                                if (fields[39].GetUInt32() == 0) tmpuint = 0;
+
+                            if (tmpuint != fields[26+i*2].GetUInt32())
+                            {
+                                if (first) updatesql.append("SET `").append(column2[i]).append("`='");
+                                else updatesql.append("`").append(column2[i]).append("`='");
+                                tmp = (char*)malloc(32);
+                                sprintf(tmp, "%u", tmpuint);
+                                updatesql.append(tmp).append("',");
+                                free(tmp);
+                                first = false;
+                            }
+                        }
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "maxcount")) || !docolumn)
+                {
+                    // maxcount
+                    if (fields[43].GetInt32() != fields[44].GetInt32())
+                    {
+                        int32 tmpwdb = fields[43].GetInt32();
+                        int32 tmpworld = fields[44].GetInt32();
+
+                        // Wenn 2147483647 dann soll das für Blizz wohl unendlich heißen (z.b. Ehre und Arenap.)
+                        if (tmpwdb > 32000) tmpwdb = 0;
+                        if (tmpwdb != tmpworld)
+                        {
+                            if (first) updatesql.append("SET `maxcount`='");
+                            else updatesql.append("`maxcount`='");
+                            tmp = (char*)malloc(32);
+                            sprintf(tmp, "%i", tmpwdb);
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "stackable")) || !docolumn)
+                {
+                    // stackable
+                    if (fields[45].GetInt32() != fields[46].GetInt32())
+                    {
+                        int32 tmpwdb = fields[45].GetInt32();
+                        int32 tmpworld = fields[46].GetInt32();
+
+                        // Wenn 2147483647 dann soll das für Blizz wohl unendlich heißen (z.b. Ehre und Arenap.)
+                        if (tmpwdb > 32000) tmpwdb = -1;
+                        if (tmpwdb != tmpworld)
+                        {
+                            if (first) updatesql.append("SET `stackable`='");
+                            else updatesql.append("`stackable`='");
+                            tmp = (char*)malloc(32);
+                            sprintf(tmp, "%i", tmpwdb);
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "ContainerSlots")) || !docolumn)
+                {
+                    // ContainerSlots
+                    if (fields[47].GetUInt32() != fields[48].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `ContainerSlots`='");
+                        else updatesql.append("`ContainerSlots`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[47].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "StatsCount")) || !docolumn)
+                {
+                    // StatsCount
+                    if (fields[49].GetUInt32() != fields[50].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `StatsCount`='");
+                        else updatesql.append("`StatsCount`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[49].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                // column3
+                for (uint8 i=0; i<22; i++)
+                {
+                    if ((docolumn && ColumnExists(columns, column3[i])) || !docolumn)
+                    {
+                        uint32 index = (51+i*2);
+
+                        //  stattype10     statvalue10
+                        if (index == 87 || index == 89) fields[index].SetValue("0");
+
+                        //  stattype10     statvalue10
+                        if (index == 91 || index == 93)
+                        {
+                            char* tmpchar = (char*)malloc(32);
+                            if (fields[index].GetInt32() != fields[52+i*2].GetInt32())
+                            {
+                                fields[52+i*2].SetValue(_itoa(fields[index].GetInt32(), tmpchar, 10));
+
+                                if (first) updatesql.append("SET `").append(column3[i]).append("`='");
+                                else updatesql.append("`").append(column3[i]).append("`='");
+                                tmp = (char*)malloc(32);
+                                sprintf(tmp, "%i", fields[52+i*2].GetInt32());
+                                updatesql.append(tmp).append("',");
+                                free(tmp);
+                                first = false;
+                            }
+                            free(tmpchar);
+                        }
+
+                        if (fields[index].GetInt32() != fields[52+i*2].GetInt32())
+                        {
+                            if (first) updatesql.append("SET `").append(column3[i]).append("`='");
+                            else updatesql.append("`").append(column3[i]).append("`='");
+                            tmp = (char*)malloc(32);
+                            sprintf(tmp, "%i", fields[index].GetInt32());
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "dmg_min1")) || !docolumn)
+                {
+                    // dmg_min1
+                    if (fields[95].GetFloat() != fields[96].GetFloat())
+                    {
+                        if (first) updatesql.append("SET `dmg_min1`='");
+                        else updatesql.append("`dmg_min1`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%f", fields[95].GetFloat());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "dmg_max1")) || !docolumn)
+                {
+                    // dmg_max1
+                    if (fields[97].GetFloat() != fields[98].GetFloat())
+                    {
+                        if (first) updatesql.append("SET `dmg_max1`='");
+                        else updatesql.append("`dmg_max1`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%f", fields[97].GetFloat());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "dmg_type1")) || !docolumn)
+                {
+                    // dmg_type1
+                    if (fields[99].GetUInt32() != fields[100].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `dmg_type1`='");
+                        else updatesql.append("`dmg_type1`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[99].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "dmg_min2")) || !docolumn)
+                {
+                    // dmg_min2
+                    if (fields[101].GetFloat() != fields[102].GetFloat())
+                    {
+                        if (first) updatesql.append("SET `dmg_min2`='");
+                        else updatesql.append("`dmg_min2`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%f", fields[101].GetFloat());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "dmg_max2")) || !docolumn)
+                {
+                    // dmg_max2
+                    if (fields[103].GetFloat() != fields[104].GetFloat())
+                    {
+                        if (first) updatesql.append("SET `dmg_max2`='");
+                        else updatesql.append("`dmg_max2`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%f", fields[103].GetFloat());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "dmg_type2")) || !docolumn)
+                {
+                    // dmg_type2
+                    if (fields[105].GetUInt32() != fields[106].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `dmg_type2`='");
+                        else updatesql.append("`dmg_type2`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[105].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                // column4
+                for (uint8 i=0; i<9; i++)
+                {
+                    if ((docolumn && ColumnExists(columns, column4[i])) || !docolumn)
+                    {
+                        if (fields[107+i*2].GetUInt32() != fields[108+i*2].GetUInt32())
+                        {
+                            if (first) updatesql.append("SET `").append(column4[i]).append("`='");
+                            else updatesql.append("`").append(column4[i]).append("`='");
+                            tmp = (char*)malloc(32);
+                            sprintf(tmp, "%u", fields[107+i*2].GetUInt32());
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "RangedModRange")) || !docolumn)
+                {
+                    // RangedModRange
+                    if (fields[125].GetFloat() != fields[126].GetFloat())
+                    {
+                        if (first) updatesql.append("SET `RangedModRange`='");
+                        else updatesql.append("`RangedModRange`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%f", fields[125].GetFloat());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellid_1")) || !docolumn)
+                {
+                    // spellid_1
+                    if (fields[127].GetUInt32() != fields[128].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spellid_1`='");
+                        else updatesql.append("`spellid_1`='");
+                        tmp = (char*)malloc(32);
+                        if (fields[127].GetUInt32() == 4294967295)
+                            sprintf(tmp, "%u", 0);
+                        else
+                            sprintf(tmp, "%u", fields[127].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spelltrigger_1")) || !docolumn)
+                {
+                    // spelltrigger_1
+                    if (fields[129].GetUInt32() != fields[130].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spelltrigger_1`='");
+                        else updatesql.append("`spelltrigger_1`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[129].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcharges_1")) || !docolumn)
+                {
+                    // spellcharges_1
+                    if (fields[131].GetInt32() != fields[132].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcharges_1`='");
+                        else updatesql.append("`spellcharges_1`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[131].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcooldown_1")) || !docolumn)
+                {
+                    // spellcooldown_1
+                    if (fields[133].GetInt32() != fields[134].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcooldown_1`='");
+                        else updatesql.append("`spellcooldown_1`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[133].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcategory_1")) || !docolumn)
+                {
+                    // spellcategory_1
+                    if (fields[135].GetUInt32() != fields[136].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcategory_1`='");
+                        else updatesql.append("`spellcategory_1`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[135].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcategorycooldown_1")) || !docolumn)
+                {
+                    // spellcategorycooldown_1
+                    if (fields[137].GetInt32() != fields[138].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcategorycooldown_1`='");
+                        else updatesql.append("`spellcategorycooldown_1`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[137].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellid_2")) || !docolumn)
+                {
+                    // spellid_2
+                    if (fields[139].GetUInt32() != fields[140].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spellid_2`='");
+                        else updatesql.append("`spellid_2`='");
+                        tmp = (char*)malloc(32);
+                        if (fields[139].GetUInt32() == 4294967295)
+                            sprintf(tmp, "%u", 0);
+                        else
+                            sprintf(tmp, "%u", fields[139].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spelltrigger_2")) || !docolumn)
+                {
+                    // spelltrigger_2
+                    if (fields[141].GetUInt32() != fields[142].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spelltrigger_2`='");
+                        else updatesql.append("`spelltrigger_2`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[141].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcharges_2")) || !docolumn)
+                {
+                    // spellcharges_2
+                    if (fields[143].GetInt32() != fields[144].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcharges_2`='");
+                        else updatesql.append("`spellcharges_2`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[143].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcooldown_2")) || !docolumn)
+                {
+                    // spellcooldown_2
+                    if (fields[145].GetInt32() != fields[146].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcooldown_2`='");
+                        else updatesql.append("`spellcooldown_2`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[145].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcategory_2")) || !docolumn)
+                {
+                    // spellcategory_2
+                    if (fields[147].GetUInt32() != fields[148].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcategory_2`='");
+                        else updatesql.append("`spellcategory_2`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[147].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcategorycooldown_2")) || !docolumn)
+                {
+                    // spellcategorycooldown_2
+                    if (fields[149].GetInt32() != fields[150].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcategorycooldown_2`='");
+                        else updatesql.append("`spellcategorycooldown_2`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[149].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellid_3")) || !docolumn)
+                {
+                    // spellid_3
+                    if (fields[151].GetUInt32() != fields[152].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spellid_3`='");
+                        else updatesql.append("`spellid_3`='");
+                        tmp = (char*)malloc(32);
+                        if (fields[151].GetUInt32() == 4294967295)
+                            sprintf(tmp, "%u", 0);
+                        else
+                            sprintf(tmp, "%u", fields[151].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spelltrigger_3")) || !docolumn)
+                {
+                    // spelltrigger_3
+                    if (fields[153].GetUInt32() != fields[154].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spelltrigger_3`='");
+                        else updatesql.append("`spelltrigger_3`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[153].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcharges_3")) || !docolumn)
+                {
+                    // spellcharges_3
+                    if (fields[155].GetInt32() != fields[156].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcharges_3`='");
+                        else updatesql.append("`spellcharges_3`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[155].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcooldown_3")) || !docolumn)
+                {
+                    // spellcooldown_3
+                    if (fields[157].GetInt32() != fields[158].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcooldown_3`='");
+                        else updatesql.append("`spellcooldown_3`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[157].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcategory_3")) || !docolumn)
+                {
+                    // spellcategory_3
+                    if (fields[159].GetUInt32() != fields[160].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcategory_3`='");
+                        else updatesql.append("`spellcategory_3`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[159].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcategorycooldown_3")) || !docolumn)
+                {
+                    // spellcategorycooldown_3
+                    if (fields[161].GetInt32() != fields[162].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcategorycooldown_3`='");
+                        else updatesql.append("`spellcategorycooldown_3`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[161].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellid_4")) || !docolumn)
+                {
+                    // spellid_4
+                    if (fields[163].GetUInt32() != fields[164].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spellid_4`='");
+                        else updatesql.append("`spellid_4`='");
+                        tmp = (char*)malloc(32);
+                        if (fields[163].GetUInt32() == 4294967295)
+                            sprintf(tmp, "%u", 0);
+                        else
+                            sprintf(tmp, "%u", fields[163].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spelltrigger_4")) || !docolumn)
+                {
+                    // spelltrigger_4
+                    if (fields[165].GetUInt32() != fields[166].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spelltrigger_4`='");
+                        else updatesql.append("`spelltrigger_4`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[165].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcharges_4")) || !docolumn)
+                {
+                    // spellcharges_4
+                    if (fields[167].GetInt32() != fields[168].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcharges_4`='");
+                        else updatesql.append("`spellcharges_4`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[167].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcooldown_4")) || !docolumn)
+                {
+                    // spellcooldown_4
+                    if (fields[169].GetInt32() != fields[170].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcooldown_4`='");
+                        else updatesql.append("`spellcooldown_4`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[169].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcategory_4")) || !docolumn)
+                {
+                    // spellcategory_4
+                    if (fields[171].GetUInt32() != fields[172].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcategory_4`='");
+                        else updatesql.append("`spellcategory_4`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[171].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcategorycooldown_4")) || !docolumn)
+                {
+                    // spellcategorycooldown_4
+                    if (fields[173].GetInt32() != fields[174].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcategorycooldown_4`='");
+                        else updatesql.append("`spellcategorycooldown_4`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[173].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellid_5")) || !docolumn)
+                {
+                    // spellid_5
+                    if (fields[175].GetUInt32() != fields[176].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spellid_5`='");
+                        else updatesql.append("`spellid_5`='");
+                        tmp = (char*)malloc(32);
+                        if (fields[175].GetUInt32() == 4294967295)
+                            sprintf(tmp, "%u", 0);
+                        else
+                            sprintf(tmp, "%u", fields[175].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spelltrigger_5")) || !docolumn)
+                {
+                    // spelltrigger_5
+                    if (fields[177].GetUInt32() != fields[178].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spelltrigger_5`='");
+                        else updatesql.append("`spelltrigger_5`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[177].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcharges_5")) || !docolumn)
+                {
+                    // spellcharges_5
+                    if (fields[179].GetInt32() != fields[180].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcharges_5`='");
+                        else updatesql.append("`spellcharges_5`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[179].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcooldown_5")) || !docolumn)
+                {
+                    // spellcooldown_5
+                    if (fields[181].GetInt32() != fields[182].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcooldown_5`='");
+                        else updatesql.append("`spellcooldown_5`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[181].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcategory_5")) || !docolumn)
+                {
+                    // spellcategory_5
+                    if (fields[183].GetUInt32() != fields[184].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcategory_5`='");
+                        else updatesql.append("`spellcategory_5`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[183].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "spellcategorycooldown_5")) || !docolumn)
+                {
+                    // spellcategorycooldown_5
+                    if (fields[185].GetInt32() != fields[186].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `spellcategorycooldown_5`='");
+                        else updatesql.append("`spellcategorycooldown_5`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[185].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "bonding")) || !docolumn)
+                {
+                    // bonding
+                    if (fields[187].GetInt32() != fields[188].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `bonding`='");
+                        else updatesql.append("`bonding`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[187].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "description")) || !docolumn)
+                {
+                    // description
+                    if (strcmp(fields[189].GetCppString().c_str(), fields[190].GetCppString().c_str()) != 0)
+                    {
+                        if (first) updatesql.append("SET `description`='").append(io.Terminator(fields[189].GetCppString())).append("',");
+                        else updatesql.append("`description`='").append(io.Terminator(fields[189].GetCppString())).append("',");
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "PageText")) || !docolumn)
+                {
+                    // PageText
+                    if (fields[191].GetUInt32() != fields[192].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `PageText`='");
+                        else updatesql.append("`PageText`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[191].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "LanguageID")) || !docolumn)
+                {
+                    // LanguageID
+                    if (fields[193].GetUInt32() != fields[194].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `LanguageID`='");
+                        else updatesql.append("`LanguageID`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[193].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "PageMaterial")) || !docolumn)
+                {
+                    // PageMaterial
+                    if (fields[195].GetInt32() != fields[196].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `PageMaterial`='");
+                        else updatesql.append("`PageMaterial`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[195].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "startquest")) || !docolumn)
+                {
+                    // startquest
+                    if (fields[197].GetUInt32() != fields[198].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `startquest`='");
+                        else updatesql.append("`startquest`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[197].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "lockid")) || !docolumn)
+                {
+                    // lockid
+                    if (fields[199].GetUInt32() != fields[200].GetUInt32())
+                    {
+                        if (first) updatesql.append("SET `lockid`='");
+                        else updatesql.append("`lockid`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%u", fields[199].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "Material")) || !docolumn)
+                {
+                    // Material
+                    if (fields[201].GetInt32() != fields[202].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `Material`='");
+                        else updatesql.append("`Material`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[201].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "sheath")) || !docolumn)
+                {
+                    // sheath
+                    if (fields[203].GetInt32() != fields[204].GetInt32())
+                    {
+                        if (first) updatesql.append("SET `sheath`='");
+                        else updatesql.append("`sheath`='");
+                        tmp = (char*)malloc(32);
+                        sprintf(tmp, "%i", fields[203].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                // column5
+                for (uint8 i=0; i<17; i++)
+                {
+                    if ((docolumn && ColumnExists(columns, column5[i])) || !docolumn)
+                    {
+                        uint32 tmpuint = fields[205+i*2].GetUInt32();
+                        // Randomproperty mit dem Wert 4294967295
+                        if (i == 0 && tmpuint == 4294967295) tmpuint = 0;
+
+                        if (tmpuint != fields[206+i*2].GetUInt32())
+                        {
+                            if (first) updatesql.append("SET `").append(column5[i]).append("`='");
+                            else updatesql.append("`").append(column5[i]).append("`='");
                             tmp = (char*)malloc(32);
                             sprintf(tmp, "%u", tmpuint);
                             updatesql.append(tmp).append("',");
@@ -1962,711 +2801,75 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                         }
                     }
                 }
-                // maxcount
-                if (fields[43].GetInt32() != fields[44].GetInt32())
+                if ((docolumn && ColumnExists(columns, "RequiredDisenchantSkill")) || !docolumn)
                 {
-                    int32 tmpwdb = fields[43].GetInt32();
-                    int32 tmpworld = fields[44].GetInt32();
-
-                    // Wenn 2147483647 dann soll das für Blizz wohl unendlich heißen (z.b. Ehre und Arenap.)
-                    if (tmpwdb > 32000) tmpwdb = 0;
-                    if (tmpwdb != tmpworld)
+                    // RequiredDisenchantSkill
+                    if (fields[239].GetInt32() != fields[240].GetInt32())
                     {
-                        if (first) updatesql.append("SET `maxcount`='");
-                        else updatesql.append("`maxcount`='");
+                        if (first) updatesql.append("SET `RequiredDisenchantSkill`='");
+                        else updatesql.append("`RequiredDisenchantSkill`='");
                         tmp = (char*)malloc(32);
-                        sprintf(tmp, "%i", tmpwdb);
+                        sprintf(tmp, "%i", fields[239].GetInt32());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
                 }
-                // stackable
-                if (fields[45].GetInt32() != fields[46].GetInt32())
+                if ((docolumn && ColumnExists(columns, "ArmorDamageModifier")) || !docolumn)
                 {
-                    int32 tmpwdb = fields[45].GetInt32();
-                    int32 tmpworld = fields[46].GetInt32();
-
-                    // Wenn 2147483647 dann soll das für Blizz wohl unendlich heißen (z.b. Ehre und Arenap.)
-                    if (tmpwdb > 32000) tmpwdb = -1;
-                    if (tmpwdb != tmpworld)
+                    // ArmorDamageModifier
+                    if (fields[241].GetFloat() != fields[242].GetFloat())
                     {
-                        if (first) updatesql.append("SET `stackable`='");
-                        else updatesql.append("`stackable`='");
+                        if (first) updatesql.append("SET `ArmorDamageModifier`='");
+                        else updatesql.append("`ArmorDamageModifier`='");
                         tmp = (char*)malloc(32);
-                        sprintf(tmp, "%i", tmpwdb);
+                        sprintf(tmp, "%f", fields[241].GetFloat());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
                 }
-                // ContainerSlots
-                if (fields[47].GetUInt32() != fields[48].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "Duration")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET ``='");
-                    else updatesql.append("``='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[47].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // StatsCount
-                if (fields[49].GetUInt32() != fields[50].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `StatsCount`='");
-                    else updatesql.append("`StatsCount`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[49].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // column3
-                for (uint8 i=0; i<22; i++)
-                {
-                    uint32 index = (51+i*2);
-
-                    //  stattype10     statvalue10
-                    if (index == 87 || index == 89) fields[index].SetValue("0");
-
-                    //  stattype10     statvalue10
-                    if (index == 91 || index == 93)
+                    // Duration
+                    if (fields[243].GetInt32() != fields[244].GetInt32())
                     {
-                        char* tmpchar = (char*)malloc(32);
-                        if (fields[index].GetInt32() != fields[52+i*2].GetInt32())
-                        {
-                            fields[52+i*2].SetValue(_itoa(fields[index].GetInt32(), tmpchar, 10));
-
-                            if (first) updatesql.append("SET `").append(column3[i]).append("`='");
-                            else updatesql.append("`").append(column3[i]).append("`='");
-                            tmp = (char*)malloc(32);
-                            sprintf(tmp, "%i", fields[52+i*2].GetInt32());
-                            updatesql.append(tmp).append("',");
-                            free(tmp);
-                            first = false;
-                        }
-                        free(tmpchar);
-                    }
-
-                    if (fields[index].GetInt32() != fields[52+i*2].GetInt32())
-                    {
-                        if (first) updatesql.append("SET `").append(column3[i]).append("`='");
-                        else updatesql.append("`").append(column3[i]).append("`='");
+                        if (first) updatesql.append("SET `Duration`='");
+                        else updatesql.append("`Duration`='");
                         tmp = (char*)malloc(32);
-                        sprintf(tmp, "%i", fields[index].GetInt32());
+                        sprintf(tmp, "%i", fields[243].GetInt32());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
                 }
-                // dmg_min1
-                if (fields[95].GetFloat() != fields[96].GetFloat())
+                if ((docolumn && ColumnExists(columns, "ItemLimitCategory")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET `dmg_min1`='");
-                    else updatesql.append("`dmg_min1`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%f", fields[95].GetFloat());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // dmg_max1
-                if (fields[97].GetFloat() != fields[98].GetFloat())
-                {
-                    if (first) updatesql.append("SET `dmg_max1`='");
-                    else updatesql.append("`dmg_max1`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%f", fields[97].GetFloat());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // dmg_type1
-                if (fields[99].GetUInt32() != fields[100].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `dmg_type1`='");
-                    else updatesql.append("`dmg_type1`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[99].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // dmg_min2
-                if (fields[101].GetFloat() != fields[102].GetFloat())
-                {
-                    if (first) updatesql.append("SET `dmg_min2`='");
-                    else updatesql.append("`dmg_min2`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%f", fields[101].GetFloat());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // dmg_max2
-                if (fields[103].GetFloat() != fields[104].GetFloat())
-                {
-                    if (first) updatesql.append("SET `dmg_max2`='");
-                    else updatesql.append("`dmg_max2`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%f", fields[103].GetFloat());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // dmg_type2
-                if (fields[105].GetUInt32() != fields[106].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `dmg_type2`='");
-                    else updatesql.append("`dmg_type2`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[105].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // column4
-                for (uint8 i=0; i<9; i++)
-                {
-                    if (fields[107+i*2].GetUInt32() != fields[108+i*2].GetUInt32())
+                    // ItemLimitCategory
+                    if (fields[245].GetInt32() != fields[246].GetUInt32())
                     {
-                        if (first) updatesql.append("SET `").append(column4[i]).append("`='");
-                        else updatesql.append("`").append(column4[i]).append("`='");
+                        if (first) updatesql.append("SET `ItemLimitCategory`='");
+                        else updatesql.append("`ItemLimitCategory`='");
                         tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", fields[107+i*2].GetUInt32());
+                        sprintf(tmp, "%u", fields[245].GetUInt32());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
                 }
-                // RangedModRange
-                if (fields[125].GetFloat() != fields[126].GetFloat())
+                if ((docolumn && ColumnExists(columns, "HolidayId")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET `RangedModRange`='");
-                    else updatesql.append("`RangedModRange`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%f", fields[125].GetFloat());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellid_1
-                if (fields[127].GetUInt32() != fields[128].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spellid_1`='");
-                    else updatesql.append("`spellid_1`='");
-                    tmp = (char*)malloc(32);
-                    if (fields[127].GetUInt32() == 4294967295)
-                        sprintf(tmp, "%u", 0);
-                    else
-                        sprintf(tmp, "%u", fields[127].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spelltrigger_1
-                if (fields[129].GetUInt32() != fields[130].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spelltrigger_1`='");
-                    else updatesql.append("`spelltrigger_1`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[129].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcharges_1
-                if (fields[131].GetInt32() != fields[132].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcharges_1`='");
-                    else updatesql.append("`spellcharges_1`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[131].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcooldown_1
-                if (fields[133].GetInt32() != fields[134].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcooldown_1`='");
-                    else updatesql.append("`spellcooldown_1`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[133].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcategory_1
-                if (fields[135].GetUInt32() != fields[136].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spellcategory_1`='");
-                    else updatesql.append("`spellcategory_1`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[135].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcategorycooldown_1
-                if (fields[137].GetInt32() != fields[138].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcategorycooldown_1`='");
-                    else updatesql.append("`spellcategorycooldown_1`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[137].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-
-                // spellid_2
-                if (fields[139].GetUInt32() != fields[140].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spellid_2`='");
-                    else updatesql.append("`spellid_2`='");
-                    tmp = (char*)malloc(32);
-                    if (fields[139].GetUInt32() == 4294967295)
-                        sprintf(tmp, "%u", 0);
-                    else
-                        sprintf(tmp, "%u", fields[139].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spelltrigger_2
-                if (fields[141].GetUInt32() != fields[142].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spelltrigger_2`='");
-                    else updatesql.append("`spelltrigger_2`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[141].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcharges_2
-                if (fields[143].GetInt32() != fields[144].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcharges_2`='");
-                    else updatesql.append("`spellcharges_2`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[143].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcooldown_2
-                if (fields[145].GetInt32() != fields[146].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcooldown_2`='");
-                    else updatesql.append("`spellcooldown_2`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[145].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcategory_2
-                if (fields[147].GetUInt32() != fields[148].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spellcategory_2`='");
-                    else updatesql.append("`spellcategory_2`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[147].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcategorycooldown_2
-                if (fields[149].GetInt32() != fields[150].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcategorycooldown_2`='");
-                    else updatesql.append("`spellcategorycooldown_2`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[149].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-
-                // spellid_3
-                if (fields[151].GetUInt32() != fields[152].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spellid_3`='");
-                    else updatesql.append("`spellid_3`='");
-                    tmp = (char*)malloc(32);
-                    if (fields[151].GetUInt32() == 4294967295)
-                        sprintf(tmp, "%u", 0);
-                    else
-                        sprintf(tmp, "%u", fields[151].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spelltrigger_3
-                if (fields[153].GetUInt32() != fields[154].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spelltrigger_3`='");
-                    else updatesql.append("`spelltrigger_3`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[153].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcharges_3
-                if (fields[155].GetInt32() != fields[156].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcharges_3`='");
-                    else updatesql.append("`spellcharges_3`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[155].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcooldown_3
-                if (fields[157].GetInt32() != fields[158].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcooldown_3`='");
-                    else updatesql.append("`spellcooldown_3`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[157].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcategory_3
-                if (fields[159].GetUInt32() != fields[160].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spellcategory_3`='");
-                    else updatesql.append("`spellcategory_3`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[159].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcategorycooldown_3
-                if (fields[161].GetInt32() != fields[162].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcategorycooldown_3`='");
-                    else updatesql.append("`spellcategorycooldown_3`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[161].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-
-                // spellid_4
-                if (fields[163].GetUInt32() != fields[164].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spellid_4`='");
-                    else updatesql.append("`spellid_4`='");
-                    tmp = (char*)malloc(32);
-                    if (fields[163].GetUInt32() == 4294967295)
-                        sprintf(tmp, "%u", 0);
-                    else
-                        sprintf(tmp, "%u", fields[163].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spelltrigger_4
-                if (fields[165].GetUInt32() != fields[166].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spelltrigger_4`='");
-                    else updatesql.append("`spelltrigger_4`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[165].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcharges_4
-                if (fields[167].GetInt32() != fields[168].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcharges_4`='");
-                    else updatesql.append("`spellcharges_4`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[167].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcooldown_4
-                if (fields[169].GetInt32() != fields[170].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcooldown_4`='");
-                    else updatesql.append("`spellcooldown_4`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[169].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcategory_4
-                if (fields[171].GetUInt32() != fields[172].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spellcategory_4`='");
-                    else updatesql.append("`spellcategory_4`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[171].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcategorycooldown_4
-                if (fields[173].GetInt32() != fields[174].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcategorycooldown_4`='");
-                    else updatesql.append("`spellcategorycooldown_4`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[173].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-
-                // spellid_5
-                if (fields[175].GetUInt32() != fields[176].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spellid_5`='");
-                    else updatesql.append("`spellid_5`='");
-                    tmp = (char*)malloc(32);
-                    if (fields[175].GetUInt32() == 4294967295)
-                        sprintf(tmp, "%u", 0);
-                    else
-                        sprintf(tmp, "%u", fields[175].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spelltrigger_5
-                if (fields[177].GetUInt32() != fields[178].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spelltrigger_5`='");
-                    else updatesql.append("`spelltrigger_5`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[177].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcharges_5
-                if (fields[179].GetInt32() != fields[180].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcharges_5`='");
-                    else updatesql.append("`spellcharges_5`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[179].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcooldown_5
-                if (fields[181].GetInt32() != fields[182].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcooldown_5`='");
-                    else updatesql.append("`spellcooldown_5`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[181].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcategory_5
-                if (fields[183].GetUInt32() != fields[184].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `spellcategory_5`='");
-                    else updatesql.append("`spellcategory_5`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[183].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // spellcategorycooldown_5
-                if (fields[185].GetInt32() != fields[186].GetInt32())
-                {
-                    if (first) updatesql.append("SET `spellcategorycooldown_5`='");
-                    else updatesql.append("`spellcategorycooldown_5`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[185].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // bonding
-                if (fields[187].GetInt32() != fields[188].GetInt32())
-                {
-                    if (first) updatesql.append("SET `bonding`='");
-                    else updatesql.append("`bonding`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[187].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // description
-                if (strcmp(fields[189].GetCppString().c_str(), fields[190].GetCppString().c_str()) != 0)
-                {
-                    if (first) updatesql.append("SET `description`='").append(io.Terminator(fields[189].GetCppString())).append("',");
-                    else updatesql.append("`description`='").append(io.Terminator(fields[189].GetCppString())).append("',");
-                    first = false;
-                }
-                // PageText
-                if (fields[191].GetUInt32() != fields[192].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `PageText`='");
-                    else updatesql.append("`PageText`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[191].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // LanguageID
-                if (fields[193].GetUInt32() != fields[194].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `LanguageID`='");
-                    else updatesql.append("`LanguageID`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[193].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // PageMaterial
-                if (fields[195].GetInt32() != fields[196].GetInt32())
-                {
-                    if (first) updatesql.append("SET `PageMaterial`='");
-                    else updatesql.append("`PageMaterial`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[195].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // startquest
-                if (fields[197].GetUInt32() != fields[198].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `startquest`='");
-                    else updatesql.append("`startquest`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[197].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // lockid
-                if (fields[199].GetUInt32() != fields[200].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `lockid`='");
-                    else updatesql.append("`lockid`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[199].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // Material
-                if (fields[201].GetInt32() != fields[202].GetInt32())
-                {
-                    if (first) updatesql.append("SET `Material`='");
-                    else updatesql.append("`Material`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[201].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // sheath
-                if (fields[203].GetInt32() != fields[204].GetInt32())
-                {
-                    if (first) updatesql.append("SET `sheath`='");
-                    else updatesql.append("`sheath`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[203].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // column5
-                for (uint8 i=0; i<17; i++)
-                {
-                    uint32 tmpuint = fields[205+i*2].GetUInt32();
-                    // Randomproperty mit dem Wert 4294967295
-                    if (i == 0 && tmpuint == 4294967295) tmpuint = 0;
-
-                    if (tmpuint != fields[206+i*2].GetUInt32())
+                    // HolidayId
+                    if (fields[247].GetInt32() != fields[248].GetUInt32())
                     {
-                        if (first) updatesql.append("SET `").append(column5[i]).append("`='");
-                        else updatesql.append("`").append(column5[i]).append("`='");
+                        if (first) updatesql.append("SET `HolidayId`='");
+                        else updatesql.append("`HolidayId`='");
                         tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", tmpuint);
+                        sprintf(tmp, "%u", fields[247].GetUInt32());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
-                }
-                // RequiredDisenchantSkill
-                if (fields[239].GetInt32() != fields[240].GetInt32())
-                {
-                    if (first) updatesql.append("SET `RequiredDisenchantSkill`='");
-                    else updatesql.append("`RequiredDisenchantSkill`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[239].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // ArmorDamageModifier
-                if (fields[241].GetFloat() != fields[242].GetFloat())
-                {
-                    if (first) updatesql.append("SET `ArmorDamageModifier`='");
-                    else updatesql.append("`ArmorDamageModifier`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%f", fields[241].GetFloat());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // Duration
-                if (fields[243].GetInt32() != fields[244].GetInt32())
-                {
-                    if (first) updatesql.append("SET `Duration`='");
-                    else updatesql.append("`Duration`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%i", fields[243].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // ItemLimitCategory
-                if (fields[245].GetInt32() != fields[246].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `ItemLimitCategory`='");
-                    else updatesql.append("`ItemLimitCategory`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[245].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // HolidayId
-                if (fields[247].GetInt32() != fields[248].GetUInt32())
-                {
-                    if (first) updatesql.append("SET `HolidayId`='");
-                    else updatesql.append("`HolidayId`='");
-                    tmp = (char*)malloc(32);
-                    sprintf(tmp, "%u", fields[247].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
                 }
             }
             if (!first)
@@ -2705,7 +2908,7 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
     }
 }
 
-void DatabaseUpdate::CreateNPCTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens column)
+void DatabaseUpdate::CreateNPCTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns, bool docolumn)
 {
     QueryResult* result;
     Field* fields;
@@ -2810,38 +3013,50 @@ void DatabaseUpdate::CreateNPCTextUpdate(const char* wdbdb, const char* worlddb,
                     if (strcmp(fields[1+18*i].GetCppString().c_str(), fields[2+18*i].GetCppString().c_str()) != 0)
                     {
                         sprintf_s(col_name, 8, "text%u_0", i);
-                        if (first) updatesql.append("SET `").append(col_name).append("`='").append(io.Terminator(fields[1+18*i].GetCppString())).append("',");
-                        else updatesql.append("`").append(col_name).append("`='").append(io.Terminator(fields[1+18*i].GetCppString())).append("',");
-                        first = false;
+                        if ((docolumn && ColumnExists(columns, col_name)) || !docolumn)
+                        {
+                            if (first) updatesql.append("SET `").append(col_name).append("`='").append(io.Terminator(fields[1+18*i].GetCppString())).append("',");
+                            else updatesql.append("`").append(col_name).append("`='").append(io.Terminator(fields[1+18*i].GetCppString())).append("',");
+                            first = false;
+                        }
                     }
                     if (strcmp(fields[3+18*i].GetCppString().c_str(), fields[4+18*i].GetCppString().c_str()) != 0)
                     {
                         sprintf_s(col_name, 8, "text%u_1", i);
-                        if (first) updatesql.append("SET `").append(col_name).append("`='").append(io.Terminator(fields[3+18*i].GetCppString())).append("',");
-                        else updatesql.append("`").append(col_name).append("`='").append(io.Terminator(fields[3+18*i].GetCppString())).append("',");
-                        first = false;
+                        if ((docolumn && ColumnExists(columns, col_name)) || !docolumn)
+                        {
+                            if (first) updatesql.append("SET `").append(col_name).append("`='").append(io.Terminator(fields[3+18*i].GetCppString())).append("',");
+                            else updatesql.append("`").append(col_name).append("`='").append(io.Terminator(fields[3+18*i].GetCppString())).append("',");
+                            first = false;
+                        }
                     }
                     if (fields[5+18*i].GetUInt32() != fields[6+18*i].GetUInt32())
                     {
                         tmp = (char*)malloc(32);
                         sprintf_s(col_name, 6, "lang%u", i);
-                        if (first) updatesql.append("SET `").append(col_name).append("`='");
-                        else updatesql.append("`").append(col_name).append("`='");
-                        sprintf(tmp, "%u", fields[5+18*i].GetUInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
+                        if ((docolumn && ColumnExists(columns, col_name)) || !docolumn)
+                        {
+                            if (first) updatesql.append("SET `").append(col_name).append("`='");
+                            else updatesql.append("`").append(col_name).append("`='");
+                            sprintf(tmp, "%u", fields[5+18*i].GetUInt32());
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
                     }
                     if (fields[7+18*i].GetFloat() != fields[8+18*i].GetFloat())
                     {
                         tmp = (char*)malloc(32);
                         sprintf_s(col_name, 6, "prob%u", i);
-                        if (first) updatesql.append("SET `").append(col_name).append("`='");
-                        else updatesql.append("`").append(col_name).append("`='");
-                        sprintf(tmp, "%f", fields[7+18*i].GetFloat());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
+                        if ((docolumn && ColumnExists(columns, col_name)) || !docolumn)
+                        {
+                            if (first) updatesql.append("SET `").append(col_name).append("`='");
+                            else updatesql.append("`").append(col_name).append("`='");
+                            sprintf(tmp, "%f", fields[7+18*i].GetFloat());
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
                     }
                     for (uint8 j=0; j<5; j++)
                     {
@@ -2849,12 +3064,15 @@ void DatabaseUpdate::CreateNPCTextUpdate(const char* wdbdb, const char* worlddb,
                         {
                             tmp = (char*)malloc(32);
                             sprintf_s(col_name, 6, "em%u_%u", i, j);
-                            if (first) updatesql.append("SET `").append(col_name).append("`='");
-                            else updatesql.append("`").append(col_name).append("`='");
-                            sprintf(tmp, "%u", fields[9+j*2+18*i].GetUInt32());
-                            updatesql.append(tmp).append("',");
-                            free(tmp);
-                            first = false;
+                            if ((docolumn && ColumnExists(columns, col_name)) || !docolumn)
+                            {
+                                if (first) updatesql.append("SET `").append(col_name).append("`='");
+                                else updatesql.append("`").append(col_name).append("`='");
+                                sprintf(tmp, "%u", fields[9+j*2+18*i].GetUInt32());
+                                updatesql.append(tmp).append("',");
+                                free(tmp);
+                                first = false;
+                            }
                         }
                     }
                 }
@@ -2896,7 +3114,7 @@ void DatabaseUpdate::CreateNPCTextUpdate(const char* wdbdb, const char* worlddb,
     } else printf("no differences found.\n");
 }
 
-void DatabaseUpdate::CreatePageTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens column)
+void DatabaseUpdate::CreatePageTextUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns, bool docolumn)
 {
     QueryResult* result;
     Field* fields;
@@ -2948,21 +3166,27 @@ void DatabaseUpdate::CreatePageTextUpdate(const char* wdbdb, const char* worlddb
             {
                 char* tmp;
 
-                if (strcmp(fields[1].GetCppString().c_str(), fields[2].GetCppString().c_str()) != 0)
+                if ((docolumn && ColumnExists(columns, "text")) || !docolumn)
                 {
-                    if (first) updatesql.append("SET `text`='").append(io.Terminator(fields[1].GetCppString())).append("',");
-                    else updatesql.append("`text`='").append(io.Terminator(fields[1].GetCppString())).append("',");
-                    first = false;
+                    if (strcmp(fields[1].GetCppString().c_str(), fields[2].GetCppString().c_str()) != 0)
+                    {
+                        if (first) updatesql.append("SET `text`='").append(io.Terminator(fields[1].GetCppString())).append("',");
+                        else updatesql.append("`text`='").append(io.Terminator(fields[1].GetCppString())).append("',");
+                        first = false;
+                    }
                 }
-                if (fields[3].GetUInt32() != fields[4].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "next_page")) || !docolumn)
                 {
-                    tmp = (char*)malloc(32);
-                    if (first) updatesql.append("SET `next_page`='");
-                    else updatesql.append("`next_page`='");
-                    sprintf(tmp, "%u", fields[3].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
+                    if (fields[3].GetUInt32() != fields[4].GetUInt32())
+                    {
+                        tmp = (char*)malloc(32);
+                        if (first) updatesql.append("SET `next_page`='");
+                        else updatesql.append("`next_page`='");
+                        sprintf(tmp, "%u", fields[3].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
                 }
             }
             if (!first)
@@ -3002,7 +3226,7 @@ void DatabaseUpdate::CreatePageTextUpdate(const char* wdbdb, const char* worlddb
     } else printf("no differences found.\n");
 }
 
-void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens column)
+void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, Database* DB, const char* home, Tokens columns, bool docolumn)
 {
     QueryResult* result;
     Field* fields;
@@ -3137,158 +3361,194 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
             {
                 char* tmp;
 
-                // Method
-                if (fields[1].GetUInt32() != fields[2].GetUInt32())
+                if ((docolumn && ColumnExists(columns, "Method")) || !docolumn)
                 {
-                    tmp = (char*)malloc(32);
-                    if (first) updatesql.append("SET `Method`='");
-                    else updatesql.append("`Method`='");
-                    sprintf(tmp, "%u", fields[1].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // QuestLevel
-                if (fields[3].GetUInt32() != fields[4].GetUInt32())
-                {
-                    uint32 tmpuint = fields[3].GetUInt32();
-
-                    // 0 für 4294967295 setzen!
-                    if (tmpuint == 4294967295) tmpuint = 0;
-                    if (tmpuint != fields[4].GetUInt32())
+                    // Method
+                    if (fields[1].GetUInt32() != fields[2].GetUInt32())
                     {
                         tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `QuestLevel`='");
-                        else updatesql.append("`QuestLevel`='");
-                        sprintf(tmp, "%u", tmpuint);
+                        if (first) updatesql.append("SET `Method`='");
+                        else updatesql.append("`Method`='");
+                        sprintf(tmp, "%u", fields[1].GetUInt32());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
                 }
-                // ZoneOrSort
-                if (fields[5].GetInt32() != fields[6].GetInt32())
+                if ((docolumn && ColumnExists(columns, "QuestLevel")) || !docolumn)
                 {
-                    tmp = (char*)malloc(32);
-                    if (first) updatesql.append("SET `ZoneOrSort`='");
-                    else updatesql.append("`ZoneOrSort`='");
-                    sprintf(tmp, "%i", fields[5].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
+                    // QuestLevel
+                    if (fields[3].GetUInt32() != fields[4].GetUInt32())
+                    {
+                        uint32 tmpuint = fields[3].GetUInt32();
+
+                        // 0 für 4294967295 setzen!
+                        if (tmpuint == 4294967295) tmpuint = 0;
+                        if (tmpuint != fields[4].GetUInt32())
+                        {
+                            tmp = (char*)malloc(32);
+                            if (first) updatesql.append("SET `QuestLevel`='");
+                            else updatesql.append("`QuestLevel`='");
+                            sprintf(tmp, "%u", tmpuint);
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "ZoneOrSort")) || !docolumn)
+                {
+                    // ZoneOrSort
+                    if (fields[5].GetInt32() != fields[6].GetInt32())
+                    {
+                        tmp = (char*)malloc(32);
+                        if (first) updatesql.append("SET `ZoneOrSort`='");
+                        else updatesql.append("`ZoneOrSort`='");
+                        sprintf(tmp, "%i", fields[5].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
                 }
                 // column1
                 for (uint8 i=0; i<5; i++)
                 {
-                    if (fields[7+i*2].GetUInt32() != fields[8+i*2].GetUInt32())
+                    if ((docolumn && ColumnExists(columns, column1[i])) || !docolumn)
+                    {
+                        if (fields[7+i*2].GetUInt32() != fields[8+i*2].GetUInt32())
+                        {
+                            tmp = (char*)malloc(32);
+                            if (first) updatesql.append("SET `").append(column1[i]).append("`='");
+                            else updatesql.append("`").append(column1[i]).append("`='");
+                            sprintf(tmp, "%u", fields[7+i*2].GetUInt32());
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "RewOrReqMoney")) || !docolumn)
+                {
+                    // RewOrReqMoney
+                    if (fields[17].GetInt32() != fields[18].GetInt32())
                     {
                         tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `").append(column1[i]).append("`='");
-                        else updatesql.append("`").append(column1[i]).append("`='");
-                        sprintf(tmp, "%u", fields[7+i*2].GetUInt32());
+                        if (first) updatesql.append("SET `RewOrReqMoney`='");
+                        else updatesql.append("`RewOrReqMoney`='");
+                        sprintf(tmp, "%i", fields[17].GetInt32());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
-                }
-                // RewOrReqMoney
-                if (fields[17].GetInt32() != fields[18].GetInt32())
-                {
-                    tmp = (char*)malloc(32);
-                    if (first) updatesql.append("SET `RewOrReqMoney`='");
-                    else updatesql.append("`RewOrReqMoney`='");
-                    sprintf(tmp, "%i", fields[17].GetInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
                 }
                 // column2
                 for (uint8 i=0; i<26; i++)
                 {
-                    if (fields[19+i*2].GetUInt32() != fields[20+i*2].GetUInt32())
+                    if ((docolumn && ColumnExists(columns, column2[i])) || !docolumn)
+                    {
+                        if (fields[19+i*2].GetUInt32() != fields[20+i*2].GetUInt32())
+                        {
+                            tmp = (char*)malloc(32);
+                            if (first) updatesql.append("SET `").append(column2[i]).append("`='");
+                            else updatesql.append("`").append(column2[i]).append("`='");
+                            sprintf(tmp, "%u", fields[19+i*2].GetUInt32());
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "PointX")) || !docolumn)
+                {
+                    // PointX
+                    if (fields[71].GetFloat() != fields[72].GetFloat())
                     {
                         tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `").append(column2[i]).append("`='");
-                        else updatesql.append("`").append(column2[i]).append("`='");
-                        sprintf(tmp, "%u", fields[19+i*2].GetUInt32());
+                        if (first) updatesql.append("SET `PointX`='");
+                        else updatesql.append("`PointX`='");
+                        sprintf(tmp, "%f", fields[71].GetFloat());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
                 }
-                // PointX
-                if (fields[71].GetFloat() != fields[72].GetFloat())
+                if ((docolumn && ColumnExists(columns, "PointY")) || !docolumn)
                 {
-                    tmp = (char*)malloc(32);
-                    if (first) updatesql.append("SET `PointX`='");
-                    else updatesql.append("`PointX`='");
-                    sprintf(tmp, "%f", fields[71].GetFloat());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
+                    // PointY
+                    if (fields[73].GetFloat() != fields[74].GetFloat())
+                    {
+                        tmp = (char*)malloc(32);
+                        if (first) updatesql.append("SET `PointY`='");
+                        else updatesql.append("`PointY`='");
+                        sprintf(tmp, "%f", fields[73].GetFloat());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
                 }
-                // PointY
-                if (fields[73].GetFloat() != fields[74].GetFloat())
+                if ((docolumn && ColumnExists(columns, "PointOpt")) || !docolumn)
                 {
-                    tmp = (char*)malloc(32);
-                    if (first) updatesql.append("SET `PointY`='");
-                    else updatesql.append("`PointY`='");
-                    sprintf(tmp, "%f", fields[73].GetFloat());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
-                }
-                // PointOpt
-                if (fields[75].GetUInt32() != fields[76].GetUInt32())
-                {
-                    tmp = (char*)malloc(32);
-                    if (first) updatesql.append("SET `PointOpt`='");
-                    else updatesql.append("`PointOpt`='");
-                    sprintf(tmp, "%u", fields[75].GetUInt32());
-                    updatesql.append(tmp).append("',");
-                    free(tmp);
-                    first = false;
+                    // PointOpt
+                    if (fields[75].GetUInt32() != fields[76].GetUInt32())
+                    {
+                        tmp = (char*)malloc(32);
+                        if (first) updatesql.append("SET `PointOpt`='");
+                        else updatesql.append("`PointOpt`='");
+                        sprintf(tmp, "%u", fields[75].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
                 }
                 // column3
                 for (uint8 i=0; i<4; i++)
                 {
-                    if (strcmp(fields[77+i*2].GetCppString().c_str(), fields[78+i*2].GetCppString().c_str()) != 0)
+                    if ((docolumn && ColumnExists(columns, column3[i])) || !docolumn)
                     {
-                        if (first) updatesql.append("SET `").append(column3[i]).append("`='").append(io.Terminator(fields[77+i*2].GetCppString())).append("',");
-                        else updatesql.append("`").append(column3[i]).append("`='").append(io.Terminator(fields[77+i*2].GetCppString())).append("',");
-                        first = false;
+                        if (strcmp(fields[77+i*2].GetCppString().c_str(), fields[78+i*2].GetCppString().c_str()) != 0)
+                        {
+                            if (first) updatesql.append("SET `").append(column3[i]).append("`='").append(io.Terminator(fields[77+i*2].GetCppString())).append("',");
+                            else updatesql.append("`").append(column3[i]).append("`='").append(io.Terminator(fields[77+i*2].GetCppString())).append("',");
+                            first = false;
+                        }
                     }
                 }
                 // column4
                 for (uint8 i=0; i<20; i++)
                 {
-                    int32 firsti = fields[85+i*2].GetInt32();
-                    int32 second = fields[86+i*2].GetInt32();
-
-                    // GOs in KillCreature/ReqCreatureOrGOId für core umrechnen
-                    if ((85+i*2 == 85 && firsti < 0) || (85+i*2 == 95 && firsti < 0) ||
-                        (85+i*2 == 105 && firsti < 0) || (85+i*2 == 115 && firsti < 0))
-                        firsti = (firsti + 2147483648)*-1;
-
-                    if (firsti != second)
+                    if ((docolumn && ColumnExists(columns, column4[i])) || !docolumn)
                     {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `").append(column4[i]).append("`='");
-                        else updatesql.append("`").append(column4[i]).append("`='");
-                        sprintf(tmp, "%i", firsti);
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
+                        int32 firsti = fields[85+i*2].GetInt32();
+                        int32 second = fields[86+i*2].GetInt32();
+
+                        // GOs in KillCreature/ReqCreatureOrGOId für core umrechnen
+                        if ((85+i*2 == 85 && firsti < 0) || (85+i*2 == 95 && firsti < 0) ||
+                            (85+i*2 == 105 && firsti < 0) || (85+i*2 == 115 && firsti < 0))
+                            firsti = (firsti + 2147483648)*-1;
+
+                        if (firsti != second)
+                        {
+                            tmp = (char*)malloc(32);
+                            if (first) updatesql.append("SET `").append(column4[i]).append("`='");
+                            else updatesql.append("`").append(column4[i]).append("`='");
+                            sprintf(tmp, "%i", firsti);
+                            updatesql.append(tmp).append("',");
+                            free(tmp);
+                            first = false;
+                        }
                     }
                 }
                 // column5
                 for (uint8 i=0; i<4; i++)
                 {
-                    if (strcmp(fields[125+i*2].GetCppString().c_str(), fields[126+i*2].GetCppString().c_str()) != 0)
+                    if ((docolumn && ColumnExists(columns, column5[i])) || !docolumn)
                     {
-                        if (first) updatesql.append("SET `").append(column5[i]).append("`='").append(io.Terminator(fields[125+i*2].GetCppString())).append("',");
-                        else updatesql.append("`").append(column5[i]).append("`='").append(io.Terminator(fields[125+i*2].GetCppString())).append("',");
-                        first = false;
+                        if (strcmp(fields[125+i*2].GetCppString().c_str(), fields[126+i*2].GetCppString().c_str()) != 0)
+                        {
+                            if (first) updatesql.append("SET `").append(column5[i]).append("`='").append(io.Terminator(fields[125+i*2].GetCppString())).append("',");
+                            else updatesql.append("`").append(column5[i]).append("`='").append(io.Terminator(fields[125+i*2].GetCppString())).append("',");
+                            first = false;
+                        }
                     }
                 }
             }
