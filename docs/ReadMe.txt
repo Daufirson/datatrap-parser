@@ -49,13 +49,26 @@ Usage: DataTrap -switch value (more as one pair is possible)
                          5 = dump wdb database
                          6 = dump both
 
-'-insert quest item'   - create sql insert file for new quests and
+'-insert quest item'   - created sql insert file for new quests and
                          items. possible values: creature,
                          gameobject, quest, item, npctext, pagetext
 
-'-update quest item'   - create sql update file for new quest and
-                         item data. possible values: creature,
+'-update quest item'   - created sql update files for new quest and
+                         item information. possible values: creature,
                          gameobject, quest, item, npctext, pagetext
+
+'-column quest item'   - created sql update files for new quest and
+                         item information. possible values: creature,
+						 game object, quest, item, npctext, pagetext.
+						 Unlike '-update' this must be in the
+						 appropriate files in the directory 'misc',
+						 the column update the database are
+						 specified. the specification of the columns
+						 in these files must be with a space
+						 separated from each other, and it is pay
+						 attention to the spelling (case sensitive).
+						 the columns must all be listed in the first
+						 row behind the other.
 
 NOTE1: You can use -insert/-update combined but without other
        switches!

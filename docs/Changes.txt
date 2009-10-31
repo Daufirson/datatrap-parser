@@ -1,3 +1,9 @@
+v2.2.2
+------
++ New parameter added: -column
+~ Some fixes
+~ Much source cleanup
+
 v2.1.0
 ------
 ~ again own versions (was a silly idea ;)

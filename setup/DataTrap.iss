@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{A17042A1-2ED4-4104-8864-233D3780BD66}
 AppName=DataTrap
-AppVerName=DataTrap v2.1.0
+AppVerName=DataTrap v2.2.2
 AppPublisher=United Worlds of MaNGOS
 AppPublisherURL=http://www.uwom.de
 AppSupportURL=http://www.uwom.de
@@ -16,7 +16,7 @@ DefaultDirName={pf}\DataTrap
 DefaultGroupName=DataTrap
 DisableProgramGroupPage=yes
 OutputDir=.
-OutputBaseFilename=DataTrap_210_Setup
+OutputBaseFilename=DataTrap_222_Setup
 SetupIconFile=..\res\DataTrap.ico
 Compression=lzma
 SolidCompression=yes
@@ -36,6 +36,7 @@ Source: "..\docs\LiesMich.txt"; DestDir: "{app}"; Flags: ignoreversion isreadme;
 Source: "..\docs\ReadMe.txt"; DestDir: "{app}"; Flags: ignoreversion isreadme; Languages: english
 Source: "..\docs\Changes.txt"; DestDir: "{app}"; Flags: ignoreversion; Languages: english
 Source: "..\docs\Änderungen.txt"; DestDir: "{app}"; Flags: ignoreversion; Languages: german
+Source: "..\sql_updates\09_wdb.sql"; DestDir: "{app}"; Flags: ignoreversion;
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

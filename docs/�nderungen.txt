@@ -1,3 +1,9 @@
+v2.2.2
+------
++ Neuen Parameter hinzugefügt: -column
+~ Einige Fixes
+~ Viel aufgeräumt im Source
+
 v2.1.0
 ------
 ~ Wieder eigene Versionsnummern eingeführt (war eine blöde Idee! ;)
