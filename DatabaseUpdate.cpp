@@ -1506,8 +1506,11 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                 {
                     if ((docolumn && ColumnExists(columns, column[i])) || !docolumn)
                     {
+                        uint32 uitmp = fields[14+i*2].GetUInt32();
+                        if (uitmp == 4294967295) uitmp = 0;
+
                         // lootid auf entry setzen
-                        if (own_style && i == 1 && fields[0].GetUInt32() != fields[14+i*2].GetUInt32() &&
+                        if (own_style && i == 1 && fields[0].GetUInt32() != uitmp &&
                             (fields[1].GetUInt32() == 3 || fields[1].GetUInt32() == 25))
                         {
                             if (first) updatesql.append("SET `").append(column[i]).append("`='");
@@ -1521,13 +1524,16 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         }
                         else
                         {
-                            if (fields[13+i*2].GetUInt32() != fields[14+i*2].GetUInt32() && !(own_style && i == 1))
+                            uint32 uitmp = fields[13+i*2].GetUInt32();
+                            if (uitmp == 4294967295) uitmp = 0;
+
+                            if (uitmp != fields[14+i*2].GetUInt32() && !(own_style && i == 1))
                             {
                                 if (first) updatesql.append("SET `").append(column[i]).append("`='");
                                 else updatesql.append("`").append(column[i]).append("`='");
 
                                 tmp = (char*)malloc(32);
-                                sprintf(tmp, "%u", fields[13+i*2].GetUInt32());
+                                sprintf(tmp, "%u", uitmp);
                                 updatesql.append(tmp).append("',");
                                 free(tmp);
                                 first = false;
@@ -3540,6 +3546,8 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                         }
                     }
                 }
+                /* There are never data in the wdb if the quest was completed on the offi!
+                   Because of this we should never make updates to this columns!
                 // column5
                 for (uint8 i=0; i<4; i++)
                 {
@@ -3552,7 +3560,7 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                             first = false;
                         }
                     }
-                }
+                }*/
             }
             if (!first)
             {
