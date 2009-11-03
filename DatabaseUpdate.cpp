@@ -3448,10 +3448,12 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                     {
                         if (fields[19+i*2].GetUInt32() != fields[20+i*2].GetUInt32())
                         {
+                            uint32 uitmp = fields[19+i*2].GetUInt32();
+                            if (uitmp == 4294967295) uitmp = 0;
                             tmp = (char*)malloc(32);
                             if (first) updatesql.append("SET `").append(column2[i]).append("`='");
                             else updatesql.append("`").append(column2[i]).append("`='");
-                            sprintf(tmp, "%u", fields[19+i*2].GetUInt32());
+                            sprintf(tmp, "%u", uitmp);
                             updatesql.append(tmp).append("',");
                             free(tmp);
                             first = false;
