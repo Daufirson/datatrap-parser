@@ -68,6 +68,20 @@ void System::ShowUsage()
         "'-update quest item'   - create sql update file for new quest + item data\n"
         "                         possible values: creature, gameobject, quest,\n"
         "                                          item, npctext, pagetext\n\n"
+
+        "'-column quest item'   - created sql update files for new quest and\n"
+        "                         item information. possible values: creature,\n"
+        "                         game object, quest, item, npctext, pagetext.\n"
+        "                         Unlike '-update' this must be in the\n"
+        "                         appropriate files in the directory 'misc',\n"
+        "                         the column update the database are\n"
+        "                         specified. the specification of the columns\n"
+        "                         in these files must be with a space\n"
+        "                         separated from each other, and it is pay\n"
+        "                         attention to the spelling (case sensitive).\n"
+        "                         the columns must all be listed in the first\n"
+        "                         row behind the other.\n\n"
+
         "NOTE1: You can use -insert/-update combined but without other switches!\n"
         "NOTE2: You have to write pathnames with spaces like this: 'c:\\my space path\\'!\n");
 }

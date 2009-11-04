@@ -59,16 +59,16 @@ Usage: DataTrap -switch value (more as one pair is possible)
 
 '-column quest item'   - created sql update files for new quest and
                          item information. possible values: creature,
-						 game object, quest, item, npctext, pagetext.
-						 Unlike '-update' this must be in the
-						 appropriate files in the directory 'misc',
-						 the column update the database are
-						 specified. the specification of the columns
-						 in these files must be with a space
-						 separated from each other, and it is pay
-						 attention to the spelling (case sensitive).
-						 the columns must all be listed in the first
-						 row behind the other.
+                         game object, quest, item, npctext, pagetext.
+                         Unlike '-update' this must be in the
+                         appropriate files in the directory 'misc',
+                         the column update the database are
+                         specified. the specification of the columns
+                         in these files must be with a space
+                         separated from each other, and it is pay
+                         attention to the spelling (case sensitive).
+                         the columns must all be listed in the first
+                         row behind the other.
 
 NOTE1: You can use -insert/-update combined but without other
        switches!

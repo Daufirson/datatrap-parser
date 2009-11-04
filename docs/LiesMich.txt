@@ -59,16 +59,16 @@ Nutzung: DataTrap -Schalter Wert (mehr als ein Paar möglich)
 '-column quest item'   - Erstellt SQL-Update Dateien für neue Quest
                          und Item-Daten. Mögliche Werte: creature,
                          gameobject, quest, item, npctext, pagetext.
-						 Im Gegensatz zu '-update' müssen hierbei
-						 in den entsprechenden Dateien im
-						 Verzeichnis 'misc' die zu aktualisierenden
-						 Spalten der Datenbank angegeben werden.
-						 Die Angabe der Spalten in diesen Dateien
-						 müssen mit einem Leerzeichen (Space)
-						 voneinander getrennt werden, und es ist auf
-						 die Schreibweise (groß/klein) zu achten.
-						 Die Spalten müssen alle in der ersten Zeile
-						 hintereinander aufgelistet sein.
+                         Im Gegensatz zu '-update' müssen hierbei
+                         in den entsprechenden Dateien im
+                         Verzeichnis 'misc' die zu aktualisierenden
+                         Spalten der Datenbank angegeben werden.
+                         Die Angabe der Spalten in diesen Dateien
+                         müssen mit einem Leerzeichen (Space)
+                         voneinander getrennt werden, und es ist auf
+                         die Schreibweise (groß/klein) zu achten.
+                         Die Spalten müssen alle in der ersten Zeile
+                         hintereinander aufgelistet sein.
 
 HINWEIS1: Sie können -insert/-update kombinieren, aber keine anderen
           Schalter hinzufügen!
