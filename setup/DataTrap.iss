@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{A17042A1-2ED4-4104-8864-233D3780BD66}
 AppName=DataTrap
-AppVerName=DataTrap v2.2.2
+AppVerName=DataTrap v2.3.4.15
 AppPublisher=United Worlds of MaNGOS
 AppPublisherURL=http://www.uwom.de
 AppSupportURL=http://www.uwom.de
@@ -16,7 +16,7 @@ DefaultDirName={pf}\DataTrap
 DefaultGroupName=DataTrap
 DisableProgramGroupPage=yes
 OutputDir=.
-OutputBaseFilename=DataTrap_222_Setup
+OutputBaseFilename=DataTrap_23415_Setup
 SetupIconFile=..\res\DataTrap.ico
 Compression=lzma
 SolidCompression=yes
@@ -24,6 +24,9 @@ SolidCompression=yes
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"; LicenseFile: "..\docs\License.rtf"; InfoBeforeFile: "..\docs\Info_en.rtf"
 Name: "german"; MessagesFile: "compiler:Languages\German.isl"; LicenseFile: "..\docs\Lizenz.rtf"; InfoBeforeFile: "..\docs\Info.rtf"
+
+[Dirs]
+Name: "{app}\sql_updates"
 
 [Files]
 Source: "DataTrap.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -36,7 +39,8 @@ Source: "..\docs\LiesMich.txt"; DestDir: "{app}"; Flags: ignoreversion isreadme;
 Source: "..\docs\ReadMe.txt"; DestDir: "{app}"; Flags: ignoreversion isreadme; Languages: english
 Source: "..\docs\Changes.txt"; DestDir: "{app}"; Flags: ignoreversion; Languages: english
 Source: "..\docs\Änderungen.txt"; DestDir: "{app}"; Flags: ignoreversion; Languages: german
-Source: "..\sql_updates\09_wdb.sql"; DestDir: "{app}"; Flags: ignoreversion;
+Source: "..\sql_updates\09_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
+Source: "..\sql_updates\15_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

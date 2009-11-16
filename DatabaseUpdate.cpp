@@ -987,21 +987,25 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
             fields = result->Fetch();
             if (fields)
             {
+                // "WDB.EffectOnPlayer,WORLD.RewSpellCast" must be int32 but core doesn't know(?)!
+                // Because of this there are 4294967295 values!
                 for (uint8 i=0; i<67; i++)
                 {
                     char* tmp = (char*)malloc(32);
 
-                    if (i == 3 || i == 9 || i == 43 || i == 44 || i == 45 || i == 46 || i == 47 || i == 48 ||
-                        i == 49 || i == 50 || i == 51 || i == 52 || i == 53 || i == 54 || i == 55 || i == 56 ||
-                        i == 57 || i == 58 || i == 59 || i == 60 || i == 61 || i == 62)
+                    if (i == 2 || i == 3 || i == 9 || i == 43 || i == 44 || i == 45 || i == 46 || i == 47 ||
+                        i == 48 || i == 49 || i == 50 || i == 51 || i == 52 || i == 53 || i == 54 || i == 55 ||
+                        i == 56 || i == 57 || i == 58 || i == 59 || i == 60 || i == 61 || i == 62)
                     {
                         // GOs umrechnen für core
                         if ((i == 43 || i == 48 || i == 53 || i == 58) && fields[i].GetInt32() < 0)
                             sprintf(tmp, "%i", (fields[i].GetInt32() + 2147483648)*-1);
+                        else
+                            sprintf(tmp, "%i", fields[i].GetInt32());
 
-                        else sprintf(tmp, "%i", fields[i].GetInt32());
                         if (i+1 < 67) insertsql.append(tmp).append("','");
-                        else insertsql.append(tmp);
+                        else
+                            insertsql.append(tmp);
                     }
                     else if (i == 39 || i == 40 || i == 41 || i == 42 || i == 63 || i == 64 || i == 65 || i == 66)
                     {
@@ -1018,11 +1022,7 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
                     }
                     else
                     {
-                        uint32 tmpuint = fields[i].GetUInt32();
-                        // 0 für 4294967295 bei QuestLevel setzen!
-                        if (i == 2 && tmpuint == 4294967295) tmpuint = 0;
-
-                        sprintf(tmp, "%u", tmpuint);
+                        sprintf(tmp, "%u", fields[i].GetUInt32());
                         if (i+1 < 67) insertsql.append(tmp).append("','");
                         else insertsql.append(tmp);
                     }
@@ -3384,18 +3384,14 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                 if ((docolumn && ColumnExists(columns, "QuestLevel")) || !docolumn)
                 {
                     // QuestLevel
-                    if (fields[3].GetUInt32() != fields[4].GetUInt32())
+                    if (fields[3].GetInt32() != fields[4].GetInt32())
                     {
-                        uint32 tmpuint = fields[3].GetUInt32();
-
-                        // 0 für 4294967295 setzen!
-                        if (tmpuint == 4294967295) tmpuint = 0;
-                        if (tmpuint != fields[4].GetUInt32())
+                        if (fields[3].GetInt32() != fields[4].GetInt32())
                         {
                             tmp = (char*)malloc(32);
                             if (first) updatesql.append("SET `QuestLevel`='");
                             else updatesql.append("`QuestLevel`='");
-                            sprintf(tmp, "%u", tmpuint);
+                            sprintf(tmp, "%i", fields[3].GetInt32());
                             updatesql.append(tmp).append("',");
                             free(tmp);
                             first = false;
@@ -3454,8 +3450,11 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                     {
                         if (fields[19+i*2].GetUInt32() != fields[20+i*2].GetUInt32())
                         {
+                            // Needed for "WDB.EffectOnPlayer,WORLD.RewSpellCast"
+                            // Because Core doesn'T know(?) that this must be an int32
                             uint32 uitmp = fields[19+i*2].GetUInt32();
                             if (uitmp == 4294967295) uitmp = 0;
+
                             tmp = (char*)malloc(32);
                             if (first) updatesql.append("SET `").append(column2[i]).append("`='");
                             else updatesql.append("`").append(column2[i]).append("`='");

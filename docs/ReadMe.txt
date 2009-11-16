@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------
-    DataTrap v2.1.0 - http://www.uwom.de - datatrap@uwom.de - Freeware
+ DataTrap v2.3.4.15 - http://www.uwom.de - datatrap@uwom.de - Freeware
  Created and Copyright ©2008-2009 by WarHead - United Worlds of MaNGOS
 -----------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ Usage: DataTrap -switch value (more as one pair is possible)
                          5 = dump wdb database
                          6 = dump both
 
-'-insert quest item'   - created sql insert file for new quests and
+'-insert quest item'   - created sql insert files for new quests and
                          items. possible values: creature,
                          gameobject, quest, item, npctext, pagetext
 

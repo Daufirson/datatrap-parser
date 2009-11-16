@@ -1,3 +1,13 @@
+v2.3.4.15
+---------
++ Das Unterverzeichnis "sql_updates", im Installations-Verzeichnis von DataTrap hinzugefügt
+  Nicht vergessen nötige Updates in eure WDB-Datenbank einzuspielen!
+~ Da Trinity nun endlich gemerkt hat, dass QuestLevel ein int32 sein muss,
+  haben wir nun unseren Workaround dafür gelöscht. Hoffentlich merken sie auch,
+  dass es bei RewSpellCast das selbe ist! ;)
+~ SQL Daten-Ausgabe gefixt
+~ Tippfehler behoben
+
 v2.2.2
 ------
 + Neuen Parameter hinzugefügt: -column

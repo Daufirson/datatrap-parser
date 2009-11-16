@@ -435,7 +435,7 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 
 		        def->addField(t_uint32, "QuestID2");
 		        def->addField(t_uint32, "Method");
-		        def->addField(t_uint32, "QuestLevel");
+		        def->addField(t_int32,  "QuestLevel");
 		        def->addField(t_int32,  "ZoneOrSort");
 		        def->addField(t_uint32, "Type");
 

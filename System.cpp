@@ -11,8 +11,8 @@ void System::SayWelcome(char* str)
     system("clear");
 #endif
     printf("-------------------------------------------------------------------------\n"
-        "    DataTrap v%s - http://www.uwom.de - datatrap@uwom.de - Freeware\n"
-        "  Created and Copyright © %s by WarHead - United Worlds of MaNGOS\n"
+        "  DataTrap v%s - http://www.uwom.de - datatrap@uwom.de - Freeware\n"
+        "  Created and Copyright ©%s by WarHead - United Worlds of MaNGOS\n"
         "-------------------------------------------------------------------------\n\n",
            _VERSION, _YEAR);
 
@@ -61,11 +61,11 @@ void System::ShowUsage()
         "                         5 = dump wdb database\n"
         "                         6 = dump both\n\n"
 
-        "'-insert quest item'   - create sql insert file for new quests + items\n"
+        "'-insert quest item'   - created sql insert files for new quests + items\n"
         "                         possible values: creature, gameobject, quest,\n"
         "                                          item, npctext, pagetext\n\n"
 
-        "'-update quest item'   - create sql update file for new quest + item data\n"
+        "'-update quest item'   - created sql update files for new quest + item data\n"
         "                         possible values: creature, gameobject, quest,\n"
         "                                          item, npctext, pagetext\n\n"
 

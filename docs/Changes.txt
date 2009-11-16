@@ -1,3 +1,12 @@
+v2.3.4.15
+---------
++ The subdir "sql_updates" added in the main installation dir of DataTrap
+  Don't forget to apply needed updates to your wdb database!
+~ Because of Trinity has finaly recognized that the questlevel must be an int32 we have now removed
+  our workaround for this. Hopefully Trinity recognized it for rewspellcast too! ;)
+~ SQL data output fixes
+~ Typos fixed
+
 v2.2.2
 ------
 + New parameter added: -column
