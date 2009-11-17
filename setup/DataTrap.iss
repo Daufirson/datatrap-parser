@@ -26,21 +26,32 @@ Name: "english"; MessagesFile: "compiler:Default.isl"; LicenseFile: "..\docs\Lic
 Name: "german"; MessagesFile: "compiler:Languages\German.isl"; LicenseFile: "..\docs\Lizenz.rtf"; InfoBeforeFile: "..\docs\Info.rtf"
 
 [Dirs]
+Name: "{app}\docs"
+Name: "{app}\examples"
 Name: "{app}\sql_updates"
 
 [Files]
 Source: "DataTrap.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\docs\Lizenz.rtf"; DestDir: "{app}"; Flags: ignoreversion; Languages: german
-Source: "..\docs\License.rtf"; DestDir: "{app}"; Flags: ignoreversion; Languages: english
+
 Source: "..\redist\vcredist_x86.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall; Languages: german
 Source: "..\redist\vcredist_x86_en.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall; Languages: english
 Source: "..\redist\libmysql.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall
-Source: "..\docs\LiesMich.txt"; DestDir: "{app}"; Flags: ignoreversion isreadme; Languages: german
-Source: "..\docs\ReadMe.txt"; DestDir: "{app}"; Flags: ignoreversion isreadme; Languages: english
-Source: "..\docs\Changes.txt"; DestDir: "{app}"; Flags: ignoreversion; Languages: english
-Source: "..\docs\Änderungen.txt"; DestDir: "{app}"; Flags: ignoreversion; Languages: german
+
+Source: "..\docs\Lizenz.rtf"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: german
+Source: "..\docs\License.rtf"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: english
+Source: "..\docs\LiesMich.txt"; DestDir: "{app}\docs"; Flags: ignoreversion isreadme; Languages: german
+Source: "..\docs\ReadMe.txt"; DestDir: "{app}\docs"; Flags: ignoreversion isreadme; Languages: english
+Source: "..\docs\Changes.txt"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: english
+Source: "..\docs\Änderungen.txt"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: german
+
 Source: "..\sql_updates\09_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
 Source: "..\sql_updates\15_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
+
+Source: "..\examples\Config.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;
+Source: "..\examples\Create SQL.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;
+Source: "..\examples\Dump.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;
+Source: "..\examples\Import DBC.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;
+Source: "..\examples\Import WDB.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
