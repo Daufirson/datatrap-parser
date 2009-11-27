@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{A17042A1-2ED4-4104-8864-233D3780BD66}
 AppName=DataTrap
-AppVerName=DataTrap v2.3.4.15
+AppVerName=DataTrap v2.4.6.18
 AppPublisher=United Worlds of MaNGOS
 AppPublisherURL=http://www.uwom.de
 AppSupportURL=http://www.uwom.de
@@ -16,7 +16,7 @@ DefaultDirName={pf}\DataTrap
 DefaultGroupName=DataTrap
 DisableProgramGroupPage=yes
 OutputDir=.
-OutputBaseFilename=DataTrap_23415_Setup
+OutputBaseFilename=DataTrap_24618_Setup
 SetupIconFile=..\res\DataTrap.ico
 Compression=lzma
 SolidCompression=yes
@@ -46,6 +46,8 @@ Source: "..\docs\Änderungen.txt"; DestDir: "{app}\docs"; Flags: ignoreversion; L
 
 Source: "..\sql_updates\09_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
 Source: "..\sql_updates\15_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
+Source: "..\sql_updates\18_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
+Source: "..\sql_updates\18_world.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
 
 Source: "..\examples\Config.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;
 Source: "..\examples\Create SQL.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;

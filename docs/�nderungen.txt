@@ -1,3 +1,11 @@
+v2.4.6.18
+---------
++ QuestItem 5+6 Support hinzugefügt
++ Beispiele hinzugefügt
++ Verzeichnisse "docs" und "examples" im DataTrap-Dir erstellt
+
+Benötigt TrinityCore2 >= Rev. 6374
+
 v2.3.4.15
 ---------
 + Das Unterverzeichnis "sql_updates", im Installations-Verzeichnis von DataTrap hinzugefügt

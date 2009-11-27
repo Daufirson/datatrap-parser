@@ -135,10 +135,9 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_uint32, "questItem2");
 		        def->addField(t_uint32, "questItem3");
 		        def->addField(t_uint32, "questItem4");
-
                 // @ 3.2.0 added
-		        def->addField(t_undef,  "");
-		        def->addField(t_undef,  "");
+		        def->addField(t_uint32, "questItem5");
+		        def->addField(t_uint32, "questItem6");
 
 		        def->addField(t_uint32, "movementId");
 
@@ -194,10 +193,9 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_uint32, "questItem2");
 		        def->addField(t_uint32, "questItem3");
 		        def->addField(t_uint32, "questItem4");
-
                 // @ 3.2.0 added
-		        def->addField(t_undef,  "");
-		        def->addField(t_undef,  "");
+		        def->addField(t_uint32, "questItem5");
+		        def->addField(t_uint32, "questItem6");
 
                 gDefList.push_back(*def);
 	        }

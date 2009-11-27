@@ -1,0 +1,1 @@
+ALTER TABLE `item_template` CHANGE `ItemLevel` `ItemLevel` smallint(5) UNSIGNED NOT NULL DEFAULT 0;
