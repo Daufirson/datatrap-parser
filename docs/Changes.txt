@@ -1,3 +1,7 @@
+v2.4.7.19
+---------
+~ SQL Hotfix for insert GOs
+
 v2.4.6.18
 ---------
 + QuestItem 5+6 support added

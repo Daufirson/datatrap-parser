@@ -311,7 +311,7 @@ void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* world
             fields = result->Fetch();
             if (fields)
             {
-                for (uint8 i=0; i<33; i++)
+                for (uint8 i=0; i<31; i++)
                 {
                     char* tmp = (char*)malloc(32);
 
@@ -371,12 +371,12 @@ void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* world
                 // questItem4
                 tmp = (char*)malloc(32);
                 sprintf(tmp, "%u", fields[35].GetUInt32());
-                insertsql.append(tmp).append("')");
+                insertsql.append(tmp).append("','");
                 free(tmp);
                 // questItem5
                 tmp = (char*)malloc(32);
                 sprintf(tmp, "%u", fields[36].GetUInt32());
-                insertsql.append(tmp).append("')");
+                insertsql.append(tmp).append("','");
                 free(tmp);
                 // questItem6
                 tmp = (char*)malloc(32);
