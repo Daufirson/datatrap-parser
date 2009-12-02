@@ -577,13 +577,7 @@ void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Da
                                         free(tmpchar);
                                         tmpint = 0;
                                     }
-                                } /*
-                                ######################################################################################
-                                # Flags > 3551 in -1 wandeln, weil der Wert zu groß ist für die Spalte - -1 paßt aber!
-                                ######################################################################################
-                                UPDATE `itemcache` SET `ClassFlags`='-1' WHERE `ClassFlags`>'3551';
-                                UPDATE `itemcache` SET `RaceFlags`='-1' WHERE `RaceFlags`>'3551'; */
-                                if ((i == 11 || i == 12) && tmpint > 3551) tmpint = -1;
+                                }
 
                                 sprintf(tmp, "%i", tmpint);
                                 if (i+1 < 125) insertsql.append(tmp).append("','");
@@ -2010,8 +2004,6 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                         int32 tmpwdb = fields[21].GetInt32();
                         int32 tmpworld = fields[22].GetInt32();
 
-                        // Flags > 3551 in -1 wandeln, weil der Wert zu groß ist für die Spalte, -1 paßt aber!
-                        if (tmpwdb > 3551) tmpwdb = -1;
                         if (tmpwdb != tmpworld)
                         {
                             if (first) updatesql.append("SET `AllowableClass`='");
@@ -2032,8 +2024,6 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                         int32 tmpwdb = fields[23].GetInt32();
                         int32 tmpworld = fields[24].GetInt32();
 
-                        // Flags > 3551 in -1 wandeln, weil der Wert zu groß ist für die Spalte, -1 paßt aber!
-                        if (tmpwdb > 3551) tmpwdb = -1;
                         if (tmpwdb != tmpworld)
                         {
                             if (first) updatesql.append("SET `AllowableRace`='");
