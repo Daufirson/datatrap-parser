@@ -1,3 +1,8 @@
+v2.4.8.21
+---------
+~ AllowableClass + AllowableRace Workarounds entfernt, weil TDB es gefixt hat
+i Letzte Version für Client 3.2.2 und höher vor Versions-Sprung
+
 v2.4.7.19
 ---------
 ~ SQL Hotfix für Insert GOs

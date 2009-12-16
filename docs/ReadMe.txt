@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------
- DataTrap v2.4.7.19 - http://www.uwom.de - datatrap@uwom.de - Freeware
+ DataTrap v2.4.8.21 - http://www.uwom.de - datatrap@uwom.de - Freeware
  Created and Copyright ©2008-2009 by WarHead - United Worlds of MaNGOS
 -----------------------------------------------------------------------
 
