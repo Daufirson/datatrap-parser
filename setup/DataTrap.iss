@@ -44,10 +44,7 @@ Source: "..\docs\ReadMe.txt"; DestDir: "{app}\docs"; Flags: ignoreversion isread
 Source: "..\docs\Changes.txt"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: english
 Source: "..\docs\Änderungen.txt"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: german
 
-Source: "..\sql_updates\09_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
-Source: "..\sql_updates\15_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
-Source: "..\sql_updates\18_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
-Source: "..\sql_updates\18_world.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
+;Source: "..\sql_updates\09_wdb.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
 
 Source: "..\examples\Config.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;
 Source: "..\examples\Create SQL.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;
