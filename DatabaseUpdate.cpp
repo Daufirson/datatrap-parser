@@ -1772,11 +1772,11 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
         // uint32
         const char* column3[9] = {"armor","holy_res","fire_res","nature_res","frost_res","shadow_res",
             "arcane_res","delay","ammo_type"};
-        const char* column4[30] = {"spellid_1","spelltrigger_1","spellcharges_1","spellcooldown_1","spellcategory_1","spellcategorycooldown_1,",
-            "spellid_2","spelltrigger_2","spellcharges_2","spellcooldown_2","spellcategory_2","spellcategorycooldown_2,",
-            "spellid_3","spelltrigger_3","spellcharges_3","spellcooldown_3","spellcategory_3","spellcategorycooldown_3,",
-            "spellid_4","spelltrigger_4","spellcharges_4","spellcooldown_4","spellcategory_4","spellcategorycooldown_4,",
-            "spellid_5","spelltrigger_5","spellcharges_5","spellcooldown_5","spellcategory_5","spellcategorycooldown_5,"};
+        const char* column4[30] = {"spellid_1","spelltrigger_1","spellcharges_1","spellcooldown_1","spellcategory_1","spellcategorycooldown_1",
+            "spellid_2","spelltrigger_2","spellcharges_2","spellcooldown_2","spellcategory_2","spellcategorycooldown_2",
+            "spellid_3","spelltrigger_3","spellcharges_3","spellcooldown_3","spellcategory_3","spellcategorycooldown_3",
+            "spellid_4","spelltrigger_4","spellcharges_4","spellcooldown_4","spellcategory_4","spellcategorycooldown_4",
+            "spellid_5","spelltrigger_5","spellcharges_5","spellcooldown_5","spellcategory_5","spellcategorycooldown_5"};
         const char* column5[16] = {"RandomSuffix","block","itemset","MaxDurability","area","Map","BagFamily","TotemCategory",
             "socketColor_1","socketContent_1","socketColor_2","socketContent_2","socketColor_3","socketContent_3","socketBonus","GemProperties"};
 
