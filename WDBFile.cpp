@@ -440,24 +440,25 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_int32,  "QuestLevel");
 		        def->addField(t_int32,  "ZoneOrSort");
 		        def->addField(t_uint32, "Type");
+                def->addField(t_uint32, "SuggestedPlayers");
 
-		        def->addField(t_uint32, "SuggestedPlayers");
-		        def->addField(t_uint32, "FactionID");
-		        def->addField(t_uint32, "FactionAmount");
-		        def->addField(t_undef,  "");
-		        def->addField(t_undef,  "");
+                def->addField(t_int32,  "RepObjectiveFaction");
+                def->addField(t_int32,  "RepObjectiveValue");
+                def->addField(t_int32,  "RepObjectiveFaction2");
+                def->addField(t_int32,  "RepObjectiveValue2");
 
 		        def->addField(t_uint32, "NextQuestID");
 		        def->addField(t_int32,  "CoinReward");
 		        def->addField(t_uint32, "CoinRewardOn80");
 		        def->addField(t_uint32, "SpellReward");
 		        def->addField(t_int32,  "EffectOnPlayer"); // RewSpellCast
-		        def->addField(t_undef,  "");
+		        def->addField(t_uint32, "RewHonorPts");
 		        def->addField(t_uint32, "StartItemID");
 		        def->addField(t_uint32, "QuestFlags");
-		        def->addField(t_undef,  "");
-		        def->addField(t_undef,  "");
-		        def->addField(t_undef,  "");
+		        def->addField(t_uint32, "CharTitleId");
+		        def->addField(t_uint32, "reqPVPKills");
+		        def->addField(t_undef,  "unk");
+
 		        def->addField(t_uint32, "ItemReward1");
 		        def->addField(t_uint32, "ItemAmount1");
 		        def->addField(t_uint32, "ItemReward2");
@@ -466,6 +467,7 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_uint32, "ItemAmount3");
 		        def->addField(t_uint32, "ItemReward4");
 		        def->addField(t_uint32, "ItemAmount4");
+
 		        def->addField(t_uint32, "ItemChoice1");
 		        def->addField(t_uint32, "ItemChoiceAmount1");
 		        def->addField(t_uint32, "ItemChoice2");
@@ -501,6 +503,7 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_int32,  "KillCreature4");
 		        def->addField(t_int32,  "KillCreature4Amount");
 		        def->addField(t_int32,  "ItemUsed4");
+
 		        def->addField(t_int32,  "CollectItem1");
 		        def->addField(t_int32,  "CollectItem1Amount");
 		        def->addField(t_int32,  "CollectItem2");
@@ -509,8 +512,11 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_int32,  "CollectItem3Amount");
 		        def->addField(t_int32,  "CollectItem4");
 		        def->addField(t_int32,  "CollectItem4Amount");
-		        def->addField(t_int32,  "");
-		        def->addField(t_int32,  "");
+		        def->addField(t_int32,  "CollectItem5");
+		        def->addField(t_int32,  "CollectItem5Amount");
+		        def->addField(t_int32,  "CollectItem6");
+		        def->addField(t_int32,  "CollectItem6Amount");
+
 		        def->addField(t_string, "Objective1");
 		        def->addField(t_string, "Objective2");
 		        def->addField(t_string, "Objective3");
