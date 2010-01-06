@@ -311,11 +311,11 @@ void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* world
             fields = result->Fetch();
             if (fields)
             {
-                for (uint8 i=0; i<31; i++)
+                for (int8 i=0; i<31; ++i)
                 {
                     char* tmp = (char*)malloc(32);
 
-                    if (i >= 3 && i <= 6)
+                    if (i > 2 && i < 7)
                     {
                         // name1 + IconName + castBarCaption + unk1
                         insertsql.append(io.Terminator(fields[i].GetCppString())).append("','");
@@ -331,17 +331,13 @@ void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* world
                             }
                             else
                             {
-                                uint32 uitmp = fields[i].GetUInt32();
-                                if (uitmp == 4294967295) uitmp = 0;
-                                sprintf(tmp, "%u", uitmp);
+                                sprintf(tmp, "%i", fields[i].GetInt32());
                                 insertsql.append(tmp).append("','");
                             }
                         }
                         else
                         {
-                            uint32 uitmp = fields[i].GetUInt32();
-                            if (uitmp == 4294967295) uitmp = 0;
-                            sprintf(tmp, "%u", uitmp);
+                            sprintf(tmp, "%i", fields[i].GetInt32());
                             insertsql.append(tmp).append("','");
                         }
                     }
@@ -1539,15 +1535,12 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         first = false;
                     }
                 }
-                for (uint8 i=0; i<24; i++)
+                for (int8 i=0; i<24; ++i)
                 {
                     if ((docolumn && ColumnExists(columns, column[i])) || !docolumn)
                     {
-                        uint32 uitmp = fields[14+i*2].GetUInt32();
-                        if (uitmp == 4294967295) uitmp = 0;
-
                         // lootid auf entry setzen
-                        if (own_style && i == 1 && fields[0].GetUInt32() != uitmp &&
+                        if (own_style && i == 1 && fields[0].GetUInt32() != fields[14+i*2].GetInt32() &&
                             (fields[1].GetUInt32() == 3 || fields[1].GetUInt32() == 25))
                         {
                             if (first) updatesql.append("SET `").append(column[i]).append("`='");
@@ -1561,16 +1554,13 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                         }
                         else
                         {
-                            uint32 uitmp = fields[13+i*2].GetUInt32();
-                            if (uitmp == 4294967295) uitmp = 0;
-
-                            if (uitmp != fields[14+i*2].GetUInt32() && !(own_style && i == 1))
+                            if (fields[13+i*2].GetInt32() != fields[14+i*2].GetInt32() && !(own_style && i == 1))
                             {
                                 if (first) updatesql.append("SET `").append(column[i]).append("`='");
                                 else updatesql.append("`").append(column[i]).append("`='");
 
                                 tmp = (char*)malloc(32);
-                                sprintf(tmp, "%u", uitmp);
+                                sprintf(tmp, "%i", fields[13+i*2].GetInt32());
                                 updatesql.append(tmp).append("',");
                                 free(tmp);
                                 first = false;
