@@ -134,13 +134,13 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
     insertsql.append(DATATRAP_FILE_HEADER).append("SET NAMES `utf8`;\nSET CHARACTER SET `utf8`;\n\n"
 
     "INSERT INTO `creature_template` "
-    "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,"
-    "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`unk16`,`unk17`,`RacialLeader`,"
+    "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`"
+    "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
     "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`,`movementId`,"
-    "`minlevel`,`maxlevel`,`minhealth`,`maxhealth`,`faction_A`,`faction_H`,`scale`) VALUES\n('");
+    "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`) VALUES\n('");
 
-    query.append("SELECT `entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,"
-        "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`unk16`,`unk17`,`RacialLeader`,"
+    query.append("SELECT `entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`"
+        "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
         "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`,`movementId`"
         " FROM `").append(wdbdb).append("`.`creaturecache` WHERE `entry` NOT IN "
         "(SELECT `entry` FROM `").append(worlddb).append("`.`creature_template`)");
@@ -178,7 +178,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
             fields = result->Fetch();
             if (fields)
             {
-                for (uint8 i=0; i<23; i++)
+                for (uint8 i=0; i<25; i++)
                 {
                     char* tmp = (char*)malloc(32);
 
@@ -192,7 +192,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
                         sprintf(tmp, "%u", fields[i].GetUInt16());
                         insertsql.append(tmp).append("','");
                     }
-                    else if (i == 14 || i == 15)
+                    else if (i == 16 || i == 17)
                     {
                         sprintf(tmp, "%f", fields[i].GetFloat());
                         insertsql.append(tmp).append("','");
@@ -206,7 +206,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
                 }
 
                 // Müssen wegen der Core gesetzt werden beim Insert
-                insertsql.append("1','1','1','1','35','35','1')");
+                insertsql.append("1','1','35','35','1')");
 
                 // Haben wir MAX_INSERTS erreicht und Daten übrig? Dann insert senden und löschen!
                 if (count >= MAX_INSERTS && (count+counttotal+1) < result->GetRowCount())
@@ -218,10 +218,10 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
                     count = 0;
 
                     insertsql.append("INSERT INTO `creature_template` "
-                    "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,"
-                    "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`unk16`,`unk17`,`RacialLeader`,"
+                    "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`,"
+                    "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
                     "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`,`movementId`,"
-                    "`minlevel`,`maxlevel`,`minhealth`,`maxhealth`,`faction_A`,`faction_H`,`scale`) VALUES\n('");
+                    "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`) VALUES\n('");
 
                     first = true;
 
@@ -1082,8 +1082,9 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
 
     query.append("SELECT WDB.entry, WDB.name, WORLD.name, WDB.subname, WORLD.subname, WDB.IconName, WORLD.IconName, "
         "WDB.type_flags, WORLD.type_flags, WDB.unit_flags, WORLD.unit_flags, WDB.`type`, WORLD.`type`, WDB.family, "
-        "WORLD.family, WDB.rank, WORLD.rank, WDB.modelid1, WORLD.modelid1, WDB.modelid2, WORLD.modelid2, WDB.modelid3, WORLD.modelid3, WDB.modelid4, "
-        "WORLD.modelid4, WDB.unk16, WORLD.unk16, WDB.unk17, WORLD.unk17, WDB.RacialLeader, WORLD.RacialLeader, "
+        "WORLD.family, WDB.rank, WORLD.rank, WDB.KillCredit1, WORLD.KillCredit1, WDB.KillCredit2, WORLD.KillCredit2, "
+        "WDB.modelid1, WORLD.modelid1, WDB.modelid2, WORLD.modelid2, WDB.modelid3, WORLD.modelid3, WDB.modelid4, "
+        "WORLD.modelid4, WDB.Health_mod, WORLD.Health_mod, WDB.Mana_mod, WORLD.Mana_mod, WDB.RacialLeader, WORLD.RacialLeader, "
         "WDB.questItem1, WORLD.questItem1, WDB.questItem2, WORLD.questItem2, WDB.questItem3, WORLD.questItem3, WDB.questItem4, WORLD.questItem4, "
         "WDB.questItem5, WORLD.questItem5, WDB.questItem6, WORLD.questItem6, WDB.movementId, WORLD.movementId"
         " FROM `");
@@ -1092,8 +1093,9 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
         "(WDB.name != WORLD.name || WDB.subname != WORLD.subname || WDB.IconName != WORLD.IconName || "
         "WDB.type_flags != WORLD.type_flags || WDB.unit_flags != WORLD.unit_flags || "
         "WDB.`type` != WORLD.`type` || WDB.family != WORLD.family || WDB.rank != WORLD.rank || "
+        "WDB.KillCredit1 != WORLD.KillCredit1 || WDB.KillCredit2 != WORLD.KillCredit2 || "
         "WDB.modelid1 != WORLD.modelid1 || WDB.modelid2 != WORLD.modelid2 || WDB.modelid3 != WORLD.modelid3 || "
-        "WDB.modelid4 != WORLD.modelid4 || WDB.unk16 != WORLD.unk16 || WDB.unk17 != WORLD.unk17 || WDB.RacialLeader != WORLD.RacialLeader || "
+        "WDB.modelid4 != WORLD.modelid4 || WDB.Health_mod != WORLD.Health_mod || WDB.Mana_mod != WORLD.Mana_mod || WDB.RacialLeader != WORLD.RacialLeader || "
         "WDB.questItem1 != WORLD.questItem1 || WDB.questItem2 != WORLD.questItem2 || WDB.questItem3 != WORLD.questItem3 || WDB.questItem4 != WORLD.questItem4 || "
         "WDB.questItem5 != WORLD.questItem5 || WDB.questItem6 != WORLD.questItem6 || "
         "WDB.movementId != WORLD.movementId)");
@@ -1116,7 +1118,8 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
         FILE* sqlfile = fopen(fstr.c_str(), "w");
         if (!sqlfile) io.SayError("Can't create: '%s'", fstr.c_str());
 
-        const char* column[9] = {"type_flags", "unit_flags", "type", "family", "rank", "modelid1", "modelid2", "modelid3", "modelid4"};
+        const char* column1[11] = {"type_flags", "unit_flags", "type", "family", "rank", "KillCredit1", "KillCredit2", "modelid1", "modelid2", "modelid3", "modelid4"};
+        const char* column2[8] = {"RacialLeader", "questItem1", "questItem2", "questItem3", "questItem4", "questItem5", "questItem6", "movementId"};
 
         do
         {
@@ -1152,9 +1155,9 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
                         first = false;
                     }
                 }
-                for (uint8 i=0; i<9; i++)
+                for (uint8 i=0; i<11; ++i)
                 {
-                    if ((docolumn && ColumnExists(columns, column[i])) || !docolumn)
+                    if ((docolumn && ColumnExists(columns, column1[i])) || !docolumn)
                     {
                         if (fields[7+i*2].GetUInt32() != fields[8+i*2].GetUInt32())
                         {
@@ -1165,8 +1168,8 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
                             if (tmpentry == 24938 || tmpentry == 25115 || tmpentry == 25001 || tmpentry == 26477) continue;
                             else
                             {
-                                if (first) updatesql.append("SET `").append(column[i]).append("`='");
-                                else updatesql.append("`").append(column[i]).append("`='");
+                                if (first) updatesql.append("SET `").append(column1[i]).append("`='");
+                                else updatesql.append("`").append(column1[i]).append("`='");
                                 char* tmp = (char*)malloc(32);
                                 sprintf(tmp, "%u", tmpuint);
                                 updatesql.append(tmp).append("',");
@@ -1176,154 +1179,48 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
                         }
                     }
                 }
-                if ((docolumn && ColumnExists(columns, "unk16")) || !docolumn)
+                if ((docolumn && ColumnExists(columns, "Health_mod")) || !docolumn)
                 {
-                    // unk16
-                    if (fields[25].GetFloat() != fields[26].GetFloat())
+                    // Health_mod
+                    if (fields[29].GetFloat() != fields[30].GetFloat())
                     {
-                        float tmpfloat = fields[25].GetFloat();
-                        if (first) updatesql.append("SET `unk16`='");
-                        else updatesql.append("`unk16`='");
+                        if (first) updatesql.append("SET `Health_mod`='");
+                        else updatesql.append("`Health_mod`='");
                         char* tmp = (char*)malloc(32);
-                        sprintf(tmp, "%f", tmpfloat);
+                        sprintf(tmp, "%f", fields[29].GetFloat());
                         updatesql.append(tmp).append("',");
                         first = false;
                         free(tmp);
                     }
                 }
-                if ((docolumn && ColumnExists(columns, "unk17")) || !docolumn)
+                if ((docolumn && ColumnExists(columns, "Mana_mod")) || !docolumn)
                 {
-                    // unk17
-                    if (fields[27].GetFloat() != fields[28].GetFloat())
+                    // Mana_mod
+                    if (fields[31].GetFloat() != fields[32].GetFloat())
                     {
-                        float tmpfloat = fields[27].GetFloat();
-                        if (first) updatesql.append("SET `unk17`='");
-                        else updatesql.append("`unk17`='");
+                        if (first) updatesql.append("SET `Mana_mod`='");
+                        else updatesql.append("`Mana_mod`='");
                         char* tmp = (char*)malloc(32);
-                        sprintf(tmp, "%f", tmpfloat);
+                        sprintf(tmp, "%f", fields[31].GetFloat());
                         updatesql.append(tmp).append("',");
                         first = false;
                         free(tmp);
                     }
                 }
-                if ((docolumn && ColumnExists(columns, "RacialLeader")) || !docolumn)
+                for (uint8 i=0; i<8; ++i)
                 {
-                    // RacialLeader
-                    if (fields[29].GetUInt32() != fields[30].GetUInt32())
+                    if ((docolumn && ColumnExists(columns, column2[i])) || !docolumn)
                     {
-                        uint32 tmpuint = fields[29].GetUInt32();
-                        if (first) updatesql.append("SET `RacialLeader`='");
-                        else updatesql.append("`RacialLeader`='");
-                        char* tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", tmpuint);
-                        updatesql.append(tmp).append("',");
-                        first = false;
-                        free(tmp);
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "questItem1")) || !docolumn)
-                {
-                    // questItem1
-                    if (fields[31].GetUInt32() != fields[32].GetUInt32())
-                    {
-                        uint32 tmpuint = fields[31].GetUInt32();
-                        if (first) updatesql.append("SET `questItem1`='");
-                        else updatesql.append("`questItem1`='");
-                        char* tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", tmpuint);
-                        updatesql.append(tmp).append("',");
-                        first = false;
-                        free(tmp);
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "questItem2")) || !docolumn)
-                {
-                    // questItem2
-                    if (fields[33].GetUInt32() != fields[34].GetUInt32())
-                    {
-                        uint32 tmpuint = fields[33].GetUInt32();
-                        if (first) updatesql.append("SET `questItem2`='");
-                        else updatesql.append("`questItem2`='");
-                        char* tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", tmpuint);
-                        updatesql.append(tmp).append("',");
-                        first = false;
-                        free(tmp);
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "questItem3")) || !docolumn)
-                {
-                    // questItem3
-                    if (fields[35].GetUInt32() != fields[36].GetUInt32())
-                    {
-                        uint32 tmpuint = fields[35].GetUInt32();
-                        if (first) updatesql.append("SET `questItem3`='");
-                        else updatesql.append("`questItem3`='");
-                        char* tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", tmpuint);
-                        updatesql.append(tmp).append("',");
-                        first = false;
-                        free(tmp);
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "questItem4")) || !docolumn)
-                {
-                    // questItem4
-                    if (fields[37].GetUInt32() != fields[38].GetUInt32())
-                    {
-                        uint32 tmpuint = fields[37].GetUInt32();
-                        if (first) updatesql.append("SET `questItem4`='");
-                        else updatesql.append("`questItem4`='");
-                        char* tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", tmpuint);
-                        updatesql.append(tmp).append("',");
-                        first = false;
-                        free(tmp);
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "questItem5")) || !docolumn)
-                {
-                    // questItem5
-                    if (fields[39].GetUInt32() != fields[40].GetUInt32())
-                    {
-                        uint32 tmpuint = fields[39].GetUInt32();
-                        if (first) updatesql.append("SET `questItem5`='");
-                        else updatesql.append("`questItem5`='");
-                        char* tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", tmpuint);
-                        updatesql.append(tmp).append("',");
-                        first = false;
-                        free(tmp);
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "questItem6")) || !docolumn)
-                {
-                    // questItem6
-                    if (fields[41].GetUInt32() != fields[42].GetUInt32())
-                    {
-                        uint32 tmpuint = fields[41].GetUInt32();
-                        if (first) updatesql.append("SET `questItem6`='");
-                        else updatesql.append("`questItem6`='");
-                        char* tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", tmpuint);
-                        updatesql.append(tmp).append("',");
-                        first = false;
-                        free(tmp);
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "movementId")) || !docolumn)
-                {
-                    // movementId
-                    if (fields[43].GetUInt32() != fields[44].GetUInt32())
-                    {
-                        uint32 tmpuint = fields[43].GetUInt32();
-                        if (first) updatesql.append("SET `movementId`='");
-                        else updatesql.append("`movementId`='");
-                        char* tmp = (char*)malloc(32);
-                        sprintf(tmp, "%u", tmpuint);
-                        updatesql.append(tmp).append("',");
-                        first = false;
-                        free(tmp);
+                        if (fields[33+i*2].GetUInt32() != fields[34+i*2].GetUInt32())
+                        {
+                            if (first) updatesql.append("SET `").append(column2[i]).append("`='");
+                            else updatesql.append("`").append(column2[i]).append("`='");
+                            char* tmp = (char*)malloc(32);
+                            sprintf(tmp, "%u", fields[33+i*2].GetUInt32());
+                            updatesql.append(tmp).append("',");
+                            first = false;
+                            free(tmp);
+                        }
                     }
                 }
             }

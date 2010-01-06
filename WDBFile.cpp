@@ -114,21 +114,25 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_string, "name2");
 		        def->addField(t_string, "name3");
 		        def->addField(t_string, "name4");
-		        def->addField(t_string, "subname");
+
+                def->addField(t_string, "subname");
 		        def->addField(t_string, "IconName");
 		        def->addField(t_uint16, "type_flags");
 		        def->addField(t_uint16, "unit_flags");
 		        def->addField(t_uint32, "type");
 		        def->addField(t_uint32, "family");
 		        def->addField(t_uint32, "rank");
-		        def->addField(t_undef,  "");// WEDER PETSPELLDATA NOCH KILLCREDIT! KA WO MANGOS 2x KILLCREDIT + PETSPELLDATA HERHOLT! :-(
-		        def->addField(t_undef,  "");// WEDER PETSPELLDATA NOCH KILLCREDIT! KA WO MANGOS 2x KILLCREDIT + PETSPELLDATA HERHOLT! :-(
-		        def->addField(t_uint32, "modelid1");
+
+                def->addField(t_uint32, "KillCredit1");
+		        def->addField(t_uint32, "KillCredit2");
+
+                def->addField(t_uint32, "modelid1");
 		        def->addField(t_uint32, "modelid2");
 		        def->addField(t_uint32, "modelid3");
 		        def->addField(t_uint32, "modelid4");
-		        def->addField(t_float,  "unk16");
-		        def->addField(t_float,  "unk17");
+
+                def->addField(t_float,  "Health_mod");
+		        def->addField(t_float,  "Mana_mod");
  		        def->addField(t_uint8,  "RacialLeader");
 
 		        def->addField(t_uint32, "questItem1"); 
