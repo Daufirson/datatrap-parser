@@ -134,12 +134,12 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
     insertsql.append(DATATRAP_FILE_HEADER).append("SET NAMES `utf8`;\nSET CHARACTER SET `utf8`;\n\n"
 
     "INSERT INTO `creature_template` "
-    "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`"
+    "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`,"
     "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
     "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`,`movementId`,"
     "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`) VALUES\n('");
 
-    query.append("SELECT `entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`"
+    query.append("SELECT `entry`,`name`,`subname`,`IconName`,`type_flags`,`unit_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`,"
         "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
         "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`,`movementId`"
         " FROM `").append(wdbdb).append("`.`creaturecache` WHERE `entry` NOT IN "
@@ -270,7 +270,7 @@ void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* world
         "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`" // NEU!!!
         ") VALUES\n('");
 
-    query.append("SELECT `entry`,`type`,`displayId`,`name`,`IconName`,`castBarCaption`,`unk1`,`data0`,`data1`,`data2`,`data3`,`data4`,"
+    query.append("SELECT `entry`,`type`,`displayId`,`Name1`,`IconName`,`castBarCaption`,`unk1`,`data0`,`data1`,`data2`,`data3`,`data4`,"
         "`data5`,`data6`,`data7`,`data8`,`data9`,`data10`,`data11`,`data12`,`data13`,`data14`,`data15`,`data16`,"
         "`data17`,`data18`,`data19`,`data20`,`data21`,`data22`,`data23`,`size`,"
         "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`" // NEU!!!
@@ -1281,7 +1281,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
         "SET CHARACTER SET `utf8`;\n\n"
         "UPDATE `gameobject_template` ");
 
-    query.append("SELECT WDB.entry, WDB.type, WORLD.type, WDB.displayId, WORLD.displayId, WDB.name, WORLD.name,"
+    query.append("SELECT WDB.entry, WDB.type, WORLD.type, WDB.displayId, WORLD.displayId, WDB.Name1, WORLD.name,"
         " WDB.IconName, WORLD.IconName, WDB.castBarCaption, WORLD.castBarCaption, WDB.unk1, WORLD.unk1,"
         " WDB.data0, WORLD.data0, WDB.data1, WORLD.data1, WDB.data2, WORLD.data2, WDB.data3, WORLD.data3,"
         " WDB.data4, WORLD.data4, WDB.data5, WORLD.data5, WDB.data6, WORLD.data6, WDB.data7, WORLD.data7,"
@@ -1298,7 +1298,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
     query.append(wdbdb).append("`.`gameobjectcache` AS WDB, `");
 
     query.append(worlddb).append("`.`gameobject_template` AS WORLD WHERE WDB.entry = WORLD.entry AND "
-        "(WDB.type != WORLD.type || WDB.displayId != WORLD.displayId || WDB.name != WORLD.name ||"
+        "(WDB.type != WORLD.type || WDB.displayId != WORLD.displayId || WDB.Name1 != WORLD.name ||"
         " WDB.IconName != WORLD.IconName || WDB.castBarCaption != WORLD.castBarCaption || WDB.unk1 != WORLD.unk1 ||"
         " WDB.data0 != WORLD.data0 ||"
         " WDB.data1 != WORLD.data1 || WDB.data2 != WORLD.data2 || WDB.data3 != WORLD.data3 ||"
@@ -3203,8 +3203,8 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                         int32 second = fields[90+i*2].GetInt32();
 
                         // GOs in KillCreature/ReqCreatureOrGOId für core umrechnen
-                        if ((89+i*2 == 85 && firsti < 0) || (89+i*2 == 95 && firsti < 0) ||
-                            (89+i*2 == 105 && firsti < 0) || (89+i*2 == 115 && firsti < 0))
+                        if ((89+i*2 == 89 && firsti < 0) || (89+i*2 == 99 && firsti < 0) ||
+                            (89+i*2 == 109 && firsti < 0) || (89+i*2 == 119 && firsti < 0))
                             firsti = (firsti + 2147483648)*-1;
 
                         if (firsti != second)
@@ -3219,21 +3219,23 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                         }
                     }
                 }
-                /* There are never data in the wdb if the quest was completed on the offi!
-                   Because of this we should never make updates to this columns!
                 // column5
-                for (uint8 i=0; i<4; i++)
+                for (uint8 i=0; i<4; ++i)
                 {
                     if ((docolumn && ColumnExists(columns, column5[i])) || !docolumn)
                     {
-                        if (strcmp(fields[129+i*2].GetCppString().c_str(), fields[130+i*2].GetCppString().c_str()) != 0)
+                        /*
+                        There are never data in the wdbs if the quest was completed on the offi!
+                        Because of this we should only make updates to this columns if data are present!
+                        */
+                        if (!fields[129+i*2].GetCppString().empty() && (strcmp(fields[129+i*2].GetCppString().c_str(), fields[130+i*2].GetCppString().c_str()) != 0))
                         {
                             if (first) updatesql.append("SET `").append(column5[i]).append("`='").append(io.Terminator(fields[129+i*2].GetCppString())).append("',");
                             else updatesql.append("`").append(column5[i]).append("`='").append(io.Terminator(fields[129+i*2].GetCppString())).append("',");
                             first = false;
                         }
                     }
-                }*/
+                }
             }
             if (!first)
             {
