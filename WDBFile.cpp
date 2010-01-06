@@ -211,17 +211,17 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_uint32, "Class");
 		        def->addField(t_uint32, "SubClass1");
                 def->addField(t_int32,  "unk0");
-    
+
 		        def->addField(t_string, "Name1");               // 5
 		        def->addField(t_string, "Name2");
 		        def->addField(t_string, "Name3");
 		        def->addField(t_string, "Name4");
 		        def->addField(t_uint32, "ItemDisplayID");
 		        def->addField(t_uint32, "Quality");             // 10
-		        def->addField(t_uint32, "Flags");
-		        def->addField(t_uint32, "");                    // added 3.2.0 (Flags2? / PvP bezogen / bisher 1 oder 2)
+		        def->addField(t_int32,  "Flags");
+		        def->addField(t_int32,  "Flags2");              // added 3.2.0 (Flags2? / PvP bezogen / bisher 1 oder 2)
 
-                def->addField(t_uint32, "BuyPrice");            
+                def->addField(t_int32,  "BuyPrice");            
 		        def->addField(t_uint32, "SellPrice");
 		        def->addField(t_uint32, "InventorySlot");       // 15
  		        def->addField(t_int32,  "AllowableClass");
@@ -236,10 +236,10 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_uint32, "RequiredReputationFaction");   // 25
 		        def->addField(t_uint32, "RequiredReputationRank");
 		        def->addField(t_int32,  "maxcount");
-		        def->addField(t_int32,  "StackAmount");
+		        def->addField(t_int32,  "stackable");
 		        def->addField(t_uint32, "ContainerSlots");
 
-                def->addField(t_uint32, "StatsCount");   // 30 Counter für Anzahl Stats ==> var "max" in WDBFile.h
+                def->addField(t_uint32, "StatsCount");              // 30 Counter für Anzahl Stats ==> var "max" in WDBFile.h
 
 		        def->addField(t_int32,  "Stat1");
 		        def->addField(t_int32,  "Stat1Val");
@@ -282,35 +282,35 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_uint32, "AmmoType");                // 65
 		        def->addField(t_float,  "RangedModRange");
 
-                def->addField(t_uint32, "Spell1ID");
-		        def->addField(t_uint32, "Spell1Trigger");
+                def->addField(t_int32,  "Spell1ID");
+		        def->addField(t_int32,  "Spell1Trigger");
 		        def->addField(t_int32,  "Spell1Charges");           
 		        def->addField(t_int32,  "Spell1Cooldown");          // 70
-		        def->addField(t_uint32, "Spell1Category");
+		        def->addField(t_int32,  "Spell1Category");
 		        def->addField(t_int32,  "Spell1CategoryCooldown");
-		        def->addField(t_uint32, "Spell2ID");
-		        def->addField(t_uint32, "Spell2Trigger");          
+		        def->addField(t_int32,  "Spell2ID");
+		        def->addField(t_int32,  "Spell2Trigger");          
 		        def->addField(t_int32,  "Spell2Charges");           // 75 
 		        def->addField(t_int32,  "Spell2Cooldown");
-		        def->addField(t_uint32, "Spell2Category");
+		        def->addField(t_int32,  "Spell2Category");
 		        def->addField(t_int32,  "Spell2CategoryCooldown");
-		        def->addField(t_uint32, "Spell3ID");                
-		        def->addField(t_uint32, "Spell3Trigger");           // 80
+		        def->addField(t_int32,  "Spell3ID");                
+		        def->addField(t_int32,  "Spell3Trigger");           // 80
 		        def->addField(t_int32,  "Spell3Charges");
 		        def->addField(t_int32,  "Spell3Cooldown");
-		        def->addField(t_uint32, "Spell3Category");
+		        def->addField(t_int32,  "Spell3Category");
 		        def->addField(t_int32,  "Spell3CategoryCooldown");  
-		        def->addField(t_uint32, "Spell4ID");                // 85
-		        def->addField(t_uint32, "Spell4Trigger");
+		        def->addField(t_int32,  "Spell4ID");                // 85
+		        def->addField(t_int32,  "Spell4Trigger");
 		        def->addField(t_int32,  "Spell4Charges");
 		        def->addField(t_int32,  "Spell4Cooldown");
-		        def->addField(t_uint32, "Spell4Category");          
+		        def->addField(t_int32,  "Spell4Category");          
 		        def->addField(t_int32,  "Spell4CategoryCooldown");  // 90
-		        def->addField(t_uint32, "Spell5ID");
-		        def->addField(t_uint32, "Spell5Trigger");
+		        def->addField(t_int32,  "Spell5ID");
+		        def->addField(t_int32,  "Spell5Trigger");
 		        def->addField(t_int32,  "Spell5Charges");
 		        def->addField(t_int32,  "Spell5Cooldown");          
-		        def->addField(t_uint32, "Spell5Category");          // 95
+		        def->addField(t_int32,  "Spell5Category");          // 95
 		        def->addField(t_int32,  "Spell5CategoryCooldown");
 
 		        def->addField(t_int32,  "Bonding");
@@ -323,7 +323,7 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 
 		        def->addField(t_int32,  "Material");                
 		        def->addField(t_int32,  "Sheath");                  // 115
-		        def->addField(t_uint32, "RandomProperty");
+		        def->addField(t_int32,  "RandomProperty");
 		        def->addField(t_uint32, "RandomSuffix");
 		        def->addField(t_uint32, "BlockValue");
 		        def->addField(t_uint32, "ItemSetID");               
