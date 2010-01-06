@@ -447,7 +447,7 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
 		        def->addField(t_int32,  "CoinReward");
 		        def->addField(t_uint32, "CoinRewardOn80");
 		        def->addField(t_uint32, "SpellReward");
-		        def->addField(t_uint32, "EffectOnPlayer");
+		        def->addField(t_int32,  "EffectOnPlayer"); // RewSpellCast
 		        def->addField(t_undef,  "");
 		        def->addField(t_uint32, "StartItemID");
 		        def->addField(t_uint32, "QuestFlags");

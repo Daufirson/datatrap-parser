@@ -974,13 +974,11 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
             fields = result->Fetch();
             if (fields)
             {
-                // "WDB.EffectOnPlayer,WORLD.RewSpellCast" must be int32 but core doesn't know(?)!
-                // Because of this there are 4294967295 values!
                 for (uint8 i=0; i<67; i++)
                 {
                     char* tmp = (char*)malloc(32);
 
-                    if (i == 2 || i == 3 || i == 9 || i == 43 || i == 44 || i == 45 || i == 46 || i == 47 ||
+                    if (i == 2 || i == 3 || i == 9 || i == 12 || i == 43 || i == 44 || i == 45 || i == 46 || i == 47 ||
                         i == 48 || i == 49 || i == 50 || i == 51 || i == 52 || i == 53 || i == 54 || i == 55 ||
                         i == 56 || i == 57 || i == 58 || i == 59 || i == 60 || i == 61 || i == 62)
                     {
@@ -1050,13 +1048,6 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
         char* tmp = (char*)malloc(32);
         sprintf(tmp, "%u", result->GetRowCount());
         sortsql.append(";\n\n# ").append(tmp).append(" new quests found.\n\n"
-            "# ATTENTION: We have to move the original data to the first field because of the core limitations.\n"
-            "#            If the client find a zero it stops showing the left rewards. Because of these\n"
-            "#            movements you'll always get updates for these values until the core fix this problem\n"
-            "#            at the creation time of the corresponding packet!\n"
-            "UPDATE `quest_template` SET RewItemId1=RewItemId2,RewItemId2=RewItemId3,RewItemId3=RewItemId4,RewItemId4=0,RewItemCount1=RewItemCount2,RewItemCount2=RewItemCount3,RewItemCount3=RewItemCount4,RewItemCount4=0 WHERE RewItemId1=0 AND RewItemId2!=0;\n"
-            "UPDATE `quest_template` SET RewChoiceItemId1=RewChoiceItemId2,RewChoiceItemId2=RewChoiceItemId3,RewChoiceItemId3=RewChoiceItemId4,RewChoiceItemId4=RewChoiceItemId5,RewChoiceItemId5=RewChoiceItemId6,RewChoiceItemId6=0,RewChoiceItemCount1=RewChoiceItemCount2,RewChoiceItemCount2=RewChoiceItemCount3,RewChoiceItemCount3=RewChoiceItemCount4,RewChoiceItemCount4=RewChoiceItemCount5,RewChoiceItemCount5=RewChoiceItemCount6,RewChoiceItemCount6=0 WHERE RewChoiceItemId1=0 AND RewChoiceItemId2!=0;\n\n"
-
             "ALTER TABLE `quest_template` ORDER BY `entry`;");
 
         printf("%s new quests found.\n", tmp);
@@ -3005,11 +2996,10 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
 
         // uint32
         const char* column1[5] = {"Type","SuggestedPlayers","RepObjectiveFaction","RepObjectiveValue","NextQuestInChain"};
-        const char* column2[26] = {"RewMoneyMaxLevel","RewSpell","RewSpellCast","SrcItemId","QuestFlags",
-            "RewItemId1","RewItemCount1","RewItemId2","RewItemCount2","RewItemId3","RewItemCount3","RewItemId4",
-            "RewItemCount4","RewChoiceItemId1","RewChoiceItemCount1","RewChoiceItemId2","RewChoiceItemCount2",
-            "RewChoiceItemId3","RewChoiceItemCount3","RewChoiceItemId4","RewChoiceItemCount4","RewChoiceItemId5",
-            "RewChoiceItemCount5","RewChoiceItemId6","RewChoiceItemCount6","PointMapId"};
+        const char* column2[23] = {"SrcItemId","QuestFlags","RewItemId1","RewItemCount1","RewItemId2","RewItemCount2",
+            "RewItemId3","RewItemCount3","RewItemId4","RewItemCount4","RewChoiceItemId1","RewChoiceItemCount1",
+            "RewChoiceItemId2","RewChoiceItemCount2","RewChoiceItemId3","RewChoiceItemCount3","RewChoiceItemId4",
+            "RewChoiceItemCount4","RewChoiceItemId5","RewChoiceItemCount5","RewChoiceItemId6","RewChoiceItemCount6","PointMapId"};
         // string
         const char* column3[4] = {"Title","Objectives","Details","EndText"};
         // int32
@@ -3106,22 +3096,59 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                         first = false;
                     }
                 }
+                if ((docolumn && ColumnExists(columns, "RewMoneyMaxLevel")) || !docolumn)
+                {
+                    // RewMoneyMaxLevel
+                    if (fields[19].GetUInt32() != fields[20].GetUInt32())
+                    {
+                        tmp = (char*)malloc(32);
+                        if (first) updatesql.append("SET `RewMoneyMaxLevel`='");
+                        else updatesql.append("`RewMoneyMaxLevel`='");
+                        sprintf(tmp, "%u", fields[19].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "RewSpell")) || !docolumn)
+                {
+                    // RewSpell
+                    if (fields[21].GetUInt32() != fields[22].GetUInt32())
+                    {
+                        tmp = (char*)malloc(32);
+                        if (first) updatesql.append("SET `RewSpell`='");
+                        else updatesql.append("`RewSpell`='");
+                        sprintf(tmp, "%u", fields[21].GetUInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
+                if ((docolumn && ColumnExists(columns, "RewSpellCast")) || !docolumn)
+                {
+                    // RewSpellCast
+                    if (fields[23].GetInt32() != fields[24].GetInt32())
+                    {
+                        tmp = (char*)malloc(32);
+                        if (first) updatesql.append("SET `RewSpellCast`='");
+                        else updatesql.append("`RewSpellCast`='");
+                        sprintf(tmp, "%i", fields[23].GetInt32());
+                        updatesql.append(tmp).append("',");
+                        free(tmp);
+                        first = false;
+                    }
+                }
                 // column2
-                for (uint8 i=0; i<26; i++)
+                for (uint8 i=0; i<23; i++)
                 {
                     if ((docolumn && ColumnExists(columns, column2[i])) || !docolumn)
                     {
-                        if (fields[19+i*2].GetUInt32() != fields[20+i*2].GetUInt32())
+                        if (fields[25+i*2].GetUInt32() != fields[26+i*2].GetUInt32())
                         {
-                            // Needed for "WDB.EffectOnPlayer,WORLD.RewSpellCast"
-                            // Because Core doesn'T know(?) that this must be an int32
-                            uint32 uitmp = fields[19+i*2].GetUInt32();
-                            if (uitmp == 4294967295) uitmp = 0;
-
                             tmp = (char*)malloc(32);
                             if (first) updatesql.append("SET `").append(column2[i]).append("`='");
                             else updatesql.append("`").append(column2[i]).append("`='");
-                            sprintf(tmp, "%u", uitmp);
+                            sprintf(tmp, "%u", fields[25+i*2].GetUInt32());
                             updatesql.append(tmp).append("',");
                             free(tmp);
                             first = false;
@@ -3244,15 +3271,7 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
             char* tmp = (char*)malloc(32);
             sprintf(tmp, "%u", count);
             updatesql.clear();
-            updatesql.append("\n# Differences in ").append(tmp).append(" entries found.\n\n"
-
-                "# ATTENTION: We have to move the original data to the first field because of the core limitations.\n"
-                "#            If the client find a zero it stops showing the left rewards. Because of these\n"
-                "#            movements you'll always get updates for these values until the core fix this problem\n"
-                "#            at the creation time of the corresponding packet!\n"
-                "UPDATE `quest_template` SET RewItemId1=RewItemId2,RewItemId2=RewItemId3,RewItemId3=RewItemId4,RewItemId4=0,RewItemCount1=RewItemCount2,RewItemCount2=RewItemCount3,RewItemCount3=RewItemCount4,RewItemCount4=0 WHERE RewItemId1=0 AND RewItemId2!=0;\n"
-                "UPDATE `quest_template` SET RewChoiceItemId1=RewChoiceItemId2,RewChoiceItemId2=RewChoiceItemId3,RewChoiceItemId3=RewChoiceItemId4,RewChoiceItemId4=RewChoiceItemId5,RewChoiceItemId5=RewChoiceItemId6,RewChoiceItemId6=0,RewChoiceItemCount1=RewChoiceItemCount2,RewChoiceItemCount2=RewChoiceItemCount3,RewChoiceItemCount3=RewChoiceItemCount4,RewChoiceItemCount4=RewChoiceItemCount5,RewChoiceItemCount5=RewChoiceItemCount6,RewChoiceItemCount6=0 WHERE RewChoiceItemId1=0 AND RewChoiceItemId2!=0;\n\n");
-
+            updatesql.append("\n# Differences in ").append(tmp).append(" entries found.\n");
             fputs(updatesql.c_str(), sqlfile);
             printf("%u different entries found.\n", count);
             free(tmp);
