@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------
- DataTrap v2.4.8.21 - http://www.uwom.de - datatrap@uwom.de - Freeware
- Created and Copyright ©2008-2009 by WarHead - United Worlds of MaNGOS
+ DataTrap v2.7.3.31 - http://www.uwom.de - datatrap@uwom.de - Freeware
+ Created and Copyright ©2008-2010 by WarHead - United Worlds of MaNGOS
 -----------------------------------------------------------------------
 
 With this programm everyone should understand the original data of
@@ -14,6 +14,8 @@ that was not necessary for a tool like this.
 E.g. you may be able to extract the DBCs (in a user-friendy way!)
 and import/export them to a MySQL database. At least this feature
 is not the only one, you may try it your way and find out.
+
+Requires Trinitycore Rev >= 6694.
 
 --------------------------------------------------------------------
 Function overview from DataTrap - Help:

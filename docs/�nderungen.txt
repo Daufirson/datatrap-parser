@@ -1,3 +1,22 @@
+v2.7.3.31
+---------
++ creature_template (creaturecache) support für Health_mod + Mana_mod + KillCredit1 + KillCredit2 hinzugefügt.
++ quest_template (questcache) support für RepObjectiveFaction2 + RepObjectiveValue2 hinzugefügt.
++ quest_template (questcache) support für ObjectiveText1 + ObjectiveText2 + ObjectiveText3 + ObjectiveText4 hinzugefügt.
++ sql fix (29_world_quest_template.sql) für die welt-datenbank hinzugeügt, weil trinity es vergessen hat.
+  dies update muss eingespielt sein, um diese version von datatrap ohne sql-fehler nutzen zu können!
+~ gameobject_template (gameobjectcache) datafeld workarounds entfernt (weil trinity es nun für data1 und data6 unterstützt),
+  und alle felder in int32 geändert.
+~ item_template (itemcache) workarounds für Flags + maxcount + stackable + BuyPrice + spellid_1 + spellid_2 + spellid_3 +
+  spellid_4 + spellid_5 + RandomProperty entfernt (weil trinity es nun unterstützt).
+~ alle spell datenfelder in int32 geändert im itemcache.
+~ quest_template (questcache) workaround für RewSpellCast entfernt, und in int32 geändert (weil trinity es nun unterstützt).
+~ viele andere kleine änderungen / fixes / säuberungen
+- alte sql updates entfernt, weil user ihre wdb-datenbank neu erstellen müssen durch dieses release.
+  dies ist leider notwendig, weil es zu viele struktur-änderungen in der wdb-datenbank gab, und wegen zu vielen
+  erweiterungen in dem source von datatrap.
+- unit_flags aus der creaturecache tabelle entfernt (falsch zugewiesenes wdb-feld).
+
 v2.4.8.21
 ---------
 ~ AllowableClass + AllowableRace Workarounds entfernt, weil TDB es gefixt hat
