@@ -1,7 +1,7 @@
------------------------------------------------------------------------
- DataTrap v2.7.3.31 - http://www.uwom.de - datatrap@uwom.de - Freeware
- Created and Copyright ©2008-2010 by WarHead - United Worlds of MaNGOS
------------------------------------------------------------------------
+-------------------------------------------------------------------------
+ DataTrap v2.7.3.31 - http://www.uwom.de - datatrap@uwom.de - Open Source
+  Created and Copyright ©2008-2010 by WarHead - United Worlds of MaNGOS
+-------------------------------------------------------------------------
 
 Mit diesem Programm können endlich alle mitreden, wenn es um die
 originalen Daten vom World of Warcraft®™ v3.2.2.10505 Clienten geht.
@@ -18,9 +18,9 @@ längst nicht alles, probieren sie es halt einfach mal aus.
 
 Benötigt Trinitycore Rev >= 6694.
 
---------------------------------------------------------------------
+-------------------------------------------------------------------------
 Zur Übersicht der Funktionen hier die Hilfe-Seite von DataTrap:
---------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 Nutzung: DataTrap -Schalter Wert (mehr als ein Paar möglich)
 
@@ -77,7 +77,7 @@ HINWEIS1: Sie können -insert/-update kombinieren, aber keine anderen
 HINWEIS2: Sie müssen Pfade, die Leerzeichen enthalten, wie folgt
           angeben: 'c:\mein pfad mit leerzeichen'
 
---------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 Um etwas in eine MySQL Datenbank zu importieren muß wenigstens der
 Username und das Passwort angegeben werden. Wenn die 'mysqldump.exe'
@@ -117,6 +117,6 @@ erstellten Batch-Datei (executesql.cmd) importieren.
 Das für alle Funktionen die etwas in eine Datenbank schreiben MySQL
 installiert sein muss, versteht sich wohl von selbst. ;)
 
---------------------------------------------------------------------
+-------------------------------------------------------------------------
 Nun wünschen wir ihnen viel Spass beim schauen hinter die Kulissen!
---------------------------------------------------------------------
+-------------------------------------------------------------------------

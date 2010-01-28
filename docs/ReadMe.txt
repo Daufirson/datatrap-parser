@@ -1,12 +1,12 @@
------------------------------------------------------------------------
- DataTrap v2.7.3.31 - http://www.uwom.de - datatrap@uwom.de - Freeware
- Created and Copyright ©2008-2010 by WarHead - United Worlds of MaNGOS
------------------------------------------------------------------------
+-------------------------------------------------------------------------
+ DataTrap v2.7.3.31 - http://www.uwom.de - datatrap@uwom.de - Open Source
+  Created and Copyright ©2008-2010 by WarHead - United Worlds of MaNGOS
+-------------------------------------------------------------------------
 
-With this programm everyone should understand the original data of
+With this program everyone should understand the original data of
 the World of Warcraft®™ v3.2.2.10505 client.
 
-This programm is Win32 console based. If you have no idea what this 
+This program is Win32 console based. If you have no idea what this 
 means you should better delete this tool from your HardDisk. It
 doesn't have a nice colored GUI with funny sounds. In our meaning
 that was not necessary for a tool like this.
@@ -17,9 +17,9 @@ is not the only one, you may try it your way and find out.
 
 Requires Trinitycore Rev >= 6694.
 
---------------------------------------------------------------------
+-------------------------------------------------------------------------
 Function overview from DataTrap - Help:
---------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 Usage: DataTrap -switch value (more as one pair is possible)
 
@@ -76,7 +76,7 @@ NOTE1: You can use -insert/-update combined but without other
        switches!
 NOTE2: You have to write pathnames with spaces
        like this: 'c:\my space path\'!
---------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 To import something in a MySQL database you must at least indicate 
 your username and password. You don't need to define where to find
@@ -114,6 +114,6 @@ DataTrap.
 Of course MySQL has to be installed in order to use all functions
 of Datatrap dealing with databases.
 
---------------------------------------------------------------------
+-------------------------------------------------------------------------
 And now have fun while watching behind the scenes!
---------------------------------------------------------------------
+-------------------------------------------------------------------------
