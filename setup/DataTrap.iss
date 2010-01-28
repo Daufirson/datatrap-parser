@@ -42,7 +42,7 @@ Source: "..\docs\License.rtf"; DestDir: "{app}\docs"; Flags: ignoreversion; Lang
 Source: "..\docs\LiesMich.txt"; DestDir: "{app}\docs"; Flags: ignoreversion isreadme; Languages: german
 Source: "..\docs\ReadMe.txt"; DestDir: "{app}\docs"; Flags: ignoreversion isreadme; Languages: english
 Source: "..\docs\Changes.txt"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: english
-Source: "..\docs\Änderungen.txt"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: german
+Source: "..\docs\Aenderungen.txt"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: german
 
 ;Source: "..\sql_updates\29_world_quest_template.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
 
