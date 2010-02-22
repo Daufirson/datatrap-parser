@@ -62,6 +62,10 @@ static DBCFLS DBCFileList[] =
     {"DeclinedWord.dbc", "is"},
     {"DeclinedWordCases.dbc", "iiis"},
     {"DestructibleModelData.dbc", "iiiiiiiiiiiiiiiiiii"},
+
+    // NEW IN 3.3.x
+    {"DungeonEncounter.dbc", "iiiiissssssssssssssssii"},
+
     {"DungeonMap.dbc", "iiiffffi"},
     {"DungeonMapChunk.dbc", "iiiif"},
     {"DurabilityCosts.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
@@ -127,6 +131,11 @@ static DBCFLS DBCFileList[] =
     {"ItemVisuals.dbc", "iiiiii"},
     {"Languages.dbc", "issssssssssssssssi"},
     {"LanguageWords.dbc", "iis"},
+
+    // NEW IN 3.3.x
+    {"LFGDungeonExpansion.dbc", "iiiiiiii"},
+    {"LFGDungeonGroup.dbc", "issssssssssssssssiiii"},
+
     {"LFGDungeons.dbc", "issssssssssssssssiiiiiiiiiiiiiii"},
     {"Light.dbc", "iifffffiiiiiiii"},
     {"LightFloatBand.dbc", "iiiiffffffffffffffffffffffffffffff"},
@@ -163,8 +172,17 @@ static DBCFLS DBCFileList[] =
     {"PetitionType.dbc", "isi"},
     {"PetPersonality.dbc", "issssssssssssssssiiiffff"},
     {"PowerDisplay.dbc", "iiiiii"},
+
+    // NEW IN 3.3.x
+    {"PvpDifficulty.dbc", "iiiiii"},
+    {"QuestFactionReward.dbc", "iiiiiiiiiii"},
+
     {"QuestInfo.dbc", "issssssssssssssssi"},
     {"QuestSort.dbc", "issssssssssssssssi"},
+
+    // NEW IN 3.3.x
+    {"QuestXP.dbc", "iiiiiiiiiii"},
+
     {"RandPropPoints.dbc", "iiiiiiiiiiiiiiii"},
     {"Resistances.dbc", "iiissssssssssssssssi"},
     {"ScalingStatDistribution.dbc", "iiiiiiiiiiiiiiiiiiiiii"},
@@ -193,6 +211,10 @@ static DBCFLS DBCFileList[] =
     {"SpellCategory.dbc", "ii"},
     {"SpellChainEffects.dbc", "iiiiiiisiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
     {"SpellDescriptionVariables.dbc", "is"},
+
+    // NEW IN 3.3.x
+    {"SpellDifficulty.dbc", "iiiii"},
+
     {"SpellDispelType.dbc", "issssssssssssssssiiis"},
     {"SpellDuration.dbc", "iiii"},
     {"SpellEffectCameraShakes.dbc", "iiii"},
@@ -223,6 +245,10 @@ static DBCFLS DBCFileList[] =
     {"TaxiNodes.dbc", "iifffssssssssssssssssiii"},
     {"TaxiPath.dbc", "iiii"},
     {"TaxiPathNode.dbc", "iiiifffiiii"},
+
+    // NEW IN 3.3.x
+    {"TeamContributionPoints.dbc", "if"},
+
     {"TerrainType.dbc", "isiiii"},
     {"TerrainTypeSounds.dbc", "i"},
     {"TotemCategory.dbc", "issssssssssssssssiii"},
@@ -234,6 +260,11 @@ static DBCFLS DBCFileList[] =
     {"UnitBloodLevels.dbc", "iiii"},
     {"Vehicle.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
     {"VehicleSeat.dbc", "iiiffffffffffiiiiiiiffffffiiifffiiiiiiiffiiiiiiiiiiiiiiiii"},
+
+    // NEW IN 3.3.x
+    {"VehicleUIIndicator.dbc", "ii"},
+    {"VehicleUIIndSeat.dbc", "iiiff"},
+
     {"VideoHardware.dbc", "iiiiiiiiiiiiiiiiiissiii"},
     {"VocalUISounds.dbc", "iiiiiii"},
     {"WeaponImpactSounds.dbc", "iiiiiiiiiiiiiiiiiiiiiii"},

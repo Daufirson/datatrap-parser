@@ -367,468 +367,531 @@
     DBCFileList[45].col_name[0] = "id";             DBCFileList[45].col_desc[0] = "Entry";
     // DestructibleModelData.dbc
     DBCFileList[46].col_name[0] = "id";             DBCFileList[46].col_desc[0] = "Entry";
-    // DungeonMap.dbc
+
+    // NEW IN 3.3.x
+    // DungeonEncounter.dbc
     DBCFileList[47].col_name[0] = "id";             DBCFileList[47].col_desc[0] = "Entry";
-    // DungeonMapChunk.dbc
+    DBCFileList[47].col_name[1] = "map";            DBCFileList[47].col_desc[1] = "Map of the Encounter";
+    DBCFileList[47].col_name[2] = "difficulty";     DBCFileList[47].col_desc[2] = "Difficulty - 0 = normal/10 man raid - 1 = hero / 25 man raid and so on...";
+    DBCFileList[47].col_name[3] = "";               DBCFileList[47].col_desc[3] = "";
+    DBCFileList[47].col_name[4] = "enc_num";        DBCFileList[47].col_desc[4] = "Number of the Encounter within the Dungeon";
+    DBCFileList[47].col_name[5] = "name01";         DBCFileList[47].col_desc[5] = "Name of the Encounter - each for one locale";
+    DBCFileList[47].col_name[6] = "name02";         DBCFileList[47].col_desc[6] = "";
+    DBCFileList[47].col_name[7] = "name03";         DBCFileList[47].col_desc[7] = "";
+    DBCFileList[47].col_name[8] = "name04";         DBCFileList[47].col_desc[8] = "";
+    DBCFileList[47].col_name[9] = "name05";         DBCFileList[47].col_desc[9] = "";
+    DBCFileList[47].col_name[10] = "name06";        DBCFileList[47].col_desc[10] = "";
+    DBCFileList[47].col_name[11] = "name07";        DBCFileList[47].col_desc[11] = "";
+    DBCFileList[47].col_name[12] = "name08";        DBCFileList[47].col_desc[12] = "";
+    DBCFileList[47].col_name[13] = "name09";        DBCFileList[47].col_desc[13] = "";
+    DBCFileList[47].col_name[14] = "name10";        DBCFileList[47].col_desc[14] = "";
+    DBCFileList[47].col_name[15] = "name11";        DBCFileList[47].col_desc[15] = "";
+    DBCFileList[47].col_name[16] = "name12";        DBCFileList[47].col_desc[16] = "";
+    DBCFileList[47].col_name[17] = "name13";        DBCFileList[47].col_desc[17] = "";
+    DBCFileList[47].col_name[18] = "name14";        DBCFileList[47].col_desc[18] = "";
+    DBCFileList[47].col_name[19] = "name15";        DBCFileList[47].col_desc[19] = "";
+    DBCFileList[47].col_name[20] = "name16";        DBCFileList[47].col_desc[20] = "";
+    DBCFileList[47].col_name[21] = "";              DBCFileList[47].col_desc[21] = "";
+    DBCFileList[47].col_name[22] = "";              DBCFileList[47].col_desc[22] = "";
+
+    // DungeonMap.dbc
     DBCFileList[48].col_name[0] = "id";             DBCFileList[48].col_desc[0] = "Entry";
-    // DurabilityCosts.dbc
+    // DungeonMapChunk.dbc
     DBCFileList[49].col_name[0] = "id";             DBCFileList[49].col_desc[0] = "Entry";
-    // DurabilityQuality.dbc
+    // DurabilityCosts.dbc
     DBCFileList[50].col_name[0] = "id";             DBCFileList[50].col_desc[0] = "Entry";
-    // Emotes.dbc
+    // DurabilityQuality.dbc
     DBCFileList[51].col_name[0] = "id";             DBCFileList[51].col_desc[0] = "Entry";
-    // EmotesText.dbc
+    // Emotes.dbc
     DBCFileList[52].col_name[0] = "id";             DBCFileList[52].col_desc[0] = "Entry";
-    // EmotesTextData.dbc
+    // EmotesText.dbc
     DBCFileList[53].col_name[0] = "id";             DBCFileList[53].col_desc[0] = "Entry";
-    // EmotesTextSound.dbc
+    // EmotesTextData.dbc
     DBCFileList[54].col_name[0] = "id";             DBCFileList[54].col_desc[0] = "Entry";
-    // EnvironmentalDamage.dbc
+    // EmotesTextSound.dbc
     DBCFileList[55].col_name[0] = "id";             DBCFileList[55].col_desc[0] = "Entry";
-    // Exhaustion.dbc
+    // EnvironmentalDamage.dbc
     DBCFileList[56].col_name[0] = "id";             DBCFileList[56].col_desc[0] = "Entry";
-    // Faction.dbc
+    // Exhaustion.dbc
     DBCFileList[57].col_name[0] = "id";             DBCFileList[57].col_desc[0] = "Entry";
-    // FactionGroup.dbc
+    // Faction.dbc
     DBCFileList[58].col_name[0] = "id";             DBCFileList[58].col_desc[0] = "Entry";
-    // FactionTemplate.dbc
+    // FactionGroup.dbc
     DBCFileList[59].col_name[0] = "id";             DBCFileList[59].col_desc[0] = "Entry";
-    // FileData.dbc
+    // FactionTemplate.dbc
     DBCFileList[60].col_name[0] = "id";             DBCFileList[60].col_desc[0] = "Entry";
-    // FootprintTextures.dbc
+    // FileData.dbc
     DBCFileList[61].col_name[0] = "id";             DBCFileList[61].col_desc[0] = "Entry";
-    // FootstepTerrainLookup.dbc
+    // FootprintTextures.dbc
     DBCFileList[62].col_name[0] = "id";             DBCFileList[62].col_desc[0] = "Entry";
-    // GameObjectArtKit.dbc
+    // FootstepTerrainLookup.dbc
     DBCFileList[63].col_name[0] = "id";             DBCFileList[63].col_desc[0] = "Entry";
-    // GameObjectDisplayInfo.dbc
+    // GameObjectArtKit.dbc
     DBCFileList[64].col_name[0] = "id";             DBCFileList[64].col_desc[0] = "Entry";
+    // GameObjectDisplayInfo.dbc
+    DBCFileList[65].col_name[0] = "id";             DBCFileList[65].col_desc[0] = "Entry";
     // GameTables.dbc
-    DBCFileList[65].col_name[0] = "";               DBCFileList[65].col_desc[0] = "";
+    DBCFileList[66].col_name[0] = "";               DBCFileList[66].col_desc[0] = "";
     // GameTips.dbc
-    DBCFileList[66].col_name[0] = "id";             DBCFileList[66].col_desc[0] = "Entry";
-    // GemProperties.dbc
     DBCFileList[67].col_name[0] = "id";             DBCFileList[67].col_desc[0] = "Entry";
-    // GlyphProperties.dbc
+    // GemProperties.dbc
     DBCFileList[68].col_name[0] = "id";             DBCFileList[68].col_desc[0] = "Entry";
-    // GlyphSlot.dbc
+    // GlyphProperties.dbc
     DBCFileList[69].col_name[0] = "id";             DBCFileList[69].col_desc[0] = "Entry";
-    // GMSurveyAnswers.dbc
+    // GlyphSlot.dbc
     DBCFileList[70].col_name[0] = "id";             DBCFileList[70].col_desc[0] = "Entry";
-    // GMSurveyCurrentSurvey.dbc
+    // GMSurveyAnswers.dbc
     DBCFileList[71].col_name[0] = "id";             DBCFileList[71].col_desc[0] = "Entry";
-    // GMSurveyQuestions.dbc
+    // GMSurveyCurrentSurvey.dbc
     DBCFileList[72].col_name[0] = "id";             DBCFileList[72].col_desc[0] = "Entry";
-    // GMSurveySurveys.dbc
+    // GMSurveyQuestions.dbc
     DBCFileList[73].col_name[0] = "id";             DBCFileList[73].col_desc[0] = "Entry";
-    // GMTicketCategory.dbc
+    // GMSurveySurveys.dbc
     DBCFileList[74].col_name[0] = "id";             DBCFileList[74].col_desc[0] = "Entry";
-    // GroundEffectDoodad.dbc
+    // GMTicketCategory.dbc
     DBCFileList[75].col_name[0] = "id";             DBCFileList[75].col_desc[0] = "Entry";
-    // GroungEffectTexture.dbc
+    // GroundEffectDoodad.dbc
     DBCFileList[76].col_name[0] = "id";             DBCFileList[76].col_desc[0] = "Entry";
+    // GroungEffectTexture.dbc
+    DBCFileList[77].col_name[0] = "id";             DBCFileList[77].col_desc[0] = "Entry";
     // gtBarberShopCostBase.dbc
-    DBCFileList[77].col_name[0] = "";               DBCFileList[77].col_desc[0] = "";
-    // gtChanceToMeleeCrit.dbc
     DBCFileList[78].col_name[0] = "";               DBCFileList[78].col_desc[0] = "";
-    // gtChanceToMeleeCritBase.dbc
+    // gtChanceToMeleeCrit.dbc
     DBCFileList[79].col_name[0] = "";               DBCFileList[79].col_desc[0] = "";
-    // gtChanceToSpellCrit.dbc
+    // gtChanceToMeleeCritBase.dbc
     DBCFileList[80].col_name[0] = "";               DBCFileList[80].col_desc[0] = "";
-    // gtChanceToSpellCritBase.dbc
+    // gtChanceToSpellCrit.dbc
     DBCFileList[81].col_name[0] = "";               DBCFileList[81].col_desc[0] = "";
-    // gtCombatRatings.dbc
+    // gtChanceToSpellCritBase.dbc
     DBCFileList[82].col_name[0] = "";               DBCFileList[82].col_desc[0] = "";
-    // gtNPCManaCostScaler.dbc
+    // gtCombatRatings.dbc
     DBCFileList[83].col_name[0] = "";               DBCFileList[83].col_desc[0] = "";
+    // gtNPCManaCostScaler.dbc
+    DBCFileList[84].col_name[0] = "";               DBCFileList[84].col_desc[0] = "";
     // gtOCTClassCombatRatingScalar.dbc
-    DBCFileList[84].col_name[0] = "id";             DBCFileList[84].col_desc[0] = "Entry";
+    DBCFileList[85].col_name[0] = "id";             DBCFileList[85].col_desc[0] = "Entry";
     // gtOCTRegenHP.dbc
-    DBCFileList[85].col_name[0] = "";               DBCFileList[85].col_desc[0] = "";
-    // gtOCTRegenMP.dbc
     DBCFileList[86].col_name[0] = "";               DBCFileList[86].col_desc[0] = "";
-    // gtRegenHPPerSpt.dbc
+    // gtOCTRegenMP.dbc
     DBCFileList[87].col_name[0] = "";               DBCFileList[87].col_desc[0] = "";
-    // gtRegenMPPerSpt.dbc
+    // gtRegenHPPerSpt.dbc
     DBCFileList[88].col_name[0] = "";               DBCFileList[88].col_desc[0] = "";
+    // gtRegenMPPerSpt.dbc
+    DBCFileList[89].col_name[0] = "";               DBCFileList[89].col_desc[0] = "";
     // HelmetGeosetVisData.dbc
-    DBCFileList[89].col_name[0] = "id";             DBCFileList[89].col_desc[0] = "Entry";
-    // HolidayDescriptions.dbc
     DBCFileList[90].col_name[0] = "id";             DBCFileList[90].col_desc[0] = "Entry";
-    // HolidayNames.dbc
+    // HolidayDescriptions.dbc
     DBCFileList[91].col_name[0] = "id";             DBCFileList[91].col_desc[0] = "Entry";
-    // Holidays.dbc
+    // HolidayNames.dbc
     DBCFileList[92].col_name[0] = "id";             DBCFileList[92].col_desc[0] = "Entry";
-    // Item.dbc
+    // Holidays.dbc
     DBCFileList[93].col_name[0] = "id";             DBCFileList[93].col_desc[0] = "Entry";
-    // ItemBagFamily.dbc
+    // Item.dbc
     DBCFileList[94].col_name[0] = "id";             DBCFileList[94].col_desc[0] = "Entry";
-    // ItemClass.dbc
+    // ItemBagFamily.dbc
     DBCFileList[95].col_name[0] = "id";             DBCFileList[95].col_desc[0] = "Entry";
-    // ItemCondExtCosts.dbc
+    // ItemClass.dbc
     DBCFileList[96].col_name[0] = "id";             DBCFileList[96].col_desc[0] = "Entry";
-    // ItemDisplayInfo.dbc
+    // ItemCondExtCosts.dbc
     DBCFileList[97].col_name[0] = "id";             DBCFileList[97].col_desc[0] = "Entry";
-    // ItemExtendedCost.dbc
+    // ItemDisplayInfo.dbc
     DBCFileList[98].col_name[0] = "id";             DBCFileList[98].col_desc[0] = "Entry";
-    // ItemGroupSounds.dbc
+    // ItemExtendedCost.dbc
     DBCFileList[99].col_name[0] = "id";             DBCFileList[99].col_desc[0] = "Entry";
-    // ItemLimitCategory.dbc
+    // ItemGroupSounds.dbc
     DBCFileList[100].col_name[0] = "id";            DBCFileList[100].col_desc[0] = "Entry";
-    // ItemPetFood.dbc
+    // ItemLimitCategory.dbc
     DBCFileList[101].col_name[0] = "id";            DBCFileList[101].col_desc[0] = "Entry";
-    // ItemPurchaseGroup.dbc
+    // ItemPetFood.dbc
     DBCFileList[102].col_name[0] = "id";            DBCFileList[102].col_desc[0] = "Entry";
-    // ItemRandomProperties.dbc
+    // ItemPurchaseGroup.dbc
     DBCFileList[103].col_name[0] = "id";            DBCFileList[103].col_desc[0] = "Entry";
-    // ItemRandomSuffix.dbc
+    // ItemRandomProperties.dbc
     DBCFileList[104].col_name[0] = "id";            DBCFileList[104].col_desc[0] = "Entry";
-    // ItemSet.dbc
+    // ItemRandomSuffix.dbc
     DBCFileList[105].col_name[0] = "id";            DBCFileList[105].col_desc[0] = "Entry";
+    // ItemSet.dbc
+    DBCFileList[106].col_name[0] = "id";            DBCFileList[106].col_desc[0] = "Entry";
     // ItemSubClass.dbc
-    DBCFileList[106].col_name[0] = "";              DBCFileList[106].col_desc[0] = "";
-    // ItemSubClassMask.dbc
     DBCFileList[107].col_name[0] = "";              DBCFileList[107].col_desc[0] = "";
+    // ItemSubClassMask.dbc
+    DBCFileList[108].col_name[0] = "";              DBCFileList[108].col_desc[0] = "";
     // ItemVisualEffects.dbc
-    DBCFileList[108].col_name[0] = "id";            DBCFileList[108].col_desc[0] = "Entry";
-    // ItemVisuals.dbc
     DBCFileList[109].col_name[0] = "id";            DBCFileList[109].col_desc[0] = "Entry";
-    // Languages.dbc
+    // ItemVisuals.dbc
     DBCFileList[110].col_name[0] = "id";            DBCFileList[110].col_desc[0] = "Entry";
-    // LanguageWords.dbc
+    // Languages.dbc
     DBCFileList[111].col_name[0] = "id";            DBCFileList[111].col_desc[0] = "Entry";
-    // LFGDungeons.dbc
+    // LanguageWords.dbc
     DBCFileList[112].col_name[0] = "id";            DBCFileList[112].col_desc[0] = "Entry";
-    // Light.dbc
+
+    // NEW IN 3.3.x
+    // LFGDungeonExpansion.dbc
     DBCFileList[113].col_name[0] = "id";            DBCFileList[113].col_desc[0] = "Entry";
-    // LightFloatBand.dbc
+    // LFGDungeonGroup.dbc
     DBCFileList[114].col_name[0] = "id";            DBCFileList[114].col_desc[0] = "Entry";
-    // LightIntBand.dbc
+
+    // LFGDungeons.dbc
     DBCFileList[115].col_name[0] = "id";            DBCFileList[115].col_desc[0] = "Entry";
-    // LightParams.dbc
+    // Light.dbc
     DBCFileList[116].col_name[0] = "id";            DBCFileList[116].col_desc[0] = "Entry";
-    // LightSkybox.dbc
+    // LightFloatBand.dbc
     DBCFileList[117].col_name[0] = "id";            DBCFileList[117].col_desc[0] = "Entry";
-    // LiquidMaterial.dbc
+    // LightIntBand.dbc
     DBCFileList[118].col_name[0] = "id";            DBCFileList[118].col_desc[0] = "Entry";
-    // LiquidType.dbc
+    // LightParams.dbc
     DBCFileList[119].col_name[0] = "id";            DBCFileList[119].col_desc[0] = "Entry";
-    // LoadingScreens.dbc
+    // LightSkybox.dbc
     DBCFileList[120].col_name[0] = "id";            DBCFileList[120].col_desc[0] = "Entry";
-    // LoadingScreenTaxiSplines.dbc
+    // LiquidMaterial.dbc
     DBCFileList[121].col_name[0] = "id";            DBCFileList[121].col_desc[0] = "Entry";
-    // Lock.dbc
+    // LiquidType.dbc
     DBCFileList[122].col_name[0] = "id";            DBCFileList[122].col_desc[0] = "Entry";
-    // LockType.dbc
+    // LoadingScreens.dbc
     DBCFileList[123].col_name[0] = "id";            DBCFileList[123].col_desc[0] = "Entry";
-    // MailTemplate.dbc
+    // LoadingScreenTaxiSplines.dbc
     DBCFileList[124].col_name[0] = "id";            DBCFileList[124].col_desc[0] = "Entry";
-    // Map.dbc
+    // Lock.dbc
     DBCFileList[125].col_name[0] = "id";            DBCFileList[125].col_desc[0] = "Entry";
-    DBCFileList[125].col_name[1] = "filename";      DBCFileList[125].col_desc[1] = "Internal filename";
-    DBCFileList[125].col_name[2] = "type";          DBCFileList[125].col_desc[2] = "Type of the map: 0=norm, 1=dungeon, 2=raid, 3=pvp_zone, 4=arena";
-    DBCFileList[125].col_name[3] = "bg";            DBCFileList[125].col_desc[3] = "Is battleground (bool)";
-    DBCFileList[125].col_name[4] = "";              DBCFileList[125].col_desc[4] = "";
-    DBCFileList[125].col_name[5] = "name01";        DBCFileList[125].col_desc[5] = "Map name - each for one locale";
-    DBCFileList[125].col_name[6] = "name02";        DBCFileList[125].col_desc[6] = "";
-    DBCFileList[125].col_name[7] = "name03";        DBCFileList[125].col_desc[7] = "";
-    DBCFileList[125].col_name[8] = "name04";        DBCFileList[125].col_desc[8] = "";
-    DBCFileList[125].col_name[9] = "name05";        DBCFileList[125].col_desc[9] = "";
-    DBCFileList[125].col_name[10] = "name06";       DBCFileList[125].col_desc[10] = "";
-    DBCFileList[125].col_name[11] = "name07";       DBCFileList[125].col_desc[11] = "";
-    DBCFileList[125].col_name[12] = "name08";       DBCFileList[125].col_desc[12] = "";
-    DBCFileList[125].col_name[13] = "name09";       DBCFileList[125].col_desc[13] = "";
-    DBCFileList[125].col_name[14] = "name10";       DBCFileList[125].col_desc[14] = "";
-    DBCFileList[125].col_name[15] = "name11";       DBCFileList[125].col_desc[15] = "";
-    DBCFileList[125].col_name[16] = "name12";       DBCFileList[125].col_desc[16] = "";
-    DBCFileList[125].col_name[17] = "name13";       DBCFileList[125].col_desc[17] = "";
-    DBCFileList[125].col_name[18] = "name14";       DBCFileList[125].col_desc[18] = "";
-    DBCFileList[125].col_name[19] = "name15";       DBCFileList[125].col_desc[19] = "";
-    DBCFileList[125].col_name[20] = "name16";       DBCFileList[125].col_desc[20] = "";
-    DBCFileList[125].col_name[21] = "";             DBCFileList[125].col_desc[21] = "";
-    DBCFileList[125].col_name[22] = "area_id";      DBCFileList[125].col_desc[22] = "Area table id";
-    DBCFileList[125].col_name[23] = "desc_h01";     DBCFileList[125].col_desc[23] = "Description for horde (ingame) - each for one locale";
-    DBCFileList[125].col_name[24] = "desc_h02";     DBCFileList[125].col_desc[24] = "";
-    DBCFileList[125].col_name[25] = "desc_h03";     DBCFileList[125].col_desc[25] = "";
-    DBCFileList[125].col_name[26] = "desc_h04";     DBCFileList[125].col_desc[26] = "";
-    DBCFileList[125].col_name[27] = "desc_h05";     DBCFileList[125].col_desc[27] = "";
-    DBCFileList[125].col_name[28] = "desc_h06";     DBCFileList[125].col_desc[28] = "";
-    DBCFileList[125].col_name[29] = "desc_h07";     DBCFileList[125].col_desc[29] = "";
-    DBCFileList[125].col_name[30] = "desc_h08";     DBCFileList[125].col_desc[30] = "";
-    DBCFileList[125].col_name[31] = "desc_h09";     DBCFileList[125].col_desc[31] = "";
-    DBCFileList[125].col_name[32] = "desc_h10";     DBCFileList[125].col_desc[32] = "";
-    DBCFileList[125].col_name[33] = "desc_h11";     DBCFileList[125].col_desc[33] = "";
-    DBCFileList[125].col_name[34] = "desc_h12";     DBCFileList[125].col_desc[34] = "";
-    DBCFileList[125].col_name[35] = "desc_h13";     DBCFileList[125].col_desc[35] = "";
-    DBCFileList[125].col_name[36] = "desc_h14";     DBCFileList[125].col_desc[36] = "";
-    DBCFileList[125].col_name[37] = "desc_h15";     DBCFileList[125].col_desc[37] = "";
-    DBCFileList[125].col_name[38] = "desc_h16";     DBCFileList[125].col_desc[38] = "";
-    DBCFileList[125].col_name[39] = "";             DBCFileList[125].col_desc[39] = "";
-    DBCFileList[125].col_name[40] = "desc_a01";     DBCFileList[125].col_desc[40] = "Description for alliance - each for one locale";
-    DBCFileList[125].col_name[41] = "desc_a02";     DBCFileList[125].col_desc[41] = "";
-    DBCFileList[125].col_name[42] = "desc_a03";     DBCFileList[125].col_desc[42] = "";
-    DBCFileList[125].col_name[43] = "desc_a04";     DBCFileList[125].col_desc[43] = "";
-    DBCFileList[125].col_name[44] = "desc_a05";     DBCFileList[125].col_desc[44] = "";
-    DBCFileList[125].col_name[45] = "desc_a06";     DBCFileList[125].col_desc[45] = "";
-    DBCFileList[125].col_name[46] = "desc_a07";     DBCFileList[125].col_desc[46] = "";
-    DBCFileList[125].col_name[47] = "desc_a08";     DBCFileList[125].col_desc[47] = "";
-    DBCFileList[125].col_name[48] = "desc_a09";     DBCFileList[125].col_desc[48] = "";
-    DBCFileList[125].col_name[49] = "desc_a10";     DBCFileList[125].col_desc[49] = "";
-    DBCFileList[125].col_name[50] = "desc_a11";     DBCFileList[125].col_desc[50] = "";
-    DBCFileList[125].col_name[51] = "desc_a12";     DBCFileList[125].col_desc[51] = "";
-    DBCFileList[125].col_name[52] = "desc_a13";     DBCFileList[125].col_desc[52] = "";
-    DBCFileList[125].col_name[53] = "desc_a14";     DBCFileList[125].col_desc[53] = "";
-    DBCFileList[125].col_name[54] = "desc_a15";     DBCFileList[125].col_desc[54] = "";
-    DBCFileList[125].col_name[55] = "desc_a16";     DBCFileList[125].col_desc[55] = "";
-    DBCFileList[125].col_name[56] = "";             DBCFileList[125].col_desc[56] = "";
-    DBCFileList[125].col_name[57] = "loadscr_id";   DBCFileList[125].col_desc[57] = "Loading screens id";
-    DBCFileList[125].col_name[58] = "honor_multi";  DBCFileList[125].col_desc[58] = "Honor multiplicator";
-    DBCFileList[125].col_name[59] = "parent_map";   DBCFileList[125].col_desc[59] = "Parent Map ID";
-    DBCFileList[125].col_name[60] = "x";            DBCFileList[125].col_desc[60] = "X-Coord";
-    DBCFileList[125].col_name[61] = "y";            DBCFileList[125].col_desc[61] = "Y-Coord";
-    DBCFileList[125].col_name[62] = "time_of_day";  DBCFileList[125].col_desc[62] = "Set to -1 for everything but Orgrimmar and Dalaran arena. For those, the time of day will change to this.";
-    DBCFileList[125].col_name[63] = "expansion";    DBCFileList[125].col_desc[63] = "Expansion ID - Vanilla: 0, BC: 1, WotLK: 2";
-    DBCFileList[125].col_name[64] = "reset_time";   DBCFileList[125].col_desc[64] = "Reset time";
-    DBCFileList[125].col_name[65] = "number_pl";    DBCFileList[125].col_desc[65] = "Number of Players"; 
-    // MapDifficulty.dbc
+    // LockType.dbc
     DBCFileList[126].col_name[0] = "id";            DBCFileList[126].col_desc[0] = "Entry";
-    DBCFileList[126].col_name[1] = "map";           DBCFileList[126].col_desc[1] = "Map ID";
-    DBCFileList[126].col_name[2] = "type";          DBCFileList[126].col_desc[2] = "0: normal, 1, 2, 3";
-    DBCFileList[126].col_name[3] = "lvl_req01";     DBCFileList[126].col_desc[3] = "Level requirement description (ingame) - each for one locale";
-    DBCFileList[126].col_name[4] = "lvl_req02";     DBCFileList[126].col_desc[4] = "";
-    DBCFileList[126].col_name[5] = "lvl_req03";     DBCFileList[126].col_desc[5] = "";
-    DBCFileList[126].col_name[6] = "lvl_req04";     DBCFileList[126].col_desc[6] = "";
-    DBCFileList[126].col_name[7] = "lvl_req05";     DBCFileList[126].col_desc[7] = "";
-    DBCFileList[126].col_name[8] = "lvl_req06";     DBCFileList[126].col_desc[8] = "";
-    DBCFileList[126].col_name[9] = "lvl_req07";     DBCFileList[126].col_desc[9] = "";
-    DBCFileList[126].col_name[10] = "lvl_req08";    DBCFileList[126].col_desc[10] = "";
-    DBCFileList[126].col_name[11] = "lvl_req09";    DBCFileList[126].col_desc[11] = "";
-    DBCFileList[126].col_name[12] = "lvl_req10";    DBCFileList[126].col_desc[12] = "";
-    DBCFileList[126].col_name[13] = "lvl_req11";    DBCFileList[126].col_desc[13] = "";
-    DBCFileList[126].col_name[14] = "lvl_req12";    DBCFileList[126].col_desc[14] = "";
-    DBCFileList[126].col_name[15] = "lvl_req13";    DBCFileList[126].col_desc[15] = "";
-    DBCFileList[126].col_name[16] = "lvl_req14";    DBCFileList[126].col_desc[16] = "";
-    DBCFileList[126].col_name[17] = "lvl_req15";    DBCFileList[126].col_desc[17] = "";
-    DBCFileList[126].col_name[18] = "lvl_req16";    DBCFileList[126].col_desc[18] = "";
-    DBCFileList[126].col_name[19] = "";             DBCFileList[126].col_desc[19] = "";
-    DBCFileList[126].col_name[20] = "reset_time";   DBCFileList[126].col_desc[20] = "In seconds";
-    DBCFileList[126].col_name[21] = "number_pl";    DBCFileList[126].col_desc[21] = "Number of Players";
-    DBCFileList[126].col_name[22] = "";           DBCFileList[126].col_desc[22] = "";
-    // Material.dbc
+    // MailTemplate.dbc
     DBCFileList[127].col_name[0] = "id";            DBCFileList[127].col_desc[0] = "Entry";
-    // Movie.dbc
+    // Map.dbc
     DBCFileList[128].col_name[0] = "id";            DBCFileList[128].col_desc[0] = "Entry";
-    // MovieFileData.dbc
+    DBCFileList[128].col_name[1] = "filename";      DBCFileList[128].col_desc[1] = "Internal filename";
+    DBCFileList[128].col_name[2] = "type";          DBCFileList[128].col_desc[2] = "Type of the map: 0=norm, 1=dungeon, 2=raid, 3=pvp_zone, 4=arena";
+    DBCFileList[128].col_name[3] = "bg";            DBCFileList[128].col_desc[3] = "Is battleground (bool)";
+    DBCFileList[128].col_name[4] = "";              DBCFileList[128].col_desc[4] = "";
+    DBCFileList[128].col_name[5] = "name01";        DBCFileList[128].col_desc[5] = "Map name - each for one locale";
+    DBCFileList[128].col_name[6] = "name02";        DBCFileList[128].col_desc[6] = "";
+    DBCFileList[128].col_name[7] = "name03";        DBCFileList[128].col_desc[7] = "";
+    DBCFileList[128].col_name[8] = "name04";        DBCFileList[128].col_desc[8] = "";
+    DBCFileList[128].col_name[9] = "name05";        DBCFileList[128].col_desc[9] = "";
+    DBCFileList[128].col_name[10] = "name06";       DBCFileList[128].col_desc[10] = "";
+    DBCFileList[128].col_name[11] = "name07";       DBCFileList[128].col_desc[11] = "";
+    DBCFileList[128].col_name[12] = "name08";       DBCFileList[128].col_desc[12] = "";
+    DBCFileList[128].col_name[13] = "name09";       DBCFileList[128].col_desc[13] = "";
+    DBCFileList[128].col_name[14] = "name10";       DBCFileList[128].col_desc[14] = "";
+    DBCFileList[128].col_name[15] = "name11";       DBCFileList[128].col_desc[15] = "";
+    DBCFileList[128].col_name[16] = "name12";       DBCFileList[128].col_desc[16] = "";
+    DBCFileList[128].col_name[17] = "name13";       DBCFileList[128].col_desc[17] = "";
+    DBCFileList[128].col_name[18] = "name14";       DBCFileList[128].col_desc[18] = "";
+    DBCFileList[128].col_name[19] = "name15";       DBCFileList[128].col_desc[19] = "";
+    DBCFileList[128].col_name[20] = "name16";       DBCFileList[128].col_desc[20] = "";
+    DBCFileList[128].col_name[21] = "";             DBCFileList[128].col_desc[21] = "";
+    DBCFileList[128].col_name[22] = "area_id";      DBCFileList[128].col_desc[22] = "Area table id";
+    DBCFileList[128].col_name[23] = "desc_h01";     DBCFileList[128].col_desc[23] = "Description for horde (ingame) - each for one locale";
+    DBCFileList[128].col_name[24] = "desc_h02";     DBCFileList[128].col_desc[24] = "";
+    DBCFileList[128].col_name[25] = "desc_h03";     DBCFileList[128].col_desc[25] = "";
+    DBCFileList[128].col_name[26] = "desc_h04";     DBCFileList[128].col_desc[26] = "";
+    DBCFileList[128].col_name[27] = "desc_h05";     DBCFileList[128].col_desc[27] = "";
+    DBCFileList[128].col_name[28] = "desc_h06";     DBCFileList[128].col_desc[28] = "";
+    DBCFileList[128].col_name[29] = "desc_h07";     DBCFileList[128].col_desc[29] = "";
+    DBCFileList[128].col_name[30] = "desc_h08";     DBCFileList[128].col_desc[30] = "";
+    DBCFileList[128].col_name[31] = "desc_h09";     DBCFileList[128].col_desc[31] = "";
+    DBCFileList[128].col_name[32] = "desc_h10";     DBCFileList[128].col_desc[32] = "";
+    DBCFileList[128].col_name[33] = "desc_h11";     DBCFileList[128].col_desc[33] = "";
+    DBCFileList[128].col_name[34] = "desc_h12";     DBCFileList[128].col_desc[34] = "";
+    DBCFileList[128].col_name[35] = "desc_h13";     DBCFileList[128].col_desc[35] = "";
+    DBCFileList[128].col_name[36] = "desc_h14";     DBCFileList[128].col_desc[36] = "";
+    DBCFileList[128].col_name[37] = "desc_h15";     DBCFileList[128].col_desc[37] = "";
+    DBCFileList[128].col_name[38] = "desc_h16";     DBCFileList[128].col_desc[38] = "";
+    DBCFileList[128].col_name[39] = "";             DBCFileList[128].col_desc[39] = "";
+    DBCFileList[128].col_name[40] = "desc_a01";     DBCFileList[128].col_desc[40] = "Description for alliance - each for one locale";
+    DBCFileList[128].col_name[41] = "desc_a02";     DBCFileList[128].col_desc[41] = "";
+    DBCFileList[128].col_name[42] = "desc_a03";     DBCFileList[128].col_desc[42] = "";
+    DBCFileList[128].col_name[43] = "desc_a04";     DBCFileList[128].col_desc[43] = "";
+    DBCFileList[128].col_name[44] = "desc_a05";     DBCFileList[128].col_desc[44] = "";
+    DBCFileList[128].col_name[45] = "desc_a06";     DBCFileList[128].col_desc[45] = "";
+    DBCFileList[128].col_name[46] = "desc_a07";     DBCFileList[128].col_desc[46] = "";
+    DBCFileList[128].col_name[47] = "desc_a08";     DBCFileList[128].col_desc[47] = "";
+    DBCFileList[128].col_name[48] = "desc_a09";     DBCFileList[128].col_desc[48] = "";
+    DBCFileList[128].col_name[49] = "desc_a10";     DBCFileList[128].col_desc[49] = "";
+    DBCFileList[128].col_name[50] = "desc_a11";     DBCFileList[128].col_desc[50] = "";
+    DBCFileList[128].col_name[51] = "desc_a12";     DBCFileList[128].col_desc[51] = "";
+    DBCFileList[128].col_name[52] = "desc_a13";     DBCFileList[128].col_desc[52] = "";
+    DBCFileList[128].col_name[53] = "desc_a14";     DBCFileList[128].col_desc[53] = "";
+    DBCFileList[128].col_name[54] = "desc_a15";     DBCFileList[128].col_desc[54] = "";
+    DBCFileList[128].col_name[55] = "desc_a16";     DBCFileList[128].col_desc[55] = "";
+    DBCFileList[128].col_name[56] = "";             DBCFileList[128].col_desc[56] = "";
+    DBCFileList[128].col_name[57] = "loadscr_id";   DBCFileList[128].col_desc[57] = "Loading screens id";
+    DBCFileList[128].col_name[58] = "honor_multi";  DBCFileList[128].col_desc[58] = "Honor multiplicator";
+    DBCFileList[128].col_name[59] = "parent_map";   DBCFileList[128].col_desc[59] = "Parent Map ID";
+    DBCFileList[128].col_name[60] = "x";            DBCFileList[128].col_desc[60] = "X-Coord";
+    DBCFileList[128].col_name[61] = "y";            DBCFileList[128].col_desc[61] = "Y-Coord";
+    DBCFileList[128].col_name[62] = "time_of_day";  DBCFileList[128].col_desc[62] = "Set to -1 for everything but Orgrimmar and Dalaran arena. For those, the time of day will change to this.";
+    DBCFileList[128].col_name[63] = "expansion";    DBCFileList[128].col_desc[63] = "Expansion ID - Vanilla: 0, BC: 1, WotLK: 2";
+    DBCFileList[128].col_name[64] = "reset_time";   DBCFileList[128].col_desc[64] = "Reset time";
+    DBCFileList[128].col_name[65] = "number_pl";    DBCFileList[128].col_desc[65] = "Number of Players"; 
+    // MapDifficulty.dbc
     DBCFileList[129].col_name[0] = "id";            DBCFileList[129].col_desc[0] = "Entry";
-    // MovieVariation.dbc
+    DBCFileList[129].col_name[1] = "map";           DBCFileList[129].col_desc[1] = "Map ID";
+    DBCFileList[129].col_name[2] = "type";          DBCFileList[129].col_desc[2] = "0: normal, 1, 2, 3";
+    DBCFileList[129].col_name[3] = "lvl_req01";     DBCFileList[129].col_desc[3] = "Level requirement description (ingame) - each for one locale";
+    DBCFileList[129].col_name[4] = "lvl_req02";     DBCFileList[129].col_desc[4] = "";
+    DBCFileList[129].col_name[5] = "lvl_req03";     DBCFileList[129].col_desc[5] = "";
+    DBCFileList[129].col_name[6] = "lvl_req04";     DBCFileList[129].col_desc[6] = "";
+    DBCFileList[129].col_name[7] = "lvl_req05";     DBCFileList[129].col_desc[7] = "";
+    DBCFileList[129].col_name[8] = "lvl_req06";     DBCFileList[129].col_desc[8] = "";
+    DBCFileList[129].col_name[9] = "lvl_req07";     DBCFileList[129].col_desc[9] = "";
+    DBCFileList[129].col_name[10] = "lvl_req08";    DBCFileList[129].col_desc[10] = "";
+    DBCFileList[129].col_name[11] = "lvl_req09";    DBCFileList[129].col_desc[11] = "";
+    DBCFileList[129].col_name[12] = "lvl_req10";    DBCFileList[129].col_desc[12] = "";
+    DBCFileList[129].col_name[13] = "lvl_req11";    DBCFileList[129].col_desc[13] = "";
+    DBCFileList[129].col_name[14] = "lvl_req12";    DBCFileList[129].col_desc[14] = "";
+    DBCFileList[129].col_name[15] = "lvl_req13";    DBCFileList[129].col_desc[15] = "";
+    DBCFileList[129].col_name[16] = "lvl_req14";    DBCFileList[129].col_desc[16] = "";
+    DBCFileList[129].col_name[17] = "lvl_req15";    DBCFileList[129].col_desc[17] = "";
+    DBCFileList[129].col_name[18] = "lvl_req16";    DBCFileList[129].col_desc[18] = "";
+    DBCFileList[129].col_name[19] = "";             DBCFileList[129].col_desc[19] = "";
+    DBCFileList[129].col_name[20] = "reset_time";   DBCFileList[129].col_desc[20] = "In seconds";
+    DBCFileList[129].col_name[21] = "number_pl";    DBCFileList[129].col_desc[21] = "Number of Players";
+    DBCFileList[129].col_name[22] = "";             DBCFileList[129].col_desc[22] = "";
+    // Material.dbc
     DBCFileList[130].col_name[0] = "id";            DBCFileList[130].col_desc[0] = "Entry";
-    // NameGen.dbc
+    // Movie.dbc
     DBCFileList[131].col_name[0] = "id";            DBCFileList[131].col_desc[0] = "Entry";
-    // NamesProfanity.dbc
+    // MovieFileData.dbc
     DBCFileList[132].col_name[0] = "id";            DBCFileList[132].col_desc[0] = "Entry";
-    // NamesReserved.dbc
+    // MovieVariation.dbc
     DBCFileList[133].col_name[0] = "id";            DBCFileList[133].col_desc[0] = "Entry";
-    // NPCSounds.dbc
+    // NameGen.dbc
     DBCFileList[134].col_name[0] = "id";            DBCFileList[134].col_desc[0] = "Entry";
-    // ObjectEffect.dbc
+    // NamesProfanity.dbc
     DBCFileList[135].col_name[0] = "id";            DBCFileList[135].col_desc[0] = "Entry";
-    // ObjectEffectGroup.dbc
+    // NamesReserved.dbc
     DBCFileList[136].col_name[0] = "id";            DBCFileList[136].col_desc[0] = "Entry";
-    // ObjectEffectModifier.dbc
+    // NPCSounds.dbc
     DBCFileList[137].col_name[0] = "id";            DBCFileList[137].col_desc[0] = "Entry";
-    // ObjectEffectPackage.dbc
+    // ObjectEffect.dbc
     DBCFileList[138].col_name[0] = "id";            DBCFileList[138].col_desc[0] = "Entry";
-    // ObjectEffectPackageElem.dbc
+    // ObjectEffectGroup.dbc
     DBCFileList[139].col_name[0] = "id";            DBCFileList[139].col_desc[0] = "Entry";
-    // OverrideSpellData.dbc
+    // ObjectEffectModifier.dbc
     DBCFileList[140].col_name[0] = "id";            DBCFileList[140].col_desc[0] = "Entry";
-    // Package.dbc
+    // ObjectEffectPackage.dbc
     DBCFileList[141].col_name[0] = "id";            DBCFileList[141].col_desc[0] = "Entry";
-    // PageTextMaterial.dbc.dbc
+    // ObjectEffectPackageElem.dbc
     DBCFileList[142].col_name[0] = "id";            DBCFileList[142].col_desc[0] = "Entry";
-    // PaperDollItemFrame.dbc
-    DBCFileList[143].col_name[0] = "";              DBCFileList[143].col_desc[0] = "";
-    // ParticleColor.dbc
+    // OverrideSpellData.dbc
+    DBCFileList[143].col_name[0] = "id";            DBCFileList[143].col_desc[0] = "Entry";
+    // Package.dbc
     DBCFileList[144].col_name[0] = "id";            DBCFileList[144].col_desc[0] = "Entry";
-    // PetitionType.dbc
+    // PageTextMaterial.dbc.dbc
     DBCFileList[145].col_name[0] = "id";            DBCFileList[145].col_desc[0] = "Entry";
-    // PetPersonality.dbc
-    DBCFileList[146].col_name[0] = "id";            DBCFileList[146].col_desc[0] = "Entry";
-    // PowerDisplay.dbc
+    // PaperDollItemFrame.dbc
+    DBCFileList[146].col_name[0] = "";              DBCFileList[146].col_desc[0] = "";
+    // ParticleColor.dbc
     DBCFileList[147].col_name[0] = "id";            DBCFileList[147].col_desc[0] = "Entry";
-    // QuestInfo.dbc
+    // PetitionType.dbc
     DBCFileList[148].col_name[0] = "id";            DBCFileList[148].col_desc[0] = "Entry";
-    // QuestSort.dbc
+    // PetPersonality.dbc
     DBCFileList[149].col_name[0] = "id";            DBCFileList[149].col_desc[0] = "Entry";
-    // RandPropPoints.dbc
+    // PowerDisplay.dbc
     DBCFileList[150].col_name[0] = "id";            DBCFileList[150].col_desc[0] = "Entry";
-    // Resistances.dbc
+
+    // NEW IN 3.3.x
+    // PvpDifficulty.dbc
     DBCFileList[151].col_name[0] = "id";            DBCFileList[151].col_desc[0] = "Entry";
-    // ScalingStatDistribution.dbc
+    // QuestFactionReward.dbc
     DBCFileList[152].col_name[0] = "id";            DBCFileList[152].col_desc[0] = "Entry";
-    // ScalingStatValues.dbc
+
+    // QuestInfo.dbc
     DBCFileList[153].col_name[0] = "id";            DBCFileList[153].col_desc[0] = "Entry";
-    // ScreenEffect.dbc
+    // QuestSort.dbc
     DBCFileList[154].col_name[0] = "id";            DBCFileList[154].col_desc[0] = "Entry";
-    // ServerMessages.dbc
+
+    // NEW IN 3.3.x
+    // QuestXP.dbc
     DBCFileList[155].col_name[0] = "id";            DBCFileList[155].col_desc[0] = "Entry";
-    // SheatheSoundLookups.dbc
+
+    // RandPropPoints.dbc
     DBCFileList[156].col_name[0] = "id";            DBCFileList[156].col_desc[0] = "Entry";
-    // SkillCostsData.dbc
+    // Resistances.dbc
     DBCFileList[157].col_name[0] = "id";            DBCFileList[157].col_desc[0] = "Entry";
-    // SkillLine.dbc
+    // ScalingStatDistribution.dbc
     DBCFileList[158].col_name[0] = "id";            DBCFileList[158].col_desc[0] = "Entry";
-    // SkillLineAbility.dbc
+    // ScalingStatValues.dbc
     DBCFileList[159].col_name[0] = "id";            DBCFileList[159].col_desc[0] = "Entry";
-    // SkillLineCategory.dbc
+    // ScreenEffect.dbc
     DBCFileList[160].col_name[0] = "id";            DBCFileList[160].col_desc[0] = "Entry";
-    // SkillRaceClassInfo.dbc
+    // ServerMessages.dbc
     DBCFileList[161].col_name[0] = "id";            DBCFileList[161].col_desc[0] = "Entry";
-    // SkillTiers.dbc
+    // SheatheSoundLookups.dbc
     DBCFileList[162].col_name[0] = "id";            DBCFileList[162].col_desc[0] = "Entry";
-    // SoundAmbience.dbc
+    // SkillCostsData.dbc
     DBCFileList[163].col_name[0] = "id";            DBCFileList[163].col_desc[0] = "Entry";
-    // SoundEmitters.dbc
+    // SkillLine.dbc
     DBCFileList[164].col_name[0] = "id";            DBCFileList[164].col_desc[0] = "Entry";
-    // SoundEntries.dbc
+    // SkillLineAbility.dbc
     DBCFileList[165].col_name[0] = "id";            DBCFileList[165].col_desc[0] = "Entry";
-    // SoundEntriesAdvanced.dbc
+    // SkillLineCategory.dbc
     DBCFileList[166].col_name[0] = "id";            DBCFileList[166].col_desc[0] = "Entry";
-    // SoundFilter.dbc
+    // SkillRaceClassInfo.dbc
     DBCFileList[167].col_name[0] = "id";            DBCFileList[167].col_desc[0] = "Entry";
-    // SoundFilterElem.dbc
+    // SkillTiers.dbc
     DBCFileList[168].col_name[0] = "id";            DBCFileList[168].col_desc[0] = "Entry";
-    // SoundProviderPreferences.dbc
+    // SoundAmbience.dbc
     DBCFileList[169].col_name[0] = "id";            DBCFileList[169].col_desc[0] = "Entry";
-    // SoundSamplePreferences.dbc
+    // SoundEmitters.dbc
     DBCFileList[170].col_name[0] = "id";            DBCFileList[170].col_desc[0] = "Entry";
-    // SoundWaterType.dbc
+    // SoundEntries.dbc
     DBCFileList[171].col_name[0] = "id";            DBCFileList[171].col_desc[0] = "Entry";
-    // SpamMessages.dbc
+    // SoundEntriesAdvanced.dbc
     DBCFileList[172].col_name[0] = "id";            DBCFileList[172].col_desc[0] = "Entry";
-    // Spell.dbc
+    // SoundFilter.dbc
     DBCFileList[173].col_name[0] = "id";            DBCFileList[173].col_desc[0] = "Entry";
-    // SpellCastTimes.dbc
+    // SoundFilterElem.dbc
     DBCFileList[174].col_name[0] = "id";            DBCFileList[174].col_desc[0] = "Entry";
-    // SpellCategory.dbc
+    // SoundProviderPreferences.dbc
     DBCFileList[175].col_name[0] = "id";            DBCFileList[175].col_desc[0] = "Entry";
-    // SpellChainEffects.dbc
+    // SoundSamplePreferences.dbc
     DBCFileList[176].col_name[0] = "id";            DBCFileList[176].col_desc[0] = "Entry";
-    // SpellDescriptionVariables.dbc
+    // SoundWaterType.dbc
     DBCFileList[177].col_name[0] = "id";            DBCFileList[177].col_desc[0] = "Entry";
-    // SpellDispelType.dbc
+    // SpamMessages.dbc
     DBCFileList[178].col_name[0] = "id";            DBCFileList[178].col_desc[0] = "Entry";
-    // SpellDuration.dbc
+    // Spell.dbc
     DBCFileList[179].col_name[0] = "id";            DBCFileList[179].col_desc[0] = "Entry";
-    // SpellEffectCameraShakes.dbc
+    // SpellCastTimes.dbc
     DBCFileList[180].col_name[0] = "id";            DBCFileList[180].col_desc[0] = "Entry";
-    // SpellFocusObject.dbc
+    // SpellCategory.dbc
     DBCFileList[181].col_name[0] = "id";            DBCFileList[181].col_desc[0] = "Entry";
-    // SpellIcon.dbc
+    // SpellChainEffects.dbc
     DBCFileList[182].col_name[0] = "id";            DBCFileList[182].col_desc[0] = "Entry";
-    // SpellItemEnchantment.dbc
+    // SpellDescriptionVariables.dbc
     DBCFileList[183].col_name[0] = "id";            DBCFileList[183].col_desc[0] = "Entry";
-    // SpellItemEnchantmentCondition.dbc
+
+    // NEW IN 3.3.x
+    // SpellDifficulty.dbc
     DBCFileList[184].col_name[0] = "id";            DBCFileList[184].col_desc[0] = "Entry";
-    // SpellMechanic.dbc
+
+    // SpellDispelType.dbc
     DBCFileList[185].col_name[0] = "id";            DBCFileList[185].col_desc[0] = "Entry";
-    // SpellMissile.dbc
+    // SpellDuration.dbc
     DBCFileList[186].col_name[0] = "id";            DBCFileList[186].col_desc[0] = "Entry";
-    // SpellMissileMotion.dbc
+    // SpellEffectCameraShakes.dbc
     DBCFileList[187].col_name[0] = "id";            DBCFileList[187].col_desc[0] = "Entry";
-    // SpellRadius.dbc
+    // SpellFocusObject.dbc
     DBCFileList[188].col_name[0] = "id";            DBCFileList[188].col_desc[0] = "Entry";
-    // SpellRange.dbc
+    // SpellIcon.dbc
     DBCFileList[189].col_name[0] = "id";            DBCFileList[189].col_desc[0] = "Entry";
-    // SpellRuneCost.dbc
+    // SpellItemEnchantment.dbc
     DBCFileList[190].col_name[0] = "id";            DBCFileList[190].col_desc[0] = "Entry";
-    // SpellShapeshiftForm.dbc
+    // SpellItemEnchantmentCondition.dbc
     DBCFileList[191].col_name[0] = "id";            DBCFileList[191].col_desc[0] = "Entry";
-    // SpellVisual.dbc
+    // SpellMechanic.dbc
     DBCFileList[192].col_name[0] = "id";            DBCFileList[192].col_desc[0] = "Entry";
-    // SpellVisualEffectName.dbc
+    // SpellMissile.dbc
     DBCFileList[193].col_name[0] = "id";            DBCFileList[193].col_desc[0] = "Entry";
-    // SpellVisualKit.dbc
+    // SpellMissileMotion.dbc
     DBCFileList[194].col_name[0] = "id";            DBCFileList[194].col_desc[0] = "Entry";
-    // SpellVisualKitAreaModel.dbc
+    // SpellRadius.dbc
     DBCFileList[195].col_name[0] = "id";            DBCFileList[195].col_desc[0] = "Entry";
-    // SpellVisualKitModelAttach.dbc
+    // SpellRange.dbc
     DBCFileList[196].col_name[0] = "id";            DBCFileList[196].col_desc[0] = "Entry";
-    // SpellVisualPrecastTransitions.dbc
+    // SpellRuneCost.dbc
     DBCFileList[197].col_name[0] = "id";            DBCFileList[197].col_desc[0] = "Entry";
-    // StableSlotPrices.dbc
+    // SpellShapeshiftForm.dbc
     DBCFileList[198].col_name[0] = "id";            DBCFileList[198].col_desc[0] = "Entry";
-    // Startup_Strings.dbc
+    // SpellVisual.dbc
     DBCFileList[199].col_name[0] = "id";            DBCFileList[199].col_desc[0] = "Entry";
-    // Stationery.dbc
+    // SpellVisualEffectName.dbc
     DBCFileList[200].col_name[0] = "id";            DBCFileList[200].col_desc[0] = "Entry";
-    // StringLookups.dbc
+    // SpellVisualKit.dbc
     DBCFileList[201].col_name[0] = "id";            DBCFileList[201].col_desc[0] = "Entry";
-    // SummonProperties.dbc
+    // SpellVisualKitAreaModel.dbc
     DBCFileList[202].col_name[0] = "id";            DBCFileList[202].col_desc[0] = "Entry";
-    // Talent.dbc
+    // SpellVisualKitModelAttach.dbc
     DBCFileList[203].col_name[0] = "id";            DBCFileList[203].col_desc[0] = "Entry";
-    // TalentTab.dbc
+    // SpellVisualPrecastTransitions.dbc
     DBCFileList[204].col_name[0] = "id";            DBCFileList[204].col_desc[0] = "Entry";
-    // TaxiNodes.dbc
+    // StableSlotPrices.dbc
     DBCFileList[205].col_name[0] = "id";            DBCFileList[205].col_desc[0] = "Entry";
-    // TaxiPath.dbc
+    // Startup_Strings.dbc
     DBCFileList[206].col_name[0] = "id";            DBCFileList[206].col_desc[0] = "Entry";
-    // TaxiPathNode.dbc
+    // Stationery.dbc
     DBCFileList[207].col_name[0] = "id";            DBCFileList[207].col_desc[0] = "Entry";
-    // TerrainType.dbc
+    // StringLookups.dbc
     DBCFileList[208].col_name[0] = "id";            DBCFileList[208].col_desc[0] = "Entry";
-    // TerrainTypeSounds.dbc
+    // SummonProperties.dbc
     DBCFileList[209].col_name[0] = "id";            DBCFileList[209].col_desc[0] = "Entry";
-    // TotemCategory.dbc
+    // Talent.dbc
     DBCFileList[210].col_name[0] = "id";            DBCFileList[210].col_desc[0] = "Entry";
-    // TransportAnimation.dbc
+    // TalentTab.dbc
     DBCFileList[211].col_name[0] = "id";            DBCFileList[211].col_desc[0] = "Entry";
-    // TransportPhysics.dbc
+    // TaxiNodes.dbc
     DBCFileList[212].col_name[0] = "id";            DBCFileList[212].col_desc[0] = "Entry";
-    // TransportRotation.dbc
+    // TaxiPath.dbc
     DBCFileList[213].col_name[0] = "id";            DBCFileList[213].col_desc[0] = "Entry";
-    // UISoundLookups.dbc
+    // TaxiPathNode.dbc
     DBCFileList[214].col_name[0] = "id";            DBCFileList[214].col_desc[0] = "Entry";
-    // UnitBlood.dbc
+
+    // NEW IN 3.3.x
+    // TeamContributionPoints.dbc
     DBCFileList[215].col_name[0] = "id";            DBCFileList[215].col_desc[0] = "Entry";
-    // UnitBloodLevels.dbc
+
+    // TerrainType.dbc
     DBCFileList[216].col_name[0] = "id";            DBCFileList[216].col_desc[0] = "Entry";
-    // Vehicle.dbc
+    // TerrainTypeSounds.dbc
     DBCFileList[217].col_name[0] = "id";            DBCFileList[217].col_desc[0] = "Entry";
-    // VehicleSeat.dbc
+    // TotemCategory.dbc
     DBCFileList[218].col_name[0] = "id";            DBCFileList[218].col_desc[0] = "Entry";
-    // VideoHardware.dbc
+    // TransportAnimation.dbc
     DBCFileList[219].col_name[0] = "id";            DBCFileList[219].col_desc[0] = "Entry";
-    // VocalUISounds.dbc
+    // TransportPhysics.dbc
     DBCFileList[220].col_name[0] = "id";            DBCFileList[220].col_desc[0] = "Entry";
-    // WeaponImpactSounds.dbc
+    // TransportRotation.dbc
     DBCFileList[221].col_name[0] = "id";            DBCFileList[221].col_desc[0] = "Entry";
-    // WeaponSwingSounds2.dbc
+    // UISoundLookups.dbc
     DBCFileList[222].col_name[0] = "id";            DBCFileList[222].col_desc[0] = "Entry";
-    // Weather.dbc
+    // UnitBlood.dbc
     DBCFileList[223].col_name[0] = "id";            DBCFileList[223].col_desc[0] = "Entry";
-    // WMOAreaTable.dbc
+    // UnitBloodLevels.dbc
     DBCFileList[224].col_name[0] = "id";            DBCFileList[224].col_desc[0] = "Entry";
-    //WorldChunkSounds.dbc
+    // Vehicle.dbc
     DBCFileList[225].col_name[0] = "id";            DBCFileList[225].col_desc[0] = "Entry";
-    // WorldMapArea.dbc
+    // VehicleSeat.dbc
     DBCFileList[226].col_name[0] = "id";            DBCFileList[226].col_desc[0] = "Entry";
-    // WorldMapContinent
+
+    // NEW IN 3.3.x
+    // VehicleUIIndicator.dbc
     DBCFileList[227].col_name[0] = "id";            DBCFileList[227].col_desc[0] = "Entry";
-    // WorldMapOverlay.dbc
+    // VehicleUIIndSeat.dbc
     DBCFileList[228].col_name[0] = "id";            DBCFileList[228].col_desc[0] = "Entry";
-    // WorldMapTransforms.dbc
+
+    // VideoHardware.dbc
     DBCFileList[229].col_name[0] = "id";            DBCFileList[229].col_desc[0] = "Entry";
-    // WorldSafeLocs.dbc
+    // VocalUISounds.dbc
     DBCFileList[230].col_name[0] = "id";            DBCFileList[230].col_desc[0] = "Entry";
-    // WorldStateUI.dbc
+    // WeaponImpactSounds.dbc
     DBCFileList[231].col_name[0] = "id";            DBCFileList[231].col_desc[0] = "Entry";
-    // WorldStateZoneSounds.dbc
-    DBCFileList[232].col_name[0] = "";              DBCFileList[232].col_desc[0] = "";
-    // WowError_String.dbc
+    // WeaponSwingSounds2.dbc
+    DBCFileList[232].col_name[0] = "id";            DBCFileList[232].col_desc[0] = "Entry";
+    // Weather.dbc
     DBCFileList[233].col_name[0] = "id";            DBCFileList[233].col_desc[0] = "Entry";
-    // ZoneIntroMusicTable.dbc
+    // WMOAreaTable.dbc
     DBCFileList[234].col_name[0] = "id";            DBCFileList[234].col_desc[0] = "Entry";
-    // ZoneMusic.dbc
+    //WorldChunkSounds.dbc
     DBCFileList[235].col_name[0] = "id";            DBCFileList[235].col_desc[0] = "Entry";
+    // WorldMapArea.dbc
+    DBCFileList[236].col_name[0] = "id";            DBCFileList[236].col_desc[0] = "Entry";
+    // WorldMapContinent
+    DBCFileList[237].col_name[0] = "id";            DBCFileList[237].col_desc[0] = "Entry";
+    // WorldMapOverlay.dbc
+    DBCFileList[238].col_name[0] = "id";            DBCFileList[238].col_desc[0] = "Entry";
+    // WorldMapTransforms.dbc
+    DBCFileList[239].col_name[0] = "id";            DBCFileList[239].col_desc[0] = "Entry";
+    // WorldSafeLocs.dbc
+    DBCFileList[240].col_name[0] = "id";            DBCFileList[240].col_desc[0] = "Entry";
+    // WorldStateUI.dbc
+    DBCFileList[241].col_name[0] = "id";            DBCFileList[241].col_desc[0] = "Entry";
+    // WorldStateZoneSounds.dbc
+    DBCFileList[242].col_name[0] = "";              DBCFileList[242].col_desc[0] = "";
+    // WowError_String.dbc
+    DBCFileList[243].col_name[0] = "id";            DBCFileList[243].col_desc[0] = "Entry";
+    // ZoneIntroMusicTable.dbc
+    DBCFileList[244].col_name[0] = "id";            DBCFileList[244].col_desc[0] = "Entry";
+    // ZoneMusic.dbc
+    DBCFileList[245].col_name[0] = "id";            DBCFileList[245].col_desc[0] = "Entry";
