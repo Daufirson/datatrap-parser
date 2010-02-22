@@ -11,10 +11,10 @@ typedef struct DBCFileListStruct
     std::string col_desc[300];
 } DBCFLS;
 
-void FillDBCColumnNames(); // 233 (MAX_DBCS) @ 3.1.3.9947
+void FillDBCColumnNames(); // 246 (MAX_DBCS) @ 3.3.2.11403
 
 static DBCFLS DBCFileList[] =
-{   // Was sind die letzten 3 "i" für ein Format???
+{
     {"Achievement.dbc", "iiiissssssssssssssssissssssssssssssssiiiiiissssssssssssssssiii"},
     {"Achievement_Category.dbc", "iissssssssssssssssii"},
     {"Achievement_Criteria.dbc", "iiiiiiiiissssssssssssssssiiiiii"},
@@ -27,9 +27,9 @@ static DBCFLS DBCFileList[] =
     {"AttackAnimTypes.dbc", "is"},
     {"AuctionHouse.dbc", "iiiissssssssssssssssi"},
     {"BankBagSlotPrices.dbc", "ii"},
-    {"BannedAddOns.dbc", "iiiiiiiiiii"}, // NEU IN 3.1.0.9767!
+    {"BannedAddOns.dbc", "iiiiiiiiiii"},
     {"BarberShopStyle.dbc", "iissssssssssssssssissssssssssssssssifiii"},
-    {"BattlemasterList.dbc", "iiiiiiiiiiiiiiiissssssssssssssssiii"},
+    {"BattlemasterList.dbc", "iiiiiiiiiiiissssssssssssssssiii"},
     {"CameraShakes.dbc", "iiifffff"},
     {"Cfg_Categories.dbc", "iiiiiiiiiiiiiiiiiiiii"},
     {"Cfg_Configs.dbc", "iiii"},
@@ -40,7 +40,7 @@ static DBCFLS DBCFileList[] =
     {"CharSections.dbc", "iiiisssiii"},
     {"CharStartOutfit.dbc", "ibbbbiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
     {"CharTitles.dbc", "iissssssssssssssssissssssssssssssssii"},
-    {"CharVariations.dbc", ""}, // 0 bytes long atm (3.0.3.9183-3.1.0.9767)!
+    {"CharVariations.dbc", ""},
     {"ChatChannels.dbc", "iisssssssssssssssssissssssssssssssssi"},
     {"ChatProfanity.dbc", "isi"},
     {"ChrClasses.dbc", "iiiissssssssssssssssissssssssssssssssissssssssssssssssiiiiii"},
@@ -51,7 +51,7 @@ static DBCFLS DBCFileList[] =
     {"CreatureDisplayInfoExtra.dbc", "iiiiiiiiiiiiiiiiiiiis"},
     {"CreatureFamily.dbc", "ififiiiiiissssssssssssssssis"},
     {"CreatureModelData.dbc", "iisiisiffffiiiifffffffffffff"},
-    {"CreatureMovementInfo.dbc", "ii"}, // NEU IN 3.1.0.9767!
+    {"CreatureMovementInfo.dbc", "ii"},
     {"CreatureSoundData.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
     {"CreatureSpellData.dbc", "iiiiiiiii"},
     {"CreatureType.dbc", "issssssssssssssssii"},
@@ -61,7 +61,7 @@ static DBCFLS DBCFileList[] =
     {"DeathThudLookups.dbc", "iiiii"},
     {"DeclinedWord.dbc", "is"},
     {"DeclinedWordCases.dbc", "iiis"},
-    {"DestructibleModelData.dbc", "iiiiiiiiiiiiiiiii"}, // NEU IN 3.1.0.9767!
+    {"DestructibleModelData.dbc", "iiiiiiiiiiiiiiiiiii"},
     {"DungeonMap.dbc", "iiiffffi"},
     {"DungeonMapChunk.dbc", "iiiif"},
     {"DurabilityCosts.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
@@ -72,7 +72,7 @@ static DBCFLS DBCFileList[] =
     {"EmotesTextSound.dbc", "iiiii"},
     {"EnvironmentalDamage.dbc", "iii"},
     {"Exhaustion.dbc", "iifffssssssssssssssssif"},
-    {"Faction.dbc", "iiiiiiiiiiiiiiiiiiissssssssssssssssissssssssssssssssi"},
+    {"Faction.dbc", "iiiiiiiiiiiiiiiiiiiiiiissssssssssssssssissssssssssssssssi"},
     {"FactionGroup.dbc", "iisssssssssssssssssi"},
     {"FactionTemplate.dbc", "iiiiiiiiiiiiii"},
     {"FileData.dbc", "isi"},
@@ -99,7 +99,7 @@ static DBCFLS DBCFileList[] =
     {"gtChanceToSpellCritBase.dbc", "f"},
     {"gtCombatRatings.dbc", "f"},
     {"gtNPCManaCostScaler.dbc", "f"},
-    {"gtOCTClassCombatRatingScalar.dbc", "if"}, // NEU IN 3.1.0.9767!
+    {"gtOCTClassCombatRatingScalar.dbc", "if"},
     {"gtOCTRegenHP.dbc", "f"},
     {"gtOCTRegenMP.dbc", "f"},
     {"gtRegenHPPerSpt.dbc", "f"},
@@ -127,7 +127,7 @@ static DBCFLS DBCFileList[] =
     {"ItemVisuals.dbc", "iiiiii"},
     {"Languages.dbc", "issssssssssssssssi"},
     {"LanguageWords.dbc", "iis"},
-    {"LFGDungeons.dbc", "issssssssssssssssiiiiiii"},
+    {"LFGDungeons.dbc", "issssssssssssssssiiiiiiiiiiiiiii"},
     {"Light.dbc", "iifffffiiiiiiii"},
     {"LightFloatBand.dbc", "iiiiffffffffffffffffffffffffffffff"},
     {"LightIntBand.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
@@ -135,13 +135,13 @@ static DBCFLS DBCFileList[] =
     {"LightSkybox.dbc", "isi"},
     {"LiquidMaterial.dbc", "iii"},
     {"LiquidType.dbc", "isiiiiiffffifiiiiiiiiiiiffffiiiifffffffffffii"},
-    {"LoadingScreens.dbc", "iss"},
+    {"LoadingScreens.dbc", "isss"},
     {"LoadingScreenTaxiSplines.dbc", "iifffffffifffffffii"},
     {"Lock.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
     {"LockType.dbc", "issssssssssssssssissssssssssssssssissssssssssssssssis"},
     {"MailTemplate.dbc", "issssssssssssssssissssssssssssssssi"},
-    {"Map.dbc", "isiissssssssssssssssiissssssssssssssssissssssssssssssssiififfiiii"},
-    {"MapDifficulty.dbc", "iiissssssssssssssssiiii"}, // NEU IN 3.2.2.10505!
+    {"Map.dbc", "isiisssssssssssssssssiissssssssssssssssissssssssssssssssiififfiiii"},
+    {"MapDifficulty.dbc", "iiissssssssssssssssiiii"},
     {"Material.dbc", "iiiii"},
     {"Movie.dbc", "isi"},
     {"MovieFileData.dbc", "ii"},
@@ -155,14 +155,14 @@ static DBCFLS DBCFileList[] =
     {"ObjectEffectModifier.dbc", "iiiiffff"},
     {"ObjectEffectPackage.dbc", "is"},
     {"ObjectEffectPackageElem.dbc", "iiii"},
-    {"OverrideSpellData.dbc", "iiiiiiiiiiii"}, // NEU IN 3.1.0.9767!
+    {"OverrideSpellData.dbc", "iiiiiiiiiiii"},
     {"Package.dbc", "iiissssssssssssssssi"},
     {"PageTextMaterial.dbc", "is"},
     {"PaperDollItemFrame.dbc", "ssi"},
     {"ParticleColor.dbc", "ibbbbbbbbb"},
     {"PetitionType.dbc", "isi"},
     {"PetPersonality.dbc", "issssssssssssssssiiiffff"},
-    {"PowerDisplay.dbc", "iiiiii"}, // NEU IN 3.1.0.9767!
+    {"PowerDisplay.dbc", "iiiiii"},
     {"QuestInfo.dbc", "issssssssssssssssi"},
     {"QuestSort.dbc", "issssssssssssssssi"},
     {"RandPropPoints.dbc", "iiiiiiiiiiiiiiii"},
@@ -188,11 +188,11 @@ static DBCFLS DBCFileList[] =
     {"SoundSamplePreferences.dbc", "iiiiiifffffffffff"},
     {"SoundWaterType.dbc", "iiii"},
     {"SpamMessages.dbc", "is"},
-    {"Spell.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiifiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiffffffiiiiiiiiiiiiiiiiiiiiifffiiiiiiiiiiiiiiifffiiiiiiiiiiiiiissssssssssssssssissssssssssssssssiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiifffiiiiiiiiiiiiii"},
+    {"Spell.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiifiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiffffffiiiiiiiiiiiiiiiiiiiiifffiiiiiiiiiiiiiiifffiiiiiiiiiiiiiissssssssssssssssissssssssssssssssiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiifffiiiiiiiiiiiiiii"},
     {"SpellCastTimes.dbc", "iiii"},
     {"SpellCategory.dbc", "ii"},
     {"SpellChainEffects.dbc", "iiiiiiisiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
-    {"SpellDescriptionVariables.dbc", "is"}, // NEU IN 3.2.2.10505!
+    {"SpellDescriptionVariables.dbc", "is"},
     {"SpellDispelType.dbc", "issssssssssssssssiiis"},
     {"SpellDuration.dbc", "iiii"},
     {"SpellEffectCameraShakes.dbc", "iiii"},
@@ -210,8 +210,8 @@ static DBCFLS DBCFileList[] =
     {"SpellVisual.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
     {"SpellVisualEffectName.dbc", "issffff"},
     {"SpellVisualKit.dbc", "iiiiiiiiiiiiiiiiiiiiiiffffffffffffffii"},
-    {"SpellVisualKitAreaModel.dbc", "iii"}, // NEU IN 3.1.0.9767!
-    {"SpellVisualKitModelAttach.dbc", "iiiiiiiiii"}, // NEU IN 3.2.2.10505!
+    {"SpellVisualKitAreaModel.dbc", "iii"},
+    {"SpellVisualKitModelAttach.dbc", "iiiiiiiiii"},
     {"SpellVisualPrecastTransitions.dbc", "iss"},
     {"StableSlotPrices.dbc", "ii"},
     {"Startup_Strings.dbc", "isssssssssssssssssi"},
@@ -228,7 +228,7 @@ static DBCFLS DBCFileList[] =
     {"TotemCategory.dbc", "issssssssssssssssiii"},
     {"TransportAnimation.dbc", "iiifffi"},
     {"TransportPhysics.dbc", "iffffffffff"},
-    {"TransportRotation.dbc", "iiiffff"}, // NEU IN 3.1.0.9767!
+    {"TransportRotation.dbc", "iiiffff"},
     {"UISoundLookups.dbc", "iis"},
     {"UnitBlood.dbc", "iiiiissssi"},
     {"UnitBloodLevels.dbc", "iiii"},
@@ -238,7 +238,7 @@ static DBCFLS DBCFileList[] =
     {"VocalUISounds.dbc", "iiiiiii"},
     {"WeaponImpactSounds.dbc", "iiiiiiiiiiiiiiiiiiiiiii"},
     {"WeaponSwingSounds2.dbc", "iiii"},
-    {"Weather.dbc", "iiifffs"},
+    {"Weather.dbc", "iiiffffs"},
     {"WMOAreaTable.dbc", "iiiiiiiiiiissssssssssssssssi"},
     {"WorldChunkSounds.dbc", "iiiiiiiii"},
     {"WorldMapArea.dbc", "iiisffffiii"},
