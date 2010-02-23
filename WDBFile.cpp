@@ -470,7 +470,7 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
                 def->addField(t_int32,  "PlayersSlain");
                 def->addField(t_int32,  "BonusTalents");
                 def->addField(t_int32,  "RewardArenaPoints");
-                def->addField(t_undef,  "unk0");
+                def->addField(t_int32,  "unk0");
 
                 // #29
                 def->addField(t_int32,  "RewItemId1");

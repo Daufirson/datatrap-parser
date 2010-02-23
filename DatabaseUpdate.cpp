@@ -178,7 +178,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
             fields = result->Fetch();
             if (fields)
             {
-                for (uint8 i=0; i<25; i++)
+                for (uint8 i=0; i<24; i++)
                 {
                     char* tmp = (char*)malloc(32);
 
@@ -186,13 +186,8 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
                     {
                         // name + subname + IconName
                         insertsql.append(io.Terminator(fields[i].GetCppString())).append("','");
-                    }/* SIEHE LoadDefinitions !
-                    else if (i == 4 || i == 5)
-                    {
-                        sprintf(tmp, "%u", fields[i].GetUInt16());
-                        insertsql.append(tmp).append("','");
-                    }*/
-                    else if (i == 15 || i == 16)
+                    }
+                    else if (i == 14 || i == 15)
                     {
                         sprintf(tmp, "%f", fields[i].GetFloat());
                         insertsql.append(tmp).append("','");
@@ -915,31 +910,64 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
 #endif
     insertsql.append(DATATRAP_FILE_HEADER).append("SET NAMES `utf8`;\n"
         "SET CHARACTER SET `utf8`;\n\nINSERT INTO `quest_template` "
-        "(`entry`,`Method`,`QuestLevel`,`ZoneOrSort`,`Type`,`SuggestedPlayers`,"
-        "`RepObjectiveFaction`,`RepObjectiveValue`,`RepObjectiveFaction2`,`RepObjectiveValue2`,"
-        "`NextQuestInChain`,`RewOrReqMoney`,`RewMoneyMaxLevel`,`RewSpell`,`RewSpellCast`,"
-        "`SrcItemId`,`QuestFlags`,`RewItemId1`,`RewItemCount1`,`RewItemId2`,`RewItemCount2`,`RewItemId3`,"
-        "`RewItemCount3`,`RewItemId4`,`RewItemCount4`,`RewChoiceItemId1`,`RewChoiceItemCount1`,`RewChoiceItemId2`,"
-        "`RewChoiceItemCount2`,`RewChoiceItemId3`,`RewChoiceItemCount3`,`RewChoiceItemId4`,`RewChoiceItemCount4`,"
-        "`RewChoiceItemId5`,`RewChoiceItemCount5`,`RewChoiceItemId6`,`RewChoiceItemCount6`,`PointMapId`,`PointX`,"
-        "`PointY`,`PointOpt`,`Title`,`Objectives`,`Details`,`EndText`,`ReqCreatureOrGOId1`,`ReqCreatureOrGOCount1`,"
-        "`ReqItemId1`,`ReqItemCount1`,`ReqSourceId1`,`ReqCreatureOrGOId2`,`ReqCreatureOrGOCount2`,`ReqItemId2`,"
-        "`ReqItemCount2`,`ReqSourceId2`,`ReqCreatureOrGOId3`,`ReqCreatureOrGOCount3`,`ReqItemId3`,`ReqItemCount3`,"
-        "`ReqSourceId3`,`ReqCreatureOrGOId4`,`ReqCreatureOrGOCount4`,`ReqItemId4`,`ReqItemCount4`,`ReqSourceId4`,"
-        "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4`,`RewHonorableKills`) VALUES\n('");
+        "(`entry`,`Method`,`QuestLevel`,`MinLevel`,`ZoneOrSort`,`Type`,`SuggestedPlayers`,"
+        // 7
+        "`RepObjectiveFaction`,`RepObjectiveValue`,`RepObjectiveFaction2`,`RepObjectiveValue2`,`NextQuestInChain`,"
+        // 12
+        "`RewXPId`,`RewOrReqMoney`,`RewMoneyMaxLevel`,`RewSpell`,`RewSpellCast`,`RewHonorAddition`,`RewHonorMultiplier`,"
+        // 19
+        "`SrcItemId`,`QuestFlags`,`CharTitleId`,`PlayersSlain`,`BonusTalents`,`RewardArenaPoints`,`unk0`,"
+        // 26
+        "`RewItemId1`,`RewItemCount1`,`RewItemId2`,`RewItemCount2`,`RewItemId3`,`RewItemCount3`,`RewItemId4`,`RewItemCount4`,"
+        // 34
+        "`RewChoiceItemId1`,`RewChoiceItemCount1`,`RewChoiceItemId2`,`RewChoiceItemCount2`,`RewChoiceItemId3`,`RewChoiceItemCount3`,"
+        // 40
+        "`RewChoiceItemId4`,`RewChoiceItemCount4`,`RewChoiceItemId5`,`RewChoiceItemCount5`,`RewChoiceItemId6`,`RewChoiceItemCount6`,"
+        // 46
+        "`RewRepFaction1`,`RewRepFaction2`,`RewRepFaction3`,`RewRepFaction4`,`RewRepFaction5`,"
+        // 51
+        "`RewRepValueId1`,`RewRepValueId2`,`RewRepValueId3`,`RewRepValueId4`,`RewRepValueId5`,"
+        // 56
+        "`RewRepValue1`,`RewRepValue2`,`RewRepValue3`,`RewRepValue4`,`RewRepValue5`,"
+        // 61
+        "`PointMapId`,`PointX`,`PointY`,`PointOpt`,"
+        // 65
+        "`Title`,`Objectives`,`Details`,`EndText`,`CompletionText`,"
+        // 70
+        "`ReqCreatureOrGOId1`,`ReqCreatureOrGOCount1`,`ReqSourceId1`,`ReqSourceCount1`,"
+        // 74
+        "`ReqCreatureOrGOId2`,`ReqCreatureOrGOCount2`,`ReqSourceId2`,`ReqSourceCount2`,"
+        // 78
+        "`ReqCreatureOrGOId3`,`ReqCreatureOrGOCount3`,`ReqSourceId3`,`ReqSourceCount3`,"
+        // 82
+        "`ReqCreatureOrGOId4`,`ReqCreatureOrGOCount4`,`ReqSourceId4`,`ReqSourceCount4`,"
+        // 86
+        "`ReqItemId1`,`ReqItemCount1`,`ReqItemId2`,`ReqItemCount2`,`ReqItemId3`,`ReqItemCount3`,"
+        // 92
+        "`ReqItemId4`,`ReqItemCount4`,`ReqItemId5`,`ReqItemCount5`,`ReqItemId6`,`ReqItemCount6`,"
+        // 98                                                    101
+        "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4`) VALUES\n('");
 
-    query.append("SELECT `entry`,`Method`,`QuestLevel`,`ZoneOrSort`,`Type`,`SuggestedPlayers`,"
-        "`RepObjectiveFaction`,`RepObjectiveValue`,`RepObjectiveFaction2`,`RepObjectiveValue2`,"
-        "`NextQuestID`,`CoinReward`,`CoinRewardOn80`,`SpellReward`,`EffectOnPlayer`,`StartItemID`,"
-        "`QuestFlags`,`ItemReward1`,`ItemAmount1`,`ItemReward2`,`ItemAmount2`,`ItemReward3`,`ItemAmount3`,"
-        "`ItemReward4`,`ItemAmount4`,`ItemChoice1`,`ItemChoiceAmount1`,`ItemChoice2`,`ItemChoiceAmount2`,"
-        "`ItemChoice3`,`ItemChoiceAmount3`,`ItemChoice4`,`ItemChoiceAmount4`,`ItemChoice5`,`ItemChoiceAmount5`,"
-        "`ItemChoice6`,`ItemChoiceAmount6`,`PointMapId`,`PointX`,`PointY`,`PointOpt`,`Name`,`Description`,"
-        "`Details`,`Subdescription`,`KillCreature1`,`KillCreature1Amount`,`CollectItem1`,`CollectItem1Amount`,"
-        "`ItemUsed1`,`KillCreature2`,`KillCreature2Amount`,`CollectItem2`,`CollectItem2Amount`,`ItemUsed2`,"
-        "`KillCreature3`,`KillCreature3Amount`,`CollectItem3`,`CollectItem3Amount`,`ItemUsed3`,`KillCreature4`,"
-        "`KillCreature4Amount`,`CollectItem4`,`CollectItem4Amount`,`ItemUsed4`,`Objective1`,`Objective2`,"
-        "`Objective3`,`Objective4` FROM `");
+    query.append("SELECT `entry`,`Method`,`QuestLevel`,`MinLevel`,`ZoneOrSort`,`Type`,`SuggestedPlayers`,"
+        "`RepObjectiveFaction`,`RepObjectiveValue`,`RepObjectiveFaction2`,`RepObjectiveValue2`,`NextQuestInChain`,"
+        "`RewXPId`,`RewOrReqMoney`,`RewMoneyMaxLevel`,`RewSpell`,`RewSpellCast`,`RewHonorAddition`,`RewHonorMultiplier`,"
+        "`SrcItemId`,`QuestFlags`,`CharTitleId`,`PlayersSlain`,`BonusTalents`,`RewardArenaPoints`,`unk0`,"
+        "`RewItemId1`,`RewItemCount1`,`RewItemId2`,`RewItemCount2`,`RewItemId3`,`RewItemCount3`,`RewItemId4`,`RewItemCount4`,"
+        "`RewChoiceItemId1`,`RewChoiceItemCount1`,`RewChoiceItemId2`,`RewChoiceItemCount2`,`RewChoiceItemId3`,`RewChoiceItemCount3`,"
+        "`RewChoiceItemId4`,`RewChoiceItemCount4`,`RewChoiceItemId5`,`RewChoiceItemCount5`,`RewChoiceItemId6`,`RewChoiceItemCount6`,"
+        "`RewRepFaction1`,`RewRepFaction2`,`RewRepFaction3`,`RewRepFaction4`,`RewRepFaction5`,"
+        "`RewRepValueId1`,`RewRepValueId2`,`RewRepValueId3`,`RewRepValueId4`,`RewRepValueId5`,"
+        "`RewRepValue1`,`RewRepValue2`,`RewRepValue3`,`RewRepValue4`,`RewRepValue5`,"
+        "`PointMapId`,`PointX`,`PointY`,`PointOpt`,"
+        "`Title`,`Objectives`,`Details`,`EndText`,`CompletionText`,"
+        "`ReqCreatureOrGOId1`,`ReqCreatureOrGOCount1`,`ReqSourceId1`,`ReqSourceCount1`,"
+        "`ReqCreatureOrGOId2`,`ReqCreatureOrGOCount2`,`ReqSourceId2`,`ReqSourceCount2`,"
+        "`ReqCreatureOrGOId3`,`ReqCreatureOrGOCount3`,`ReqSourceId3`,`ReqSourceCount3`,"
+        "`ReqCreatureOrGOId4`,`ReqCreatureOrGOCount4`,`ReqSourceId4`,`ReqSourceCount4`,"
+        "`ReqItemId1`,`ReqItemCount1`,`ReqItemId2`,`ReqItemCount2`,`ReqItemId3`,`ReqItemCount3`,"
+        "`ReqItemId4`,`ReqItemCount4`,`ReqItemId5`,`ReqItemCount5`,`ReqItemId6`,`ReqItemCount6`,"
+        "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4` FROM `");
+
     query.append(wdbdb).append("`.`questcache` WHERE `entry` NOT IN "
         "(SELECT `entry` FROM `").append(worlddb).append("`.`quest_template`)");
 
@@ -962,6 +990,7 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
         bool first = true;
         uint32 count = 0;
         uint32 counttotal = 0;
+        uint8 MAX_FIELDS = 102; // Max query values
 
         fputs(insertsql.c_str(), sqlfile);
 
@@ -976,48 +1005,57 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
             fields = result->Fetch();
             if (fields)
             {
-                for (uint8 i=0; i<69; ++i)
+                for (uint8 i=0; i<MAX_FIELDS; ++i)
                 {
                     char* tmp = (char*)malloc(32);
 
-                    if (i == 2 || i == 3 || i == 7 || i == 9 || i == 14 || i == 45 || i == 46 || i == 47 || i == 48 ||
-                        i == 49 || i == 50 || i == 51 || i == 52 || i == 53 || i == 54 || i == 55 || i == 56 ||
-                        i == 57 || i == 58 || i == 59 || i == 60 || i == 61 || i == 62 || i == 63 || i == 64)
+                    if ((i > 0 && i < 18) ||
+                        (i > 18 && i < 62) ||
+                        (i > 69 && i < 98) ||
+                        i == 64)
                     {
-                        // GOs umrechnen für core
-                        if ((i == 43 || i == 48 || i == 53 || i == 58) && fields[i].GetInt32() < 0)
+                        // GOs umrechnen für den Core
+                        if ((i == 70 || i == 74 || i == 78 || i == 82) && fields[i].GetInt32() < 0)
                             sprintf(tmp, "%i", (fields[i].GetInt32() + 2147483648)*-1);
                         else
                             sprintf(tmp, "%i", fields[i].GetInt32());
 
-                        if (i+1 < 67) insertsql.append(tmp).append("','");
+                        if (i+1 < MAX_FIELDS)
+                            insertsql.append(tmp).append("','");
                         else
                             insertsql.append(tmp);
                     }
-                    else if (i == 41 || i == 42 || i == 43 || i == 44 || i == 65 || i == 66 || i == 67 || i == 68)
+                    else if ((i > 64 && i < 70) || (i > 97 && i < MAX_FIELDS))
                     {
                         // Texte terminieren
-                        if (i+1 < 69) insertsql.append(io.Terminator(fields[i].GetCppString())).append("','");
-                        else insertsql.append(io.Terminator(fields[i].GetCppString()));
+                        if (i+1 < MAX_FIELDS)
+                            insertsql.append(io.Terminator(fields[i].GetCppString())).append("','");
+                        else
+                            insertsql.append(io.Terminator(fields[i].GetCppString()));
                     }
-                    else if (i == 38 || i == 39)
+                    else if (i == 18 || i == 62 || i == 63)
                     {
-                        // PointX + PointY
+                        // RewHonorMultiplier + PointX + PointY
                         sprintf(tmp, "%f", fields[i].GetFloat());
-                        if (i+1 < 69) insertsql.append(tmp).append("','");
-                        else insertsql.append(tmp);
+                        if (i+1 < MAX_FIELDS)
+                            insertsql.append(tmp).append("','");
+                        else
+                            insertsql.append(tmp);
                     }
                     else
                     {
                         sprintf(tmp, "%u", fields[i].GetUInt32());
-                        if (i+1 < 69) insertsql.append(tmp).append("','");
-                        else insertsql.append(tmp);
+                        if (i+1 < MAX_FIELDS)
+                            insertsql.append(tmp).append("','");
+                        else
+                            insertsql.append(tmp);
                     }
                     free(tmp);
                 }
-                insertsql.append("','0')"); // `RewHonorableKills` darf nicht leer sein
+                //insertsql.append("','0')"); // `RewHonorableKills` darf nicht leer sein
+                insertsql.append("')");
 
-                // Haben wir MAX_INSERTS erreicht und Daten übrig? Dann insert senden und löschen!
+                // Haben wir MAX_INSERTS erreicht und Daten übrig, dann Insert senden und löschen?!
                 if (count >= MAX_INSERTS && (count+counttotal+1) < result->GetRowCount())
                 {
                     insertsql.append(";\n");
@@ -1027,18 +1065,25 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
                     count = 0;
 
                     insertsql.append("INSERT INTO `quest_template` "
-                        "(`entry`,`Method`,`QuestLevel`,`ZoneOrSort`,`Type`,`SuggestedPlayers`,"
-                        "`RepObjectiveFaction`,`RepObjectiveValue`,`RepObjectiveFaction2`,`RepObjectiveValue2`,"
-                        "`NextQuestInChain`,`RewOrReqMoney`,`RewMoneyMaxLevel`,`RewSpell`,`RewSpellCast`,"
-                        "`SrcItemId`,`QuestFlags`,`RewItemId1`,`RewItemCount1`,`RewItemId2`,`RewItemCount2`,`RewItemId3`,"
-                        "`RewItemCount3`,`RewItemId4`,`RewItemCount4`,`RewChoiceItemId1`,`RewChoiceItemCount1`,`RewChoiceItemId2`,"
-                        "`RewChoiceItemCount2`,`RewChoiceItemId3`,`RewChoiceItemCount3`,`RewChoiceItemId4`,`RewChoiceItemCount4`,"
-                        "`RewChoiceItemId5`,`RewChoiceItemCount5`,`RewChoiceItemId6`,`RewChoiceItemCount6`,`PointMapId`,`PointX`,"
-                        "`PointY`,`PointOpt`,`Title`,`Objectives`,`Details`,`EndText`,`ReqCreatureOrGOId1`,`ReqCreatureOrGOCount1`,"
-                        "`ReqItemId1`,`ReqItemCount1`,`ReqSourceId1`,`ReqCreatureOrGOId2`,`ReqCreatureOrGOCount2`,`ReqItemId2`,"
-                        "`ReqItemCount2`,`ReqSourceId2`,`ReqCreatureOrGOId3`,`ReqCreatureOrGOCount3`,`ReqItemId3`,`ReqItemCount3`,"
-                        "`ReqSourceId3`,`ReqCreatureOrGOId4`,`ReqCreatureOrGOCount4`,`ReqItemId4`,`ReqItemCount4`,`ReqSourceId4`,"
-                        "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4`,`RewHonorableKills`) VALUES\n('");
+                        "(`entry`,`Method`,`QuestLevel`,`MinLevel`,`ZoneOrSort`,`Type`,`SuggestedPlayers`,"
+                        "`RepObjectiveFaction`,`RepObjectiveValue`,`RepObjectiveFaction2`,`RepObjectiveValue2`,`NextQuestInChain`,"
+                        "`RewXPId`,`RewOrReqMoney`,`RewMoneyMaxLevel`,`RewSpell`,`RewSpellCast`,`RewHonorAddition`,`RewHonorMultiplier`,"
+                        "`SrcItemId`,`QuestFlags`,`CharTitleId`,`PlayersSlain`,`BonusTalents`,`RewardArenaPoints`,`unk0`,"
+                        "`RewItemId1`,`RewItemCount1`,`RewItemId2`,`RewItemCount2`,`RewItemId3`,`RewItemCount3`,`RewItemId4`,`RewItemCount4`,"
+                        "`RewChoiceItemId1`,`RewChoiceItemCount1`,`RewChoiceItemId2`,`RewChoiceItemCount2`,`RewChoiceItemId3`,`RewChoiceItemCount3`,"
+                        "`RewChoiceItemId4`,`RewChoiceItemCount4`,`RewChoiceItemId5`,`RewChoiceItemCount5`,`RewChoiceItemId6`,`RewChoiceItemCount6`,"
+                        "`RewRepFaction1`,`RewRepFaction2`,`RewRepFaction3`,`RewRepFaction4`,`RewRepFaction5`,"
+                        "`RewRepValueId1`,`RewRepValueId2`,`RewRepValueId3`,`RewRepValueId4`,`RewRepValueId5`,"
+                        "`RewRepValue1`,`RewRepValue2`,`RewRepValue3`,`RewRepValue4`,`RewRepValue5`,"
+                        "`PointMapId`,`PointX`,`PointY`,`PointOpt`,"
+                        "`Title`,`Objectives`,`Details`,`EndText`,`CompletionText`,"
+                        "`ReqCreatureOrGOId1`,`ReqCreatureOrGOCount1`,`ReqSourceId1`,`ReqSourceCount1`,"
+                        "`ReqCreatureOrGOId2`,`ReqCreatureOrGOCount2`,`ReqSourceId2`,`ReqSourceCount2`,"
+                        "`ReqCreatureOrGOId3`,`ReqCreatureOrGOCount3`,`ReqSourceId3`,`ReqSourceCount3`,"
+                        "`ReqCreatureOrGOId4`,`ReqCreatureOrGOCount4`,`ReqSourceId4`,`ReqSourceCount4`,"
+                        "`ReqItemId1`,`ReqItemCount1`,`ReqItemId2`,`ReqItemCount2`,`ReqItemId3`,`ReqItemCount3`,"
+                        "`ReqItemId4`,`ReqItemCount4`,`ReqItemId5`,`ReqItemCount5`,`ReqItemId6`,`ReqItemCount6`,"
+                        "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4`) VALUES\n('");
 
                     first = true;
 
@@ -2803,81 +2848,119 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
         "SET CHARACTER SET `utf8`;\n\n"
         "UPDATE `quest_template` ");
 
-    //                         0
-    query.append("SELECT WDB.entry,WDB.Method,WORLD.Method,WDB.QuestLevel,WORLD.QuestLevel,WDB.ZoneOrSort,"
-        "WORLD.ZoneOrSort,WDB.Type,WORLD.Type,WDB.SuggestedPlayers,WORLD.SuggestedPlayers,"
-        //           11
-        "WDB.RepObjectiveFaction,WORLD.RepObjectiveFaction,WDB.RepObjectiveValue,WORLD.RepObjectiveValue,"
-        "WDB.RepObjectiveFaction2,WORLD.RepObjectiveFaction2,WDB.RepObjectiveValue2,WORLD.RepObjectiveValue2,"
-        //       19
-        "WDB.NextQuestID,WORLD.NextQuestInChain,WDB.CoinReward,WORLD.RewOrReqMoney,WDB.CoinRewardOn80,WORLD.RewMoneyMaxLevel,"
-        "WDB.SpellReward,WORLD.RewSpell,WDB.EffectOnPlayer,WORLD.RewSpellCast,WDB.StartItemID,WORLD.SrcItemId,"
-        "WDB.QuestFlags,WORLD.QuestFlags,"
-        //       33
-        "WDB.ItemReward1,WORLD.RewItemId1,WDB.ItemAmount1,WORLD.RewItemCount1,"
-        "WDB.ItemReward2,WORLD.RewItemId2,WDB.ItemAmount2,WORLD.RewItemCount2,"
-        "WDB.ItemReward3,WORLD.RewItemId3,WDB.ItemAmount3,WORLD.RewItemCount3,"
-        "WDB.ItemReward4,WORLD.RewItemId4,WDB.ItemAmount4,WORLD.RewItemCount4,"
-        //       49
-        "WDB.ItemChoice1,WORLD.RewChoiceItemId1,WDB.ItemChoiceAmount1,WORLD.RewChoiceItemCount1,"
-        "WDB.ItemChoice2,WORLD.RewChoiceItemId2,WDB.ItemChoiceAmount2,WORLD.RewChoiceItemCount2,"
-        "WDB.ItemChoice3,WORLD.RewChoiceItemId3,WDB.ItemChoiceAmount3,WORLD.RewChoiceItemCount3,"
-        "WDB.ItemChoice4,WORLD.RewChoiceItemId4,WDB.ItemChoiceAmount4,WORLD.RewChoiceItemCount4,"
-        "WDB.ItemChoice5,WORLD.RewChoiceItemId5,WDB.ItemChoiceAmount5,WORLD.RewChoiceItemCount5,"
-        "WDB.ItemChoice6,WORLD.RewChoiceItemId6,WDB.ItemChoiceAmount6,WORLD.RewChoiceItemCount6,"
-        //       73
-        "WDB.PointMapId,WORLD.PointMapId,WDB.PointX,WORLD.PointX,WDB.PointY,WORLD.PointY,WDB.PointOpt,"
-        "WORLD.PointOpt,WDB.Name,WORLD.Title,WDB.Description,WORLD.Objectives,WDB.Details,WORLD.Details,"
-        "WDB.Subdescription,WORLD.EndText,"
-        //       89
-        "WDB.KillCreature1,WORLD.ReqCreatureOrGOId1,WDB.KillCreature1Amount,WORLD.ReqCreatureOrGOCount1,"
-        "WDB.CollectItem1,WORLD.ReqItemId1,WDB.CollectItem1Amount,WORLD.ReqItemCount1,WDB.ItemUsed1,"
-        "WORLD.ReqSourceId1,WDB.KillCreature2,WORLD.ReqCreatureOrGOId2,WDB.KillCreature2Amount,"
-        "WORLD.ReqCreatureOrGOCount2,WDB.CollectItem2,WORLD.ReqItemId2,WDB.CollectItem2Amount,WORLD.ReqItemCount2,"
-        "WDB.ItemUsed2,WORLD.ReqSourceId2,WDB.KillCreature3,WORLD.ReqCreatureOrGOId3,WDB.KillCreature3Amount,"
-        "WORLD.ReqCreatureOrGOCount3,WDB.CollectItem3,WORLD.ReqItemId3,WDB.CollectItem3Amount,WORLD.ReqItemCount3,"
-        "WDB.ItemUsed3,WORLD.ReqSourceId3,WDB.KillCreature4,WORLD.ReqCreatureOrGOId4,WDB.KillCreature4Amount,"
-        "WORLD.ReqCreatureOrGOCount4,WDB.CollectItem4,WORLD.ReqItemId4,WDB.CollectItem4Amount,WORLD.ReqItemCount4,"
-        "WDB.ItemUsed4,WORLD.ReqSourceId4,"
-        //      129
-        "WDB.Objective1,WORLD.ObjectiveText1,WDB.Objective2,WORLD.ObjectiveText2,"
-        "WDB.Objective3,WORLD.ObjectiveText3,WDB.Objective4,WORLD.ObjectiveText4 FROM `");
+        //                  0
+    query.append("SELECT WDB.entry,"
+        "WDB.Method,WORLD.Method,WDB.QuestLevel,WORLD.QuestLevel,WDB.MinLevel,WORLD.MinLevel,WDB.ZoneOrSort,WORLD.ZoneOrSort,WDB.Type,WORLD.Type,WDB.SuggestedPlayers,WORLD.SuggestedPlayers,"
+        // 13
+        "WDB.RepObjectiveFaction,WORLD.RepObjectiveFaction,WDB.RepObjectiveValue,WORLD.RepObjectiveValue,WDB.RepObjectiveFaction2,WORLD.RepObjectiveFaction2,WDB.RepObjectiveValue2,WORLD.RepObjectiveValue2,"
+        // 21
+        "WDB.NextQuestInChain,WORLD.NextQuestInChain,WDB.RewXPId,WORLD.RewXPId,WDB.RewOrReqMoney,WORLD.RewOrReqMoney,WDB.RewMoneyMaxLevel,WORLD.RewMoneyMaxLevel,"
+        // 29
+        "WDB.RewSpell,WORLD.RewSpell,WDB.RewSpellCast,WORLD.RewSpellCast,WDB.RewHonorAddition,WORLD.RewHonorAddition,WDB.RewHonorMultiplier,WORLD.RewHonorMultiplier,"
+        // 37
+        "WDB.SrcItemId,WORLD.SrcItemId,WDB.QuestFlags,WORLD.QuestFlags,WDB.CharTitleId,WORLD.CharTitleId,WDB.PlayersSlain,WORLD.PlayersSlain,WDB.BonusTalents,WORLD.BonusTalents,"
+        // 47
+        "WDB.RewardArenaPoints,WORLD.RewardArenaPoints,WDB.unk0,WORLD.unk0,"
+        // 51
+        "WDB.RewItemId1,WORLD.RewItemId1,WDB.RewItemCount1,WORLD.RewItemCount1,"
+        // 55
+        "WDB.RewItemId2,WORLD.RewItemId2,WDB.RewItemCount2,WORLD.RewItemCount2,"
+        // 59
+        "WDB.RewItemId3,WORLD.RewItemId3,WDB.RewItemCount3,WORLD.RewItemCount3,"
+        // 63
+        "WDB.RewItemId4,WORLD.RewItemId4,WDB.RewItemCount4,WORLD.RewItemCount4,"
+        // 67
+        "WDB.RewChoiceItemId1,WORLD.RewChoiceItemId1,WDB.RewChoiceItemCount1,WORLD.RewChoiceItemCount1,"
+        // 71
+        "WDB.RewChoiceItemId2,WORLD.RewChoiceItemId2,WDB.RewChoiceItemCount2,WORLD.RewChoiceItemCount2,"
+        // 75
+        "WDB.RewChoiceItemId3,WORLD.RewChoiceItemId3,WDB.RewChoiceItemCount3,WORLD.RewChoiceItemCount3,"
+        // 79
+        "WDB.RewChoiceItemId4,WORLD.RewChoiceItemId4,WDB.RewChoiceItemCount4,WORLD.RewChoiceItemCount4,"
+        // 83
+        "WDB.RewChoiceItemId5,WORLD.RewChoiceItemId5,WDB.RewChoiceItemCount5,WORLD.RewChoiceItemCount5,"
+        // 87
+        "WDB.RewChoiceItemId6,WORLD.RewChoiceItemId6,WDB.RewChoiceItemCount6,WORLD.RewChoiceItemCount6,"
+        // 91
+        "WDB.RewRepFaction1,WORLD.RewRepFaction1,WDB.RewRepFaction2,WORLD.RewRepFaction2,WDB.RewRepFaction3,WORLD.RewRepFaction3,WDB.RewRepFaction4,WORLD.RewRepFaction4,WDB.RewRepFaction5,WORLD.RewRepFaction5,"
+        // 101
+        "WDB.RewRepValueId1,WORLD.RewRepValueId1,WDB.RewRepValueId2,WORLD.RewRepValueId2,WDB.RewRepValueId3,WORLD.RewRepValueId3,WDB.RewRepValueId4,WORLD.RewRepValueId4,WDB.RewRepValueId5,WORLD.RewRepValueId5,"
+        // 111
+        "WDB.RewRepValue1,WORLD.RewRepValue1,WDB.RewRepValue2,WORLD.RewRepValue2,WDB.RewRepValue3,WORLD.RewRepValue3,WDB.RewRepValue4,WORLD.RewRepValue4,WDB.RewRepValue5,WORLD.RewRepValue5,"
+        // 121
+        "WDB.PointMapId,WORLD.PointMapId,WDB.PointX,WORLD.PointX,WDB.PointY,WORLD.PointY,WDB.PointOpt,WORLD.PointOpt,"
+        // 129
+        "WDB.Title,WORLD.Title,WDB.Objectives,WORLD.Objectives,WDB.Details,WORLD.Details,WDB.EndText,WORLD.EndText,WDB.CompletionText,WORLD.CompletionText,"
+        // 139
+        "WDB.ReqCreatureOrGOId1,WORLD.ReqCreatureOrGOId1,WDB.ReqCreatureOrGOCount1,WORLD.ReqCreatureOrGOCount1,"
+        // 143
+        "WDB.ReqSourceId1,WORLD.ReqSourceId1,WDB.ReqSourceCount1,WORLD.ReqSourceCount1,"
+        // 147
+        "WDB.ReqCreatureOrGOId2,WORLD.ReqCreatureOrGOId2,WDB.ReqCreatureOrGOCount2,WORLD.ReqCreatureOrGOCount2,"
+        // 151
+        "WDB.ReqSourceId2,WORLD.ReqSourceId2,WDB.ReqSourceCount2,WORLD.ReqSourceCount2,"
+        // 155
+        "WDB.ReqCreatureOrGOId3,WORLD.ReqCreatureOrGOId3,WDB.ReqCreatureOrGOCount3,WORLD.ReqCreatureOrGOCount3,"
+        // 159
+        "WDB.ReqSourceId3,WORLD.ReqSourceId3,WDB.ReqSourceCount3,WORLD.ReqSourceCount3,"
+        // 163
+        "WDB.ReqCreatureOrGOId4,WORLD.ReqCreatureOrGOId4,WDB.ReqCreatureOrGOCount4,WORLD.ReqCreatureOrGOCount4,"
+        // 167
+        "WDB.ReqSourceId4,WORLD.ReqSourceId4,WDB.ReqSourceCount4,WORLD.ReqSourceCount4,"
+        // 171
+        "WDB.ReqItemId1,WORLD.ReqItemId1,WDB.ReqItemCount1,WORLD.ReqItemCount1,"
+        // 175
+        "WDB.ReqItemId2,WORLD.ReqItemId2,WDB.ReqItemCount2,WORLD.ReqItemCount2,"
+        // 179
+        "WDB.ReqItemId3,WORLD.ReqItemId3,WDB.ReqItemCount3,WORLD.ReqItemCount3,"
+        // 183
+        "WDB.ReqItemId4,WORLD.ReqItemId4,WDB.ReqItemCount4,WORLD.ReqItemCount4,"
+        // 187
+        "WDB.ReqItemId5,WORLD.ReqItemId5,WDB.ReqItemCount5,WORLD.ReqItemCount5,"
+        // 191
+        "WDB.ReqItemId6,WORLD.ReqItemId6,WDB.ReqItemCount6,WORLD.ReqItemCount6,"
+        // 195                                                                                                                                                202
+        "WDB.ObjectiveText1,WORLD.ObjectiveText1,WDB.ObjectiveText2,WORLD.ObjectiveText2,WDB.ObjectiveText3,WORLD.ObjectiveText3,WDB.ObjectiveText4,WORLD.ObjectiveText4 FROM `");
+
     query.append(wdbdb).append("`.`questcache` AS WDB, `");
 
-    query.append(worlddb).append("`.`quest_template` AS WORLD WHERE WDB.entry = WORLD.entry AND "
-        "(WDB.Method != WORLD.Method || WDB.QuestLevel != WORLD.QuestLevel || WDB.ZoneOrSort != WORLD.ZoneOrSort || "
-        "WDB.Type != WORLD.Type || WDB.SuggestedPlayers != WORLD.SuggestedPlayers || "
-        "WDB.RepObjectiveFaction != WORLD.RepObjectiveFaction || WDB.RepObjectiveValue != WORLD.RepObjectiveValue || "
-        "WDB.RepObjectiveFaction2 != WORLD.RepObjectiveFaction2 || WDB.RepObjectiveValue2 != WORLD.RepObjectiveValue2 || "
-        "WDB.NextQuestID != WORLD.NextQuestInChain || WDB.CoinReward != WORLD.RewOrReqMoney || "
-        "WDB.CoinRewardOn80 != WORLD.RewMoneyMaxLevel || WDB.SpellReward != WORLD.RewSpell || "
-        "WDB.EffectOnPlayer != WORLD.RewSpellCast || WDB.StartItemID != WORLD.SrcItemId || "
-        "WDB.QuestFlags != WORLD.QuestFlags || WDB.ItemReward1 != WORLD.RewItemId1 || "
-        "WDB.ItemAmount1 != WORLD.RewItemCount1 || WDB.ItemReward2 != WORLD.RewItemId2 || "
-        "WDB.ItemAmount2 != WORLD.RewItemCount2 || WDB.ItemReward3 != WORLD.RewItemId3 || "
-        "WDB.ItemAmount3 != WORLD.RewItemCount3 || WDB.ItemReward4 != WORLD.RewItemId4 || "
-        "WDB.ItemAmount4 != WORLD.RewItemCount4 || WDB.ItemChoice1 != WORLD.RewChoiceItemId1 || "
-        "WDB.ItemChoiceAmount1 != WORLD.RewChoiceItemCount1 || WDB.ItemChoice2 != WORLD.RewChoiceItemId2 || "
-        "WDB.ItemChoiceAmount2 != WORLD.RewChoiceItemCount2 || WDB.ItemChoice3 != WORLD.RewChoiceItemId3 || "
-        "WDB.ItemChoiceAmount3 != WORLD.RewChoiceItemCount3 || WDB.ItemChoice4 != WORLD.RewChoiceItemId4 || "
-        "WDB.ItemChoiceAmount4 != WORLD.RewChoiceItemCount4 || WDB.ItemChoice5 != WORLD.RewChoiceItemId5 || "
-        "WDB.ItemChoiceAmount5 != WORLD.RewChoiceItemCount5 || WDB.ItemChoice6 != WORLD.RewChoiceItemId6 || "
-        "WDB.ItemChoiceAmount6 != WORLD.RewChoiceItemCount6 || WDB.PointMapId != WORLD.PointMapId || "
-        "WDB.PointX != WORLD.PointX || WDB.PointY != WORLD.PointY || WDB.PointOpt != WORLD.PointOpt || "
-        "WDB.Name != WORLD.Title || WDB.Description != WORLD.Objectives || WDB.Details != WORLD.Details || "
-        "WDB.Subdescription != WORLD.EndText || WDB.KillCreature1 != WORLD.ReqCreatureOrGOId1 || "
-        "WDB.KillCreature1Amount != WORLD.ReqCreatureOrGOCount1 || WDB.CollectItem1 != WORLD.ReqItemId1 || "
-        "WDB.CollectItem1Amount != WORLD.ReqItemCount1 || WDB.ItemUsed1 != WORLD.ReqSourceId1 || "
-        "WDB.KillCreature2 != WORLD.ReqCreatureOrGOId2 || WDB.KillCreature2Amount != WORLD.ReqCreatureOrGOCount2 || "
-        "WDB.CollectItem2 != WORLD.ReqItemId2 || WDB.CollectItem2Amount != WORLD.ReqItemCount2 || "
-        "WDB.ItemUsed2 != WORLD.ReqSourceId2 || WDB.KillCreature3 != WORLD.ReqCreatureOrGOId3 || "
-        "WDB.KillCreature3Amount != WORLD.ReqCreatureOrGOCount3 || WDB.CollectItem3 != WORLD.ReqItemId3 || "
-        "WDB.CollectItem3Amount != WORLD.ReqItemCount3 || WDB.ItemUsed3 != WORLD.ReqSourceId3 || "
-        "WDB.KillCreature4 != WORLD.ReqCreatureOrGOId4 || WDB.KillCreature4Amount != WORLD.ReqCreatureOrGOCount4 || "
-        "WDB.CollectItem4 != WORLD.ReqItemId4 || WDB.CollectItem4Amount != WORLD.ReqItemCount4 || "
-        "WDB.ItemUsed4 != WORLD.ReqSourceId4 || WDB.Objective1 != WORLD.ObjectiveText1 || "
-        "WDB.Objective2 != WORLD.ObjectiveText2 || WDB.Objective3 != WORLD.ObjectiveText3 || "
-        "WDB.Objective4 != WORLD.ObjectiveText4)");
+    query.append(worlddb).append("`.`quest_template` AS WORLD WHERE WDB.entry = WORLD.entry AND ("
+        "WDB.Method != WORLD.Method || WDB.QuestLevel != WORLD.QuestLevel || WDB.MinLevel != WORLD.MinLevel || WDB.ZoneOrSort != WORLD.ZoneOrSort || WDB.Type != WORLD.Type || "
+        "WDB.SuggestedPlayers != WORLD.SuggestedPlayers || WDB.RepObjectiveFaction != WORLD.RepObjectiveFaction || WDB.RepObjectiveValue != WORLD.RepObjectiveValue || "
+        "WDB.RepObjectiveFaction2 != WORLD.RepObjectiveFaction2 || WDB.RepObjectiveValue2 != WORLD.RepObjectiveValue2 || WDB.NextQuestInChain != WORLD.NextQuestInChain || "
+        "WDB.RewXPId != WORLD.RewXPId || WDB.RewOrReqMoney != WORLD.RewOrReqMoney || WDB.RewMoneyMaxLevel != WORLD.RewMoneyMaxLevel || WDB.RewSpell != WORLD.RewSpell || "
+        "WDB.RewSpellCast != WORLD.RewSpellCast || WDB.RewHonorAddition != WORLD.RewHonorAddition || WDB.RewHonorMultiplier != WORLD.RewHonorMultiplier || "
+        "WDB.SrcItemId != WORLD.SrcItemId || WDB.QuestFlags != WORLD.QuestFlags || WDB.CharTitleId != WORLD.CharTitleId || WDB.PlayersSlain != WORLD.PlayersSlain || "
+        "WDB.BonusTalents != WORLD.BonusTalents || WDB.RewardArenaPoints != WORLD.RewardArenaPoints || WDB.unk0 != WORLD.unk0 || "
+        "WDB.RewItemId1 != WORLD.RewItemId1 || WDB.RewItemCount1 != WORLD.RewItemCount1 || "
+        "WDB.RewItemId2 != WORLD.RewItemId2 || WDB.RewItemCount2 != WORLD.RewItemCount2 || "
+        "WDB.RewItemId3 != WORLD.RewItemId3 || WDB.RewItemCount3 != WORLD.RewItemCount3 || "
+        "WDB.RewItemId4 != WORLD.RewItemId4 || WDB.RewItemCount4 != WORLD.RewItemCount4 || "
+        "WDB.RewChoiceItemId1 != WORLD.RewChoiceItemId1 || WDB.RewChoiceItemCount1 != WORLD.RewChoiceItemCount1 || "
+        "WDB.RewChoiceItemId2 != WORLD.RewChoiceItemId2 || WDB.RewChoiceItemCount2 != WORLD.RewChoiceItemCount2 || "
+        "WDB.RewChoiceItemId3 != WORLD.RewChoiceItemId3 || WDB.RewChoiceItemCount3 != WORLD.RewChoiceItemCount3 || "
+        "WDB.RewChoiceItemId4 != WORLD.RewChoiceItemId4 || WDB.RewChoiceItemCount4 != WORLD.RewChoiceItemCount4 || "
+        "WDB.RewChoiceItemId5 != WORLD.RewChoiceItemId5 || WDB.RewChoiceItemCount5 != WORLD.RewChoiceItemCount5 || "
+        "WDB.RewChoiceItemId6 != WORLD.RewChoiceItemId6 || WDB.RewChoiceItemCount6 != WORLD.RewChoiceItemCount6 || "
+        "WDB.RewRepFaction1 != WORLD.RewRepFaction1 || WDB.RewRepFaction2 != WORLD.RewRepFaction2 || "
+        "WDB.RewRepFaction3 != WORLD.RewRepFaction3 || WDB.RewRepFaction4 != WORLD.RewRepFaction4 || "
+        "WDB.RewRepFaction5 != WORLD.RewRepFaction5 || "
+        "WDB.RewRepValueId1 != WORLD.RewRepValueId1 || WDB.RewRepValueId2 != WORLD.RewRepValueId2 || "
+        "WDB.RewRepValueId3 != WORLD.RewRepValueId3 || WDB.RewRepValueId4 != WORLD.RewRepValueId4 || "
+        "WDB.RewRepValueId5 != WORLD.RewRepValueId5 || "
+        "WDB.RewRepValue1 != WORLD.RewRepValue1 || WDB.RewRepValue2 != WORLD.RewRepValue2 || "
+        "WDB.RewRepValue3 != WORLD.RewRepValue3 || WDB.RewRepValue4 != WORLD.RewRepValue4 || "
+        "WDB.RewRepValue5 != WORLD.RewRepValue5 || "
+        "WDB.PointMapId != WORLD.PointMapId || WDB.PointX != WORLD.PointX || WDB.PointY != WORLD.PointY || WDB.PointOpt != WORLD.PointOpt || "
+        "WDB.Title != WORLD.Title || WDB.Objectives != WORLD.Objectives || WDB.Details != WORLD.Details || WDB.EndText != WORLD.EndText || WDB.CompletionText != WORLD.CompletionText || "
+        "WDB.ReqCreatureOrGOId1 != WORLD.ReqCreatureOrGOId1 || WDB.ReqCreatureOrGOCount1 != WORLD.ReqCreatureOrGOCount1 || WDB.ReqSourceId1 != WORLD.ReqSourceId1 || WDB.ReqSourceCount1 != WORLD.ReqSourceCount1 || "
+        "WDB.ReqCreatureOrGOId2 != WORLD.ReqCreatureOrGOId2 || WDB.ReqCreatureOrGOCount2 != WORLD.ReqCreatureOrGOCount2 || WDB.ReqSourceId2 != WORLD.ReqSourceId2 || WDB.ReqSourceCount2 != WORLD.ReqSourceCount2 || "
+        "WDB.ReqCreatureOrGOId3 != WORLD.ReqCreatureOrGOId3 || WDB.ReqCreatureOrGOCount3 != WORLD.ReqCreatureOrGOCount3 || WDB.ReqSourceId3 != WORLD.ReqSourceId3 || WDB.ReqSourceCount3 != WORLD.ReqSourceCount3 || "
+        "WDB.ReqCreatureOrGOId4 != WORLD.ReqCreatureOrGOId4 || WDB.ReqCreatureOrGOCount4 != WORLD.ReqCreatureOrGOCount4 || WDB.ReqSourceId4 != WORLD.ReqSourceId4 || WDB.ReqSourceCount4 != WORLD.ReqSourceCount4 || "
+        "WDB.ReqItemId1 != WORLD.ReqItemId1 || WDB.ReqItemCount1 != WORLD.ReqItemCount1 || WDB.ReqItemId2 != WORLD.ReqItemId2 || WDB.ReqItemCount2 != WORLD.ReqItemCount2 || "
+        "WDB.ReqItemId3 != WORLD.ReqItemId3 || WDB.ReqItemCount3 != WORLD.ReqItemCount3 || WDB.ReqItemId4 != WORLD.ReqItemId4 || WDB.ReqItemCount4 != WORLD.ReqItemCount4 || "
+        "WDB.ReqItemId5 != WORLD.ReqItemId5 || WDB.ReqItemCount5 != WORLD.ReqItemCount5 || WDB.ReqItemId6 != WORLD.ReqItemId6 || WDB.ReqItemCount6 != WORLD.ReqItemCount6 || "
+        "WDB.ObjectiveText1 != WORLD.ObjectiveText1 || WDB.ObjectiveText2 != WORLD.ObjectiveText2 || WDB.ObjectiveText3 != WORLD.ObjectiveText3 || WDB.ObjectiveText4 != WORLD.ObjectiveText4)");
 
     printf("Searching for different quests...\t");
 
@@ -2897,19 +2980,36 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
         FILE* sqlfile = fopen(fstr.c_str(), "w");
         if (!sqlfile) io.SayError("Can't create: '%s'", fstr.c_str());
 
-        // uint32
-        const char* column2[23] = {"SrcItemId","QuestFlags","RewItemId1","RewItemCount1","RewItemId2","RewItemCount2",
-            "RewItemId3","RewItemCount3","RewItemId4","RewItemCount4","RewChoiceItemId1","RewChoiceItemCount1",
-            "RewChoiceItemId2","RewChoiceItemCount2","RewChoiceItemId3","RewChoiceItemCount3","RewChoiceItemId4",
-            "RewChoiceItemCount4","RewChoiceItemId5","RewChoiceItemCount5","RewChoiceItemId6","RewChoiceItemCount6","PointMapId"};
-        // string
-        const char* column3[4] = {"Title","Objectives","Details","EndText"};
         // int32
-        const char* column4[20] = {"ReqCreatureOrGOId1","ReqCreatureOrGOCount1","ReqItemId1","ReqItemCount1",
-            "ReqSourceId1","ReqCreatureOrGOId2","ReqCreatureOrGOCount2","ReqItemId2","ReqItemCount2",
-            "ReqSourceId2","ReqCreatureOrGOId3","ReqCreatureOrGOCount3","ReqItemId3","ReqItemCount3",
-            "ReqSourceId3","ReqCreatureOrGOId4","ReqCreatureOrGOCount4","ReqItemId4","ReqItemCount4",
-            "ReqSourceId4"};
+        const char* column1[17] = {"Method","QuestLevel","MinLevel","ZoneOrSort","Type","SuggestedPlayers",
+            "RepObjectiveFaction","RepObjectiveValue","RepObjectiveFaction2","RepObjectiveValue2",
+            "NextQuestInChain","RewXPId","RewOrReqMoney","RewMoneyMaxLevel","RewSpell","RewSpellCast","RewHonorAddition"};
+
+        // RewHonorMultiplier ist hier zwischen (float)
+
+        // int32
+        const char* column2[43] = {"SrcItemId","QuestFlags","CharTitleId","PlayersSlain","BonusTalents","RewardArenaPoints","unk0",
+            "RewItemId1","RewItemCount1","RewItemId2","RewItemCount2","RewItemId3","RewItemCount3","RewItemId4","RewItemCount4",
+            "RewChoiceItemId1","RewChoiceItemCount1","RewChoiceItemId2","RewChoiceItemCount2","RewChoiceItemId3","RewChoiceItemCount3",
+            "RewChoiceItemId4","RewChoiceItemCount4","RewChoiceItemId5","RewChoiceItemCount5","RewChoiceItemId6","RewChoiceItemCount6",
+            "RewRepFaction1","RewRepFaction2","RewRepFaction3","RewRepFaction4","RewRepFaction5",
+            "RewRepValueId1","RewRepValueId2","RewRepValueId3","RewRepValueId4","RewRepValueId5",
+            "RewRepValue1","RewRepValue2","RewRepValue3","RewRepValue4","RewRepValue5",
+            "PointMapId"};
+
+        // PointX (float) + PointY (float) + PointOpt (int32) sind hier zwischen
+
+        // string
+        const char* column3[5] = {"Title","Objectives","Details","EndText","CompletionText"};
+
+        // int32
+        const char* column4[28] = {"ReqCreatureOrGOId1","ReqCreatureOrGOCount1","ReqSourceId1","ReqSourceCount1",
+            "ReqCreatureOrGOId2","ReqCreatureOrGOCount2","ReqSourceId2","ReqSourceCount2",
+            "ReqCreatureOrGOId3","ReqCreatureOrGOCount3","ReqSourceId3","ReqSourceCount3",
+            "ReqCreatureOrGOId4","ReqCreatureOrGOCount4","ReqSourceId4","ReqSourceCount4",
+            "ReqItemId1","ReqItemCount1","ReqItemId2","ReqItemCount2","ReqItemId3","ReqItemCount3",
+            "ReqItemId4","ReqItemCount4","ReqItemId5","ReqItemCount5","ReqItemId6","ReqItemCount6"};
+
         // string
         const char* column5[4] = {"ObjectiveText1","ObjectiveText2","ObjectiveText3","ObjectiveText4"};
 
@@ -2920,302 +3020,166 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
 
             if (fields)
             {
-                char* tmp;
+                char* tmp = NULL;
+                char* tmpstr = NULL;
 
-                if ((docolumn && ColumnExists(columns, "Method")) || !docolumn)
+                // column1
+                for (uint8 i=0; i<17; ++i)
                 {
-                    // Method
-                    if (fields[1].GetUInt32() != fields[2].GetUInt32())
+                    if ((docolumn && ColumnExists(columns, column1[i])) || !docolumn)
                     {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `Method`='");
-                        else updatesql.append("`Method`='");
-                        sprintf(tmp, "%u", fields[1].GetUInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "QuestLevel")) || !docolumn)
-                {
-                    // QuestLevel
-                    if (fields[3].GetInt32() != fields[4].GetInt32())
-                    {
-                        if (fields[3].GetInt32() != fields[4].GetInt32())
+                        if (fields[1+i*2].GetInt32() != fields[2+i*2].GetInt32())
                         {
                             tmp = (char*)malloc(32);
-                            if (first) updatesql.append("SET `QuestLevel`='");
-                            else updatesql.append("`QuestLevel`='");
-                            sprintf(tmp, "%i", fields[3].GetInt32());
+
+                            if (first)
+                                updatesql.append("SET `").append(column1[i]).append("`='");
+                            else
+                                updatesql.append("`").append(column1[i]).append("`='");
+
+                            sprintf(tmp, "%i", fields[1+i*2].GetInt32());
                             updatesql.append(tmp).append("',");
                             free(tmp);
                             first = false;
                         }
                     }
                 }
-                if ((docolumn && ColumnExists(columns, "ZoneOrSort")) || !docolumn)
+                // RewHonorMultiplier
+                if ((docolumn && ColumnExists(columns, "RewHonorMultiplier")) || !docolumn)
                 {
-                    // ZoneOrSort
-                    if (fields[5].GetInt32() != fields[6].GetInt32())
+                    if (fields[35].GetFloat() != fields[36].GetFloat() && fields[36].GetFloat() != 1.0f)
                     {
                         tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `ZoneOrSort`='");
-                        else updatesql.append("`ZoneOrSort`='");
-                        sprintf(tmp, "%i", fields[5].GetInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "Type")) || !docolumn)
-                {
-                    // Type
-                    if (fields[7].GetUInt32() != fields[8].GetUInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `Type`='");
-                        else updatesql.append("`Type`='");
-                        sprintf(tmp, "%u", fields[7].GetUInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "SuggestedPlayers")) || !docolumn)
-                {
-                    // SuggestedPlayers
-                    if (fields[9].GetUInt32() != fields[10].GetUInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `SuggestedPlayers`='");
-                        else updatesql.append("`SuggestedPlayers`='");
-                        sprintf(tmp, "%u", fields[9].GetUInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "RepObjectiveFaction")) || !docolumn)
-                {
-                    // RepObjectiveFaction
-                    if (fields[11].GetInt32() != fields[12].GetInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `RepObjectiveFaction`='");
-                        else updatesql.append("`RepObjectiveFaction`='");
-                        sprintf(tmp, "%i", fields[11].GetInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "RepObjectiveValue")) || !docolumn)
-                {
-                    // RepObjectiveValue
-                    if (fields[13].GetInt32() != fields[14].GetInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `RepObjectiveValue`='");
-                        else updatesql.append("`RepObjectiveValue`='");
-                        sprintf(tmp, "%i", fields[13].GetInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "RepObjectiveFaction2")) || !docolumn)
-                {
-                    // RepObjectiveFaction2
-                    if (fields[15].GetInt32() != fields[16].GetInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `RepObjectiveFaction2`='");
-                        else updatesql.append("`RepObjectiveFaction2`='");
-                        sprintf(tmp, "%i", fields[15].GetInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "RepObjectiveValue2")) || !docolumn)
-                {
-                    // RepObjectiveValue2
-                    if (fields[17].GetInt32() != fields[18].GetInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `RepObjectiveValue2`='");
-                        else updatesql.append("`RepObjectiveValue2`='");
-                        sprintf(tmp, "%i", fields[17].GetInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "NextQuestInChain")) || !docolumn)
-                {
-                    // NextQuestInChain
-                    if (fields[19].GetUInt32() != fields[20].GetUInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `NextQuestInChain`='");
-                        else updatesql.append("`NextQuestInChain`='");
-                        sprintf(tmp, "%u", fields[19].GetUInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "RewOrReqMoney")) || !docolumn)
-                {
-                    // RewOrReqMoney
-                    if (fields[21].GetInt32() != fields[22].GetInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `RewOrReqMoney`='");
-                        else updatesql.append("`RewOrReqMoney`='");
-                        sprintf(tmp, "%i", fields[21].GetInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "RewMoneyMaxLevel")) || !docolumn)
-                {
-                    // RewMoneyMaxLevel
-                    if (fields[23].GetUInt32() != fields[24].GetUInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `RewMoneyMaxLevel`='");
-                        else updatesql.append("`RewMoneyMaxLevel`='");
-                        sprintf(tmp, "%u", fields[23].GetUInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "RewSpell")) || !docolumn)
-                {
-                    // RewSpell
-                    if (fields[25].GetUInt32() != fields[26].GetUInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `RewSpell`='");
-                        else updatesql.append("`RewSpell`='");
-                        sprintf(tmp, "%u", fields[25].GetUInt32());
-                        updatesql.append(tmp).append("',");
-                        free(tmp);
-                        first = false;
-                    }
-                }
-                if ((docolumn && ColumnExists(columns, "RewSpellCast")) || !docolumn)
-                {
-                    // RewSpellCast
-                    if (fields[27].GetInt32() != fields[28].GetInt32())
-                    {
-                        tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `RewSpellCast`='");
-                        else updatesql.append("`RewSpellCast`='");
-                        sprintf(tmp, "%i", fields[27].GetInt32());
+
+                        if (first)
+                            updatesql.append("SET `RewHonorMultiplier`='");
+                        else
+                            updatesql.append("`RewHonorMultiplier`='");
+
+                        sprintf(tmp, "%f", fields[35].GetFloat());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
                 }
                 // column2
-                for (uint8 i=0; i<23; i++)
+                for (uint8 i=0; i<43; ++i)
                 {
                     if ((docolumn && ColumnExists(columns, column2[i])) || !docolumn)
                     {
-                        if (fields[29+i*2].GetUInt32() != fields[30+i*2].GetUInt32())
+                        if (fields[37+i*2].GetInt32() != fields[38+i*2].GetInt32())
                         {
                             tmp = (char*)malloc(32);
-                            if (first) updatesql.append("SET `").append(column2[i]).append("`='");
-                            else updatesql.append("`").append(column2[i]).append("`='");
-                            sprintf(tmp, "%u", fields[29+i*2].GetUInt32());
+
+                            if (first)
+                                updatesql.append("SET `").append(column2[i]).append("`='");
+                            else
+                                updatesql.append("`").append(column2[i]).append("`='");
+
+                            sprintf(tmp, "%i", fields[37+i*2].GetInt32());
                             updatesql.append(tmp).append("',");
                             free(tmp);
                             first = false;
                         }
                     }
                 }
+                // PointX
                 if ((docolumn && ColumnExists(columns, "PointX")) || !docolumn)
                 {
-                    // PointX
-                    if (fields[75].GetFloat() != fields[76].GetFloat())
+                    if (fields[123].GetFloat() != fields[124].GetFloat())
                     {
                         tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `PointX`='");
-                        else updatesql.append("`PointX`='");
-                        sprintf(tmp, "%f", fields[75].GetFloat());
+
+                        if (first)
+                            updatesql.append("SET `PointX`='");
+                        else
+                            updatesql.append("`PointX`='");
+
+                        sprintf(tmp, "%f", fields[123].GetFloat());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
                 }
+                // PointY
                 if ((docolumn && ColumnExists(columns, "PointY")) || !docolumn)
                 {
-                    // PointY
-                    if (fields[77].GetFloat() != fields[78].GetFloat())
+                    if (fields[125].GetFloat() != fields[126].GetFloat())
                     {
                         tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `PointY`='");
-                        else updatesql.append("`PointY`='");
-                        sprintf(tmp, "%f", fields[77].GetFloat());
+
+                        if (first)
+                            updatesql.append("SET `PointY`='");
+                        else
+                            updatesql.append("`PointY`='");
+
+                        sprintf(tmp, "%f", fields[125].GetFloat());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
                 }
+                // PointOpt
                 if ((docolumn && ColumnExists(columns, "PointOpt")) || !docolumn)
                 {
-                    // PointOpt
-                    if (fields[79].GetUInt32() != fields[80].GetUInt32())
+                    if (fields[127].GetInt32() != fields[128].GetInt32())
                     {
                         tmp = (char*)malloc(32);
-                        if (first) updatesql.append("SET `PointOpt`='");
-                        else updatesql.append("`PointOpt`='");
-                        sprintf(tmp, "%u", fields[75].GetUInt32());
+
+                        if (first)
+                            updatesql.append("SET `PointOpt`='");
+                        else
+                            updatesql.append("`PointOpt`='");
+
+                        sprintf(tmp, "%i", fields[127].GetInt32());
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
                     }
                 }
                 // column3
-                for (uint8 i=0; i<4; i++)
+                for (uint8 i=0; i<5; ++i)
                 {
                     if ((docolumn && ColumnExists(columns, column3[i])) || !docolumn)
                     {
-                        if (strcmp(fields[81+i*2].GetCppString().c_str(), fields[82+i*2].GetCppString().c_str()) != 0)
+                        if (strcmp(fields[129+i*2].GetCppString().c_str(), fields[130+i*2].GetCppString().c_str()) != 0)
                         {
-                            if (first) updatesql.append("SET `").append(column3[i]).append("`='").append(io.Terminator(fields[81+i*2].GetCppString())).append("',");
-                            else updatesql.append("`").append(column3[i]).append("`='").append(io.Terminator(fields[81+i*2].GetCppString())).append("',");
+                            if (first)
+                                updatesql.append("SET `").append(column3[i]).append("`='").append(io.Terminator(fields[129+i*2].GetCppString())).append("',");
+                            else
+                                updatesql.append("`").append(column3[i]).append("`='").append(io.Terminator(fields[129+i*2].GetCppString())).append("',");
+
                             first = false;
                         }
                     }
                 }
                 // column4
-                for (uint8 i=0; i<20; i++)
+                for (uint8 i=0; i<28; ++i)
                 {
                     if ((docolumn && ColumnExists(columns, column4[i])) || !docolumn)
                     {
-                        int32 firsti = fields[89+i*2].GetInt32();
-                        int32 second = fields[90+i*2].GetInt32();
+                        tmpstr = (char*)malloc(32);
+                        int32 tmpint = 0;
 
-                        // GOs in KillCreature/ReqCreatureOrGOId für core umrechnen
-                        if ((89+i*2 == 89 && firsti < 0) || (89+i*2 == 99 && firsti < 0) ||
-                            (89+i*2 == 109 && firsti < 0) || (89+i*2 == 119 && firsti < 0))
-                            firsti = (firsti + 2147483648)*-1;
+                        // GOs umrechnen für den Core
+                        if ((139+i*2 == 139 || 139+i*2 == 147 || 139+i*2 == 155 || 139+i*2 == 163) && fields[139+i*2].GetInt32() < 0)
+                            tmpint = (fields[139+i*2].GetInt32() + 2147483648)*-1;
+                        else
+                            tmpint = fields[139+i*2].GetInt32();
 
-                        if (firsti != second)
+                        sprintf(tmpstr, "%i", tmpint);
+
+                        if (tmpint != fields[140+i*2].GetInt32())
                         {
-                            tmp = (char*)malloc(32);
-                            if (first) updatesql.append("SET `").append(column4[i]).append("`='");
-                            else updatesql.append("`").append(column4[i]).append("`='");
-                            sprintf(tmp, "%i", firsti);
-                            updatesql.append(tmp).append("',");
-                            free(tmp);
+                            if (first)
+                                updatesql.append("SET `").append(column4[i]).append("`='");
+                            else
+                                updatesql.append("`").append(column4[i]).append("`='");
+
+                            updatesql.append(tmpstr).append("',");
                             first = false;
                         }
+                        free(tmpstr);
                     }
                 }
                 // column5
@@ -3223,14 +3187,13 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                 {
                     if ((docolumn && ColumnExists(columns, column5[i])) || !docolumn)
                     {
-                        /*
-                        There are never data in the wdbs if the quest was completed on the offi!
-                        Because of this we should only make updates to this columns if data are present!
-                        */
-                        if (!fields[129+i*2].GetCppString().empty() && (strcmp(fields[129+i*2].GetCppString().c_str(), fields[130+i*2].GetCppString().c_str()) != 0))
+                        if (strcmp(fields[195+i*2].GetCppString().c_str(), fields[196+i*2].GetCppString().c_str()) != 0)
                         {
-                            if (first) updatesql.append("SET `").append(column5[i]).append("`='").append(io.Terminator(fields[129+i*2].GetCppString())).append("',");
-                            else updatesql.append("`").append(column5[i]).append("`='").append(io.Terminator(fields[129+i*2].GetCppString())).append("',");
+                            if (first)
+                                updatesql.append("SET `").append(column5[i]).append("`='").append(io.Terminator(fields[195+i*2].GetCppString())).append("',");
+                            else
+                                updatesql.append("`").append(column5[i]).append("`='").append(io.Terminator(fields[195+i*2].GetCppString())).append("',");
+
                             first = false;
                         }
                     }
