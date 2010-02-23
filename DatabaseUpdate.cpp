@@ -1055,7 +1055,6 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
                     }
                     free(tmp);
                 }
-                //insertsql.append("','0')"); // `RewHonorableKills` darf nicht leer sein
                 insertsql.append("','").append(_WDB_VERIFIED).append("')");
 
                 // Haben wir MAX_INSERTS erreicht und Daten übrig, dann Insert senden und löschen?!
@@ -1281,7 +1280,7 @@ void DatabaseUpdate::CreateCreatureUpdate(const char* wdbdb, const char* worlddb
                 updatesql.resize(updatesql.length()-1);
                 char* tmp = (char*)malloc(32);
                 sprintf(tmp, "%u", fields[0].GetUInt32());
-                updatesql.append(" WHERE `entry`='").append(tmp).append("' LIMIT 1;\n");
+                updatesql.append(",`WDBVerified`='").append(_WDB_VERIFIED).append("' WHERE `entry`='").append(tmp).append("' LIMIT 1;\n");
                 fputs(updatesql.c_str(), sqlfile);
                 updatesql.clear();
                 free(tmp);
@@ -1599,7 +1598,7 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                 updatesql.resize(updatesql.length()-1);
                 char* tmp = (char*)malloc(32);
                 sprintf(tmp, "%u", fields[0].GetUInt32());
-                updatesql.append(" WHERE `entry`='").append(tmp).append("' LIMIT 1;\n");
+                updatesql.append(",`WDBVerified`='").append(_WDB_VERIFIED).append("' WHERE `entry`='").append(tmp).append("' LIMIT 1;\n");
                 fputs(updatesql.c_str(), sqlfile);
                 updatesql.clear();
                 free(tmp);
@@ -2486,7 +2485,7 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                 updatesql.resize(updatesql.length()-1);
                 char* tmp = (char*)malloc(32);
                 sprintf(tmp, "%u", fields[0].GetUInt32());
-                updatesql.append(" WHERE `entry`='").append(tmp).append("' LIMIT 1;\n");
+                updatesql.append(",`WDBVerified`='").append(_WDB_VERIFIED).append("' WHERE `entry`='").append(tmp).append("' LIMIT 1;\n");
                 fputs(updatesql.c_str(), sqlfile);
                 updatesql.clear();
                 free(tmp);
@@ -2691,7 +2690,7 @@ void DatabaseUpdate::CreateNPCTextUpdate(const char* wdbdb, const char* worlddb,
                 updatesql.resize(updatesql.length()-1);
                 char* tmp = (char*)malloc(32);
                 sprintf(tmp, "%u", fields[0].GetUInt32());
-                updatesql.append(" WHERE `ID`='").append(tmp).append("' LIMIT 1;\n");
+                updatesql.append(",`WDBVerified`='").append(_WDB_VERIFIED).append("' WHERE `ID`='").append(tmp).append("' LIMIT 1;\n");
                 fputs(updatesql.c_str(), sqlfile);
                 updatesql.clear();
                 free(tmp);
@@ -2803,7 +2802,7 @@ void DatabaseUpdate::CreatePageTextUpdate(const char* wdbdb, const char* worlddb
                 updatesql.resize(updatesql.length()-1);
                 char* tmp = (char*)malloc(32);
                 sprintf(tmp, "%u", fields[0].GetUInt32());
-                updatesql.append(" WHERE `entry`='").append(tmp).append("' LIMIT 1;\n");
+                updatesql.append(",`WDBVerified`='").append(_WDB_VERIFIED).append("' WHERE `entry`='").append(tmp).append("' LIMIT 1;\n");
                 fputs(updatesql.c_str(), sqlfile);
                 updatesql.clear();
                 free(tmp);
@@ -3209,7 +3208,7 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                 updatesql.resize(updatesql.length()-1);
                 char* tmp = (char*)malloc(32);
                 sprintf(tmp, "%u", fields[0].GetUInt32());
-                updatesql.append(" WHERE `entry`='").append(tmp).append("' LIMIT 1;\n");
+                updatesql.append(",`WDBVerified`='").append(_WDB_VERIFIED).append("' WHERE `entry`='").append(tmp).append("' LIMIT 1;\n");
                 fputs(updatesql.c_str(), sqlfile);
                 updatesql.clear();
                 free(tmp);
