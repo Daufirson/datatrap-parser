@@ -23,3 +23,5 @@ glob:dep/lib/
 relre:.user
 relre:helper/
 glob:res/DataTrap.aps
+glob:genrevision.exe
+glob:revision.h
