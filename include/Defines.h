@@ -131,6 +131,7 @@ inline float finiteAlways(float f) { return finite(f) ? f : 0.0f; }
 #define STRINGIZE(a) #a
 
 #define MAX_QUERY_LEN       32*1024
+#define WDB_VERIFIED        11403
 #define MAX_DBCS            246
 #define MAX_LOCALE          12
 

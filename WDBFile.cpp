@@ -229,9 +229,9 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
                 def->addField(t_int32,  "BuyPrice");            
                 def->addField(t_uint32, "SellPrice");
                 def->addField(t_uint32, "InventorySlot");       // 15
-                 def->addField(t_int32,  "AllowableClass");
+                def->addField(t_int32,  "AllowableClass");
                 def->addField(t_int32,  "AllowableRace");
-                 def->addField(t_uint32, "ItemLevel");           
+                def->addField(t_uint32, "ItemLevel");           
                 def->addField(t_uint32, "RequiredLevel");
                 def->addField(t_uint32, "RequiredSkill");       // 20
                 def->addField(t_uint32, "RequiredSkillRank");
@@ -432,96 +432,137 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
             {
                 def->setSignature(QUEST_SIG);
 
-                // 77 fields
+                // 104 fields
                 def->addField(t_uint32, WDB_ENTRY_FIELD);
                 def->addField(t_uint32, WDB_SIZEOFENTRY_FIELD);
 
-                def->addField(t_uint32, "QuestID2");
-                def->addField(t_uint32, "Method");
+                // #3
+                def->addField(t_int32,  "QuestID2");
+                def->addField(t_int32,  "Method");
                 def->addField(t_int32,  "QuestLevel");
+                def->addField(t_int32,  "MinLevel");
                 def->addField(t_int32,  "ZoneOrSort");
-                def->addField(t_uint32, "Type");
-                def->addField(t_uint32, "SuggestedPlayers");
+                def->addField(t_int32,  "Type"); // QuestInfo.dbc
+                def->addField(t_int32,  "SuggestedPlayers");
 
+                // #10
                 def->addField(t_int32,  "RepObjectiveFaction");
                 def->addField(t_int32,  "RepObjectiveValue");
                 def->addField(t_int32,  "RepObjectiveFaction2");
                 def->addField(t_int32,  "RepObjectiveValue2");
 
-                def->addField(t_uint32, "NextQuestID");
-                def->addField(t_int32,  "CoinReward");
-                def->addField(t_uint32, "CoinRewardOn80");
-                def->addField(t_uint32, "SpellReward");
-                def->addField(t_int32,  "EffectOnPlayer"); // RewSpellCast
-                def->addField(t_uint32, "RewHonorPts");
-                def->addField(t_uint32, "StartItemID");
-                def->addField(t_uint32, "QuestFlags");
-                def->addField(t_uint32, "CharTitleId");
-                def->addField(t_uint32, "reqPVPKills");
-                def->addField(t_undef,  "unk");
+                // #14
+                def->addField(t_int32,  "NextQuestInChain");
+                def->addField(t_int32,  "RewXPId");
+                def->addField(t_int32,  "RewOrReqMoney");
+                def->addField(t_int32,  "RewMoneyMaxLevel");
+                def->addField(t_int32,  "RewSpell");
+                def->addField(t_int32,  "RewSpellCast");
 
-                def->addField(t_uint32, "ItemReward1");
-                def->addField(t_uint32, "ItemAmount1");
-                def->addField(t_uint32, "ItemReward2");
-                def->addField(t_uint32, "ItemAmount2");
-                def->addField(t_uint32, "ItemReward3");
-                def->addField(t_uint32, "ItemAmount3");
-                def->addField(t_uint32, "ItemReward4");
-                def->addField(t_uint32, "ItemAmount4");
+                // #20
+                def->addField(t_int32,  "RewHonorAddition");
+                def->addField(t_float,  "RewHonorMultiplier");
+                def->addField(t_int32,  "SrcItemId");
+                def->addField(t_int32,  "QuestFlags");
 
-                def->addField(t_uint32, "ItemChoice1");
-                def->addField(t_uint32, "ItemChoiceAmount1");
-                def->addField(t_uint32, "ItemChoice2");
-                def->addField(t_uint32, "ItemChoiceAmount2");
-                def->addField(t_uint32, "ItemChoice3");
-                def->addField(t_uint32, "ItemChoiceAmount3");
-                def->addField(t_uint32, "ItemChoice4");
-                def->addField(t_uint32, "ItemChoiceAmount4");
-                def->addField(t_uint32, "ItemChoice5");
-                def->addField(t_uint32, "ItemChoiceAmount5");
-                def->addField(t_uint32, "ItemChoice6");
-                def->addField(t_uint32, "ItemChoiceAmount6");
+                // #24
+                def->addField(t_int32,  "CharTitleId");
+                def->addField(t_int32,  "PlayersSlain");
+                def->addField(t_int32,  "BonusTalents");
+                def->addField(t_int32,  "RewardArenaPoints");
+                def->addField(t_undef,  "unk0");
 
-                def->addField(t_uint32, "PointMapId");
+                // #29
+                def->addField(t_int32,  "RewItemId1");
+                def->addField(t_int32,  "RewItemCount1");
+                def->addField(t_int32,  "RewItemId2");
+                def->addField(t_int32,  "RewItemCount2");
+                def->addField(t_int32,  "RewItemId3");
+                def->addField(t_int32,  "RewItemCount3");
+                def->addField(t_int32,  "RewItemId4");
+                def->addField(t_int32,  "RewItemCount4");
+
+                // #37
+                def->addField(t_int32,  "RewChoiceItemId1");
+                def->addField(t_int32,  "RewChoiceItemCount1");
+                def->addField(t_int32,  "RewChoiceItemId2");
+                def->addField(t_int32,  "RewChoiceItemCount2");
+                def->addField(t_int32,  "RewChoiceItemId3");
+                def->addField(t_int32,  "RewChoiceItemCount3");
+                def->addField(t_int32,  "RewChoiceItemId4");
+                def->addField(t_int32,  "RewChoiceItemCount4");
+                def->addField(t_int32,  "RewChoiceItemId5");
+                def->addField(t_int32,  "RewChoiceItemCount5");
+                def->addField(t_int32,  "RewChoiceItemId6");
+                def->addField(t_int32,  "RewChoiceItemCount6");
+
+                // #49
+                def->addField(t_int32,  "RewRepFaction1");
+                def->addField(t_int32,  "RewRepFaction2");
+                def->addField(t_int32,  "RewRepFaction3");
+                def->addField(t_int32,  "RewRepFaction4");
+                def->addField(t_int32,  "RewRepFaction5");
+                def->addField(t_int32,  "RewRepValueId1");
+                def->addField(t_int32,  "RewRepValueId2");
+                def->addField(t_int32,  "RewRepValueId3");
+                def->addField(t_int32,  "RewRepValueId4");
+                def->addField(t_int32,  "RewRepValueId5");
+                def->addField(t_int32,  "RewRepValue1");
+                def->addField(t_int32,  "RewRepValue2");
+                def->addField(t_int32,  "RewRepValue3");
+                def->addField(t_int32,  "RewRepValue4");
+                def->addField(t_int32,  "RewRepValue5");
+
+                // #64
+                def->addField(t_int32,  "PointMapId");
                 def->addField(t_float,  "PointX");
                 def->addField(t_float,  "PointY");
-                def->addField(t_uint32, "PointOpt");
+                def->addField(t_int32,  "PointOpt");
 
-                def->addField(t_string, "Name");
-                def->addField(t_string, "Description");
+                // #68
+                def->addField(t_string, "Title");
+                def->addField(t_string, "Objectives");
                 def->addField(t_string, "Details");
-                def->addField(t_string, "Subdescription");
+                def->addField(t_string, "EndText");
+                def->addField(t_string, "CompletionText");
 
-                def->addField(t_int32,  "KillCreature1");
-                def->addField(t_int32,  "KillCreature1Amount");
-                def->addField(t_int32,  "ItemUsed1");
-                def->addField(t_int32,  "KillCreature2");
-                def->addField(t_int32,  "KillCreature2Amount");
-                def->addField(t_int32,  "ItemUsed2");
-                def->addField(t_int32,  "KillCreature3");
-                def->addField(t_int32,  "KillCreature3Amount");
-                def->addField(t_int32,  "ItemUsed3");
-                def->addField(t_int32,  "KillCreature4");
-                def->addField(t_int32,  "KillCreature4Amount");
-                def->addField(t_int32,  "ItemUsed4");
+                // #73
+                def->addField(t_int32,  "ReqCreatureOrGOId1");
+                def->addField(t_int32,  "ReqCreatureOrGOCount1");
+                def->addField(t_int32,  "ReqSourceId1");
+                def->addField(t_int32,  "ReqSourceCount1");
+                def->addField(t_int32,  "ReqCreatureOrGOId2");
+                def->addField(t_int32,  "ReqCreatureOrGOCount2");
+                def->addField(t_int32,  "ReqSourceId2");
+                def->addField(t_int32,  "ReqSourceCount2");
+                def->addField(t_int32,  "ReqCreatureOrGOId3");
+                def->addField(t_int32,  "ReqCreatureOrGOCount3");
+                def->addField(t_int32,  "ReqSourceId3");
+                def->addField(t_int32,  "ReqSourceCount3");
+                def->addField(t_int32,  "ReqCreatureOrGOId4");
+                def->addField(t_int32,  "ReqCreatureOrGOCount4");
+                def->addField(t_int32,  "ReqSourceId4");
+                def->addField(t_int32,  "ReqSourceCount4");
 
-                def->addField(t_int32,  "CollectItem1");
-                def->addField(t_int32,  "CollectItem1Amount");
-                def->addField(t_int32,  "CollectItem2");
-                def->addField(t_int32,  "CollectItem2Amount");
-                def->addField(t_int32,  "CollectItem3");
-                def->addField(t_int32,  "CollectItem3Amount");
-                def->addField(t_int32,  "CollectItem4");
-                def->addField(t_int32,  "CollectItem4Amount");
-                def->addField(t_int32,  "CollectItem5");
-                def->addField(t_int32,  "CollectItem5Amount");
-                def->addField(t_int32,  "CollectItem6");
-                def->addField(t_int32,  "CollectItem6Amount");
+                // #89
+                def->addField(t_int32,  "ReqItemId1");
+                def->addField(t_int32,  "ReqItemCount1");
+                def->addField(t_int32,  "ReqItemId2");
+                def->addField(t_int32,  "ReqItemCount2");
+                def->addField(t_int32,  "ReqItemId3");
+                def->addField(t_int32,  "ReqItemCount3");
+                def->addField(t_int32,  "ReqItemId4");
+                def->addField(t_int32,  "ReqItemCount4");
+                def->addField(t_int32,  "ReqItemId5");
+                def->addField(t_int32,  "ReqItemCount5");
+                def->addField(t_int32,  "ReqItemId6");
+                def->addField(t_int32,  "ReqItemCount6");
 
-                def->addField(t_string, "Objective1");
-                def->addField(t_string, "Objective2");
-                def->addField(t_string, "Objective3");
-                def->addField(t_string, "Objective4");
+                // #101
+                def->addField(t_string, "ObjectiveText1");
+                def->addField(t_string, "ObjectiveText2");
+                def->addField(t_string, "ObjectiveText3");
+                def->addField(t_string, "ObjectiveText4");
 
                 gDefList.push_back(*def);
             }
