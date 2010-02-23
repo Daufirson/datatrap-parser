@@ -137,7 +137,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
     "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`,"
     "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
     "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`,`movementId`,"
-    "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`) VALUES\n('");
+    "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`,`WDBVerified`) VALUES\n('");
 
     query.append("SELECT `entry`,`name`,`subname`,`IconName`,`type_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`,"
         "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
@@ -201,7 +201,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
                 }
 
                 // Müssen wegen der Core gesetzt werden beim Insert
-                insertsql.append("1','1','35','35','1')");
+                insertsql.append("1','1','35','35','1','").append(_WDB_VERIFIED).append("')");
 
                 // Haben wir MAX_INSERTS erreicht und Daten übrig? Dann insert senden und löschen!
                 if (count >= MAX_INSERTS && (count+counttotal+1) < result->GetRowCount())
@@ -216,7 +216,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
                     "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`,"
                     "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
                     "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`,`movementId`,"
-                    "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`) VALUES\n('");
+                    "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`,`WDBVerified`) VALUES\n('");
 
                     first = true;
 
@@ -262,8 +262,8 @@ void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* world
         "(`entry`,`type`,`displayId`,`name`,`IconName`,`castBarCaption`,`unk1`,`data0`,`data1`,`data2`,`data3`,`data4`,`data5`,"
         "`data6`,`data7`,`data8`,`data9`,`data10`,`data11`,`data12`,`data13`,`data14`,`data15`,`data16`,`data17`,"
         "`data18`,`data19`,`data20`,`data21`,`data22`,`data23`,`size`,"
-        "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`" // NEU!!!
-        ") VALUES\n('");
+        "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`," // NEU!!!
+        "`WDBVerified`) VALUES\n('");
 
     query.append("SELECT `entry`,`type`,`displayId`,`Name1`,`IconName`,`castBarCaption`,`unk1`,`data0`,`data1`,`data2`,`data3`,`data4`,"
         "`data5`,`data6`,`data7`,`data8`,`data9`,`data10`,`data11`,`data12`,`data13`,`data14`,`data15`,`data16`,"
@@ -372,7 +372,7 @@ void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* world
                 // questItem6
                 tmp = (char*)malloc(32);
                 sprintf(tmp, "%u", fields[37].GetUInt32());
-                insertsql.append(tmp).append("')");
+                insertsql.append(tmp).append("','").append(_WDB_VERIFIED).append("')");
                 free(tmp);
 
                 // Haben wir MAX_INSERTS erreicht und Daten übrig? Dann insert senden und löschen!
@@ -388,8 +388,8 @@ void DatabaseUpdate::CreateGameobjectInsert(const char* wdbdb, const char* world
                         "(`entry`,`type`,`displayId`,`name`,`IconName`,`castBarCaption`,`unk1`,`data0`,`data1`,`data2`,`data3`,`data4`,`data5`,"
                         "`data6`,`data7`,`data8`,`data9`,`data10`,`data11`,`data12`,`data13`,`data14`,`data15`,`data16`,`data17`,"
                         "`data18`,`data19`,`data20`,`data21`,`data22`,`data23`,`size`,"
-                        "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`" // NEU!!!
-                        ") VALUES\n('");
+                        "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`," // NEU!!!
+                        "`WDBVerified`) VALUES\n('");
 
                     first = true;
 
@@ -451,7 +451,7 @@ void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Da
         "`lockid`,`Material`,`sheath`,`RandomProperty`,`RandomSuffix`,`block`,`itemset`,`MaxDurability`,`area`,"
         "`Map`,`BagFamily`,`TotemCategory`,`socketColor_1`,`socketContent_1`,`socketColor_2`,`socketContent_2`,"
         "`socketColor_3`,`socketContent_3`,`socketBonus`,`GemProperties`,`RequiredDisenchantSkill`,"
-        "`ArmorDamageModifier`,`Duration`,`ItemLimitCategory`,`HolidayId`) VALUES\n('");
+        "`ArmorDamageModifier`,`Duration`,`ItemLimitCategory`,`HolidayId`,`WDBVerified`) VALUES\n('");
 
     //                      0
     query.append("SELECT `entry`,`Class`,`SubClass1`,`unk0`,`Name1`,`ItemDisplayID`,`Quality`,`Flags`,"
@@ -585,7 +585,7 @@ void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Da
                     }
                     free(tmp);
                 }
-                insertsql.append("')");
+                insertsql.append("','").append(_WDB_VERIFIED).append("')");
 
                 // Haben wir MAX_INSERTS erreicht und Daten übrig? Dann insert senden und löschen!
                 if (count >= MAX_INSERTS && (count+counttotal+1) < result->GetRowCount())
@@ -616,7 +616,7 @@ void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Da
                         "`lockid`,`Material`,`sheath`,`RandomProperty`,`RandomSuffix`,`block`,`itemset`,`MaxDurability`,`area`,"
                         "`Map`,`BagFamily`,`TotemCategory`,`socketColor_1`,`socketContent_1`,`socketColor_2`,`socketContent_2`,"
                         "`socketColor_3`,`socketContent_3`,`socketBonus`,`GemProperties`,`RequiredDisenchantSkill`,"
-                        "`ArmorDamageModifier`,`Duration`,`ItemLimitCategory`,`HolidayId`) VALUES\n('");
+                        "`ArmorDamageModifier`,`Duration`,`ItemLimitCategory`,`HolidayId`,`WDBVerified`) VALUES\n('");
 
                     first = true;
 
@@ -666,7 +666,8 @@ void DatabaseUpdate::CreateNPCTextInsert(const char* wdbdb, const char* worlddb,
         "`text4_0`,`text4_1`,`lang4`,`prob4`,`em4_0`,`em4_1`,`em4_2`,`em4_3`,`em4_4`,"
         "`text5_0`,`text5_1`,`lang5`,`prob5`,`em5_0`,`em5_1`,`em5_2`,`em5_3`,`em5_4`,"
         "`text6_0`,`text6_1`,`lang6`,`prob6`,`em6_0`,`em6_1`,`em6_2`,`em6_3`,`em6_4`,"
-        "`text7_0`,`text7_1`,`lang7`,`prob7`,`em7_0`,`em7_1`,`em7_2`,`em7_3`,`em7_4`) VALUES\n('");
+        "`text7_0`,`text7_1`,`lang7`,`prob7`,`em7_0`,`em7_1`,`em7_2`,`em7_3`,`em7_4`,"
+        "`WDBVerified`) VALUES\n('");
 
     query.append("SELECT `entry`,"
         "`text0_0`,`text0_1`,`lang0`,`prob0`,`em0_0`,`em0_1`,`em0_2`,`em0_3`,`em0_4`,"
@@ -740,7 +741,7 @@ void DatabaseUpdate::CreateNPCTextInsert(const char* wdbdb, const char* worlddb,
                         free(tmp);
                     }
                 }
-                insertsql.append("')");
+                insertsql.append("','").append(_WDB_VERIFIED).append("')");
 
                 // Haben wir MAX_INSERTS erreicht und Daten übrig? Dann insert senden und löschen!
                 if (count >= MAX_INSERTS && (count+counttotal+1) < result->GetRowCount())
@@ -759,7 +760,8 @@ void DatabaseUpdate::CreateNPCTextInsert(const char* wdbdb, const char* worlddb,
                         "`text4_0`,`text4_1`,`lang4`,`prob4`,`em4_0`,`em4_1`,`em4_2`,`em4_3`,`em4_4`,"
                         "`text5_0`,`text5_1`,`lang5`,`prob5`,`em5_0`,`em5_1`,`em5_2`,`em5_3`,`em5_4`,"
                         "`text6_0`,`text6_1`,`lang6`,`prob6`,`em6_0`,`em6_1`,`em6_2`,`em6_3`,`em6_4`,"
-                        "`text7_0`,`text7_1`,`lang7`,`prob7`,`em7_0`,`em7_1`,`em7_2`,`em7_3`,`em7_4`) VALUES\n('");
+                        "`text7_0`,`text7_1`,`lang7`,`prob7`,`em7_0`,`em7_1`,`em7_2`,`em7_3`,`em7_4`,"
+                        "`WDBVerified`) VALUES\n('");
 
                     first = true;
 
@@ -802,7 +804,7 @@ void DatabaseUpdate::CreatePageTextInsert(const char* wdbdb, const char* worlddb
 #endif
     insertsql.append(DATATRAP_FILE_HEADER).append("SET NAMES `utf8`;\n"
         "SET CHARACTER SET `utf8`;\n\nINSERT INTO `page_text` "
-        "(`entry`,`text`,`next_page`) VALUES\n('");
+        "(`entry`,`text`,`next_page`,`WDBVerified`) VALUES\n('");
 
     query.append("SELECT `entry`,`text`,`next_page` FROM `");
 
@@ -854,7 +856,7 @@ void DatabaseUpdate::CreatePageTextInsert(const char* wdbdb, const char* worlddb
                 // next_page
                 tmp = (char*)malloc(32);
                 sprintf(tmp, "%u", fields[2].GetUInt32());
-                insertsql.append(tmp).append("')");
+                insertsql.append(tmp).append("','").append(_WDB_VERIFIED).append("')");
                 free(tmp);
 
                 // Haben wir MAX_INSERTS erreicht und Daten übrig? Dann insert senden und löschen!
@@ -867,7 +869,7 @@ void DatabaseUpdate::CreatePageTextInsert(const char* wdbdb, const char* worlddb
                     count = 0;
 
                     insertsql.append("INSERT INTO `page_text` "
-                        "(`entry`,`text`,`next_page`) VALUES\n('");
+                        "(`entry`,`text`,`next_page`,`WDBVerified`) VALUES\n('");
 
                     first = true;
 
@@ -946,7 +948,8 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
         // 92
         "`ReqItemId4`,`ReqItemCount4`,`ReqItemId5`,`ReqItemCount5`,`ReqItemId6`,`ReqItemCount6`,"
         // 98                                                    101
-        "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4`) VALUES\n('");
+        "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4`,"
+        "`WDBVerified`) VALUES\n('");
 
     query.append("SELECT `entry`,`Method`,`QuestLevel`,`MinLevel`,`ZoneOrSort`,`Type`,`SuggestedPlayers`,"
         "`RepObjectiveFaction`,`RepObjectiveValue`,`RepObjectiveFaction2`,`RepObjectiveValue2`,`NextQuestInChain`,"
@@ -1053,7 +1056,7 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
                     free(tmp);
                 }
                 //insertsql.append("','0')"); // `RewHonorableKills` darf nicht leer sein
-                insertsql.append("')");
+                insertsql.append("','").append(_WDB_VERIFIED).append("')");
 
                 // Haben wir MAX_INSERTS erreicht und Daten übrig, dann Insert senden und löschen?!
                 if (count >= MAX_INSERTS && (count+counttotal+1) < result->GetRowCount())
@@ -1083,7 +1086,8 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
                         "`ReqCreatureOrGOId4`,`ReqCreatureOrGOCount4`,`ReqSourceId4`,`ReqSourceCount4`,"
                         "`ReqItemId1`,`ReqItemCount1`,`ReqItemId2`,`ReqItemCount2`,`ReqItemId3`,`ReqItemCount3`,"
                         "`ReqItemId4`,`ReqItemCount4`,`ReqItemId5`,`ReqItemCount5`,`ReqItemId6`,`ReqItemCount6`,"
-                        "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4`) VALUES\n('");
+                        "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4`,"
+                        "`WDBVerified`) VALUES\n('");
 
                     first = true;
 

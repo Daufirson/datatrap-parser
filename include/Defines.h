@@ -131,12 +131,12 @@ inline float finiteAlways(float f) { return finite(f) ? f : 0.0f; }
 #define STRINGIZE(a) #a
 
 #define MAX_QUERY_LEN       32*1024
-#define WDB_VERIFIED        11403
 #define MAX_DBCS            246
 #define MAX_LOCALE          12
 
 #define _VERSION            "2.7.3.31"
 #define _CLIENT_VERSION     "3.3.2.11403"
+#define _WDB_VERIFIED       "11403"
 #define _YEAR               "2008-2010"
 #define _CONFIGFILE         "DataTrap.cfg"
 #define _LOGFILE            "DataTrap.log"
