@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{A17042A1-2ED4-4104-8864-233D3780BD66}
 AppName=DataTrap
-AppVerName=DataTrap v2.7.3.31
+AppVerName=DataTrap v3.0.0.46
 AppPublisher=United Worlds of MaNGOS
 AppPublisherURL=http://www.uwom.de
 AppSupportURL=http://www.uwom.de
@@ -16,7 +16,7 @@ DefaultDirName={pf}\DataTrap
 DefaultGroupName=DataTrap
 DisableProgramGroupPage=yes
 OutputDir=.
-OutputBaseFilename=DataTrap_27331_Setup
+OutputBaseFilename=DataTrap_30046_Setup
 SetupIconFile=..\res\DataTrap.ico
 Compression=lzma
 SolidCompression=yes

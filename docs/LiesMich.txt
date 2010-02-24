@@ -1,10 +1,10 @@
 -------------------------------------------------------------------------
- DataTrap v2.7.3.31 - http://www.uwom.de - datatrap@uwom.de - Open Source
+ DataTrap v3.0.0.46 - http://www.uwom.de - datatrap@uwom.de - Open Source
   Created and Copyright ©2008-2010 by WarHead - United Worlds of MaNGOS
 -------------------------------------------------------------------------
 
 Mit diesem Programm können endlich alle mitreden, wenn es um die
-originalen Daten vom World of Warcraft®™ v3.2.2.10505 Clienten geht.
+originalen Daten vom World of Warcraft®™ v3.3.2.11403 Clienten geht.
 
 Es ist ein Win32 Konsolen-Programm. Wer so überhaupt keine Ahnung
 hat was dies bedeutet, sollte DataTrap lieber gleich wieder von
@@ -16,7 +16,7 @@ Es können z.B. die DBCs extrahiert und (userfreundlich aufbereitet)
 in eine MySQL Datenbank importiert/exportiert werden. Das ist aber
 längst nicht alles, probieren sie es halt einfach mal aus.
 
-Benötigt Trinitycore Rev >= 6694.
+Benötigt Trinitycore Rev >= 7332.
 
 -------------------------------------------------------------------------
 Zur Übersicht der Funktionen hier die Hilfe-Seite von DataTrap:

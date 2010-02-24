@@ -1,3 +1,7 @@
+v3.0.0.46
+---------
+For the changes go to: https://code.google.com/p/datatrap/
+
 v2.7.3.31
 ---------
 + creature_template (creaturecache) support for Health_mod + Mana_mod + KillCredit1 + KillCredit2 added.

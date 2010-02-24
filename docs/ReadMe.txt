@@ -1,10 +1,10 @@
 -------------------------------------------------------------------------
- DataTrap v2.7.3.31 - http://www.uwom.de - datatrap@uwom.de - Open Source
+ DataTrap v3.0.0.46 - http://www.uwom.de - datatrap@uwom.de - Open Source
   Created and Copyright ©2008-2010 by WarHead - United Worlds of MaNGOS
 -------------------------------------------------------------------------
 
 With this program everyone should understand the original data of
-the World of Warcraft®™ v3.2.2.10505 client.
+the World of Warcraft®™ v3.3.2.11403 client.
 
 This program is Win32 console based. If you have no idea what this 
 means you should better delete this tool from your HardDisk. It
@@ -15,7 +15,7 @@ E.g. you may be able to extract the DBCs (in a user-friendy way!)
 and import/export them to a MySQL database. At least this feature
 is not the only one, you may try it your way and find out.
 
-Requires Trinitycore Rev >= 6694.
+Requires Trinitycore Rev >= 7332.
 
 -------------------------------------------------------------------------
 Function overview from DataTrap - Help:
