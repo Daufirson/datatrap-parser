@@ -3070,7 +3070,13 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                 {
                     if ((docolumn && ColumnExists(columns, column2[i])) || !docolumn)
                     {
-                        if (fields[37+i*2].GetInt32() != fields[38+i*2].GetInt32())
+                        int32 tmpint = fields[37+i*2].GetInt32();
+
+                        // Mask QuestFlags
+                        if (37+i*2 == 39)
+                            tmpint = tmpint&0xFFFF;
+
+                        if (tmpint != fields[38+i*2].GetInt32())
                         {
                             tmp = (char*)malloc(32);
 
@@ -3079,7 +3085,7 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                             else
                                 updatesql.append("`").append(column2[i]).append("`='");
 
-                            sprintf(tmp, "%i", fields[37+i*2].GetInt32());
+                            sprintf(tmp, "%i", tmpint);
                             updatesql.append(tmp).append("',");
                             free(tmp);
                             first = false;
