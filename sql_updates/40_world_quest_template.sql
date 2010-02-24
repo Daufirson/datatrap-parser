@@ -1,1 +1,0 @@
-ALTER TABLE `quest_template` CHANGE COLUMN `QuestFlags` `QuestFlags` mediumint(9) unsigned NOT NULL DEFAULT '0';
