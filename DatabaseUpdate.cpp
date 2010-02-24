@@ -1470,6 +1470,12 @@ void DatabaseUpdate::CreateGameobjectUpdate(const char* wdbdb, const char* world
                 {
                     if ((docolumn && ColumnExists(columns, column[i])) || !docolumn)
                     {
+                        // TODO: Must be removed if Wintergrasp was fixed by Trinity!
+                        // Exception for the Wintergrasp Transporter because a update would stop the work of them atm
+                        // Atm this works well: UPDATE `gameobject_template` SET `data0`='54643',`ScriptName`='' WHERE `entry` IN ('190763','192819');
+                        if (fields[0].GetUInt32() == 192819 || fields[0].GetUInt32() == 190763)
+                            continue;
+
                         // lootid auf entry setzen
                         if (own_style && i == 1 && fields[0].GetUInt32() != fields[14+i*2].GetInt32() &&
                             (fields[1].GetUInt32() == 3 || fields[1].GetUInt32() == 25))
