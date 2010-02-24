@@ -1017,11 +1017,17 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
                         (i > 69 && i < 98) ||
                         i == 64)
                     {
+                        int32 tmpint = fields[i].GetInt32();
+
+                        // Mask QuestFlags
+                        if (i == 20)
+                            tmpint = tmpint&0xFFFF;
+
                         // GOs umrechnen für den Core
-                        if ((i == 70 || i == 74 || i == 78 || i == 82) && fields[i].GetInt32() < 0)
-                            sprintf(tmp, "%i", (fields[i].GetInt32() + 2147483648)*-1);
+                        if ((i == 70 || i == 74 || i == 78 || i == 82) && tmpint < 0)
+                            sprintf(tmp, "%i", (tmpint + 2147483648)*-1);
                         else
-                            sprintf(tmp, "%i", fields[i].GetInt32());
+                            sprintf(tmp, "%i", tmpint);
 
                         if (i+1 < MAX_FIELDS)
                             insertsql.append(tmp).append("','");
