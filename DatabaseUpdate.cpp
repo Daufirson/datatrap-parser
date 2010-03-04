@@ -480,7 +480,7 @@ void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Da
         "`SocketColor3`,`SocketContent3`,`socketBonus`,`GemProperties`,`requiredDisenchantSkill`,"
         "`armorDamageModifier`,`Duration`,`ItemLimitCategory`,`HolidayId` FROM `");
 
-        //int felder 3,7,8,11,12,22,23,26-47,64-93,94,98,101,102,120,122
+        //int felder 3,7,8,11,12,22,23,26-47,64-93,94,98,101,102,103,120,122
         //float felder 48,49,51,52,63,121
     
     query.append(wdbdb).append("`.`itemcache` WHERE `entry` NOT IN (SELECT `entry` FROM `").append(worlddb).append("`.`item_template`)");
@@ -548,19 +548,26 @@ void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Da
                         case 79: case 80: case 81: case 82: case 83: case 84: case 85: case 86: case 87: case 88: case 89: case 90: case 91: case 92:  case 93:
 
                         // int32 felder
-                        case 94: case 98: case 101: case 102: case 120: case 122:
+                        case 94: case 98: case 101: case 102: case 103: case 120: case 122:
                             {
+                                int32 tmpint = fields[i].GetInt32();
+
                                 // Account gebundene Items mit veränderlichen Stats!
                                 if (i == 44 || i == 45)// StatType10 + StatValue10
                                 {                      // StatCount
-                                    if (fields[i].GetInt32() != 0 && fields[25].GetInt32() == 0)
+                                    if (tmpint != 0 && fields[25].GetInt32() == 0)
                                     {   // Bei `ScalingStatDistribution`,`ScalingStatValue` den Wert neu setzen
                                         char* tmpchar = (char*)malloc(32);
-                                        fields[i+2].SetValue(_itoa(fields[i].GetInt32(), tmpchar, 10));
+                                        fields[i+2].SetValue(_itoa(tmpint, tmpchar, 10));
                                         free(tmpchar);
                                     }
                                 }
-                                sprintf(tmp, "%i", fields[i].GetInt32());
+                                // TODO: REMOVE IF CORE SUPPORT INT VALUES!
+                                // RandomProperty - Workaround until Trinitycore accept -1 values
+                                if (i == 103 && tmpint < 0)
+                                    tmpint = 0;
+
+                                sprintf(tmp, "%i", tmpint);
                                 if (i+1 < 125) insertsql.append(tmp).append("','");
                                 else insertsql.append(tmp);
                             }
@@ -2255,12 +2262,34 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                 {
                     if ((docolumn && ColumnExists(columns, column4[i])) || !docolumn)
                     {
-                        if (fields[127+i*2].GetInt32() != fields[128+i*2].GetInt32())
+                        int32 tmpint = fields[127+i*2].GetInt32();
+                        uint16 index = (127+i*2);
+
+                        // TODO: REMOVE IF CORE SUPPORTS INT VALUES!
+                        // spellid_x - Workaround until Trinitycore supports -1 values
+                        if (index == 127 || index == 139 || index == 151 || index == 163 || index == 175)
                         {
-                            if (first) updatesql.append("SET `").append(column4[i]).append("`='");
-                            else updatesql.append("`").append(column4[i]).append("`='");
+                            if (tmpint < 0)
+                            {
+                                tmpint = 0;
+                                for (uint8 j=1; j<6; ++j)
+                                {
+                                    if (j == 3 || j == 5)
+                                        fields[index+j*2].SetValue("-1");
+                                    else
+                                        fields[index+j*2].SetValue("0");
+                                }
+                            }
+                        }
+                        if (tmpint != fields[128+i*2].GetInt32())
+                        {
+                            if (first)
+                                updatesql.append("SET `").append(column4[i]).append("`='");
+                            else
+                                updatesql.append("`").append(column4[i]).append("`='");
+
                             tmp = (char*)malloc(32);
-                            sprintf(tmp, "%i", fields[127+i*2].GetInt32());
+                            sprintf(tmp, "%i", tmpint);
                             updatesql.append(tmp).append("',");
                             free(tmp);
                             first = false;
