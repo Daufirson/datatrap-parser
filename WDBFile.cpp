@@ -524,7 +524,7 @@ void WDBFile::LoadDefinitions(uint8 wdbfile)
                 def->addField(t_string, "Objectives");
                 def->addField(t_string, "Details");
                 def->addField(t_string, "EndText");
-                def->addField(t_string, "CompletionText");
+                def->addField(t_string, "CompletedText");
 
                 // #73
                 def->addField(t_int32,  "ReqCreatureOrGOId1");

@@ -1,0 +1,1 @@
+ALTER TABLE `questcache` CHANGE `CompletionText` `CompletedText` TEXT NULL DEFAULT NULL;
