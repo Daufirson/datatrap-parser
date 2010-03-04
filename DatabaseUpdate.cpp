@@ -934,7 +934,7 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
         // 61
         "`PointMapId`,`PointX`,`PointY`,`PointOpt`,"
         // 65
-        "`Title`,`Objectives`,`Details`,`EndText`,`CompletionText`,"
+        "`Title`,`Objectives`,`Details`,`EndText`,`CompletedText`,"
         // 70
         "`ReqCreatureOrGOId1`,`ReqCreatureOrGOCount1`,`ReqSourceId1`,`ReqSourceCount1`,"
         // 74
@@ -962,7 +962,7 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
         "`RewRepValueId1`,`RewRepValueId2`,`RewRepValueId3`,`RewRepValueId4`,`RewRepValueId5`,"
         "`RewRepValue1`,`RewRepValue2`,`RewRepValue3`,`RewRepValue4`,`RewRepValue5`,"
         "`PointMapId`,`PointX`,`PointY`,`PointOpt`,"
-        "`Title`,`Objectives`,`Details`,`EndText`,`CompletionText`,"
+        "`Title`,`Objectives`,`Details`,`EndText`,`CompletedText`,"
         "`ReqCreatureOrGOId1`,`ReqCreatureOrGOCount1`,`ReqSourceId1`,`ReqSourceCount1`,"
         "`ReqCreatureOrGOId2`,`ReqCreatureOrGOCount2`,`ReqSourceId2`,`ReqSourceCount2`,"
         "`ReqCreatureOrGOId3`,`ReqCreatureOrGOCount3`,`ReqSourceId3`,`ReqSourceCount3`,"
@@ -1084,7 +1084,7 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
                         "`RewRepValueId1`,`RewRepValueId2`,`RewRepValueId3`,`RewRepValueId4`,`RewRepValueId5`,"
                         "`RewRepValue1`,`RewRepValue2`,`RewRepValue3`,`RewRepValue4`,`RewRepValue5`,"
                         "`PointMapId`,`PointX`,`PointY`,`PointOpt`,"
-                        "`Title`,`Objectives`,`Details`,`EndText`,`CompletionText`,"
+                        "`Title`,`Objectives`,`Details`,`EndText`,`CompletedText`,"
                         "`ReqCreatureOrGOId1`,`ReqCreatureOrGOCount1`,`ReqSourceId1`,`ReqSourceCount1`,"
                         "`ReqCreatureOrGOId2`,`ReqCreatureOrGOCount2`,`ReqSourceId2`,`ReqSourceCount2`,"
                         "`ReqCreatureOrGOId3`,`ReqCreatureOrGOCount3`,`ReqSourceId3`,`ReqSourceCount3`,"
@@ -2905,7 +2905,7 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
         // 121
         "WDB.PointMapId,WORLD.PointMapId,WDB.PointX,WORLD.PointX,WDB.PointY,WORLD.PointY,WDB.PointOpt,WORLD.PointOpt,"
         // 129
-        "WDB.Title,WORLD.Title,WDB.Objectives,WORLD.Objectives,WDB.Details,WORLD.Details,WDB.EndText,WORLD.EndText,WDB.CompletionText,WORLD.CompletionText,"
+        "WDB.Title,WORLD.Title,WDB.Objectives,WORLD.Objectives,WDB.Details,WORLD.Details,WDB.EndText,WORLD.EndText,WDB.CompletedText,WORLD.CompletedText,"
         // 139
         "WDB.ReqCreatureOrGOId1,WORLD.ReqCreatureOrGOId1,WDB.ReqCreatureOrGOCount1,WORLD.ReqCreatureOrGOCount1,"
         // 143
@@ -2967,7 +2967,7 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
         "WDB.RewRepValue3 != WORLD.RewRepValue3 || WDB.RewRepValue4 != WORLD.RewRepValue4 || "
         "WDB.RewRepValue5 != WORLD.RewRepValue5 || "
         "WDB.PointMapId != WORLD.PointMapId || WDB.PointX != WORLD.PointX || WDB.PointY != WORLD.PointY || WDB.PointOpt != WORLD.PointOpt || "
-        "WDB.Title != WORLD.Title || WDB.Objectives != WORLD.Objectives || WDB.Details != WORLD.Details || WDB.EndText != WORLD.EndText || WDB.CompletionText != WORLD.CompletionText || "
+        "WDB.Title != WORLD.Title || WDB.Objectives != WORLD.Objectives || WDB.Details != WORLD.Details || WDB.EndText != WORLD.EndText || WDB.CompletedText != WORLD.CompletedText || "
         "WDB.ReqCreatureOrGOId1 != WORLD.ReqCreatureOrGOId1 || WDB.ReqCreatureOrGOCount1 != WORLD.ReqCreatureOrGOCount1 || WDB.ReqSourceId1 != WORLD.ReqSourceId1 || WDB.ReqSourceCount1 != WORLD.ReqSourceCount1 || "
         "WDB.ReqCreatureOrGOId2 != WORLD.ReqCreatureOrGOId2 || WDB.ReqCreatureOrGOCount2 != WORLD.ReqCreatureOrGOCount2 || WDB.ReqSourceId2 != WORLD.ReqSourceId2 || WDB.ReqSourceCount2 != WORLD.ReqSourceCount2 || "
         "WDB.ReqCreatureOrGOId3 != WORLD.ReqCreatureOrGOId3 || WDB.ReqCreatureOrGOCount3 != WORLD.ReqCreatureOrGOCount3 || WDB.ReqSourceId3 != WORLD.ReqSourceId3 || WDB.ReqSourceCount3 != WORLD.ReqSourceCount3 || "
@@ -3015,7 +3015,7 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
         // PointX (float) + PointY (float) + PointOpt (int32) sind hier zwischen
 
         // string
-        const char* column3[5] = {"Title","Objectives","Details","EndText","CompletionText"};
+        const char* column3[5] = {"Title","Objectives","Details","EndText","CompletedText"};
 
         // int32
         const char* column4[28] = {"ReqCreatureOrGOId1","ReqCreatureOrGOCount1","ReqSourceId1","ReqSourceCount1",

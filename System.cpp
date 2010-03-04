@@ -36,7 +36,7 @@ void System::ShowUsage()
         "'-h'                   - this commandline help\n"
         "'-c'                   - the current configuration data\n\n"
 
-        "'-a mangos'            - the db name of your world db (default: mangos)\n"
+        "'-a tdb'               - the db name of your world db (default: tdb)\n"
         "'-d dbcdata'           - the db name for dbc data (default: dbcdata)\n"
         "'-w wdbdata'           - the db name for wdb data (default: wdbdata)\n\n"
 
