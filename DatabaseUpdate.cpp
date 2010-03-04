@@ -137,7 +137,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
     "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`,"
     "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
     "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`,`movementId`,"
-    "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`,`WDBVerified`) VALUES\n('");
+    "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`,`unit_class`,`WDBVerified`) VALUES\n('");
 
     query.append("SELECT `entry`,`name`,`subname`,`IconName`,`type_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`,"
         "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
@@ -201,7 +201,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
                 }
 
                 // Müssen wegen der Core gesetzt werden beim Insert
-                insertsql.append("1','1','35','35','1','").append(_WDB_VERIFIED).append("')");
+                insertsql.append("1','1','35','35','1','1','").append(_WDB_VERIFIED).append("')");
 
                 // Haben wir MAX_INSERTS erreicht und Daten übrig? Dann insert senden und löschen!
                 if (count >= MAX_INSERTS && (count+counttotal+1) < result->GetRowCount())
@@ -216,7 +216,7 @@ void DatabaseUpdate::CreateCreatureInsert(const char* wdbdb, const char* worlddb
                     "(`entry`,`name`,`subname`,`IconName`,`type_flags`,`type`,`family`,`rank`,`KillCredit1`,`KillCredit2`,"
                     "`modelid1`,`modelid2`,`modelid3`,`modelid4`,`Health_mod`,`Mana_mod`,`RacialLeader`,"
                     "`questItem1`,`questItem2`,`questItem3`,`questItem4`,`questItem5`,`questItem6`,`movementId`,"
-                    "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`,`WDBVerified`) VALUES\n('");
+                    "`minlevel`,`maxlevel`,`faction_A`,`faction_H`,`scale`,`unit_class`,`WDBVerified`) VALUES\n('");
 
                     first = true;
 
