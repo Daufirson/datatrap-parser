@@ -956,6 +956,8 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
         "`ReqItemId4`,`ReqItemCount4`,`ReqItemId5`,`ReqItemCount5`,`ReqItemId6`,`ReqItemCount6`,"
         // 98                                                    101
         "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4`,"
+        // Set SrcItemCount to 1 if SrcItemId exists
+        "`SrcItemCount`,"
         "`WDBVerified`) VALUES\n('");
 
     query.append("SELECT `entry`,`Method`,`QuestLevel`,`MinLevel`,`ZoneOrSort`,`Type`,`SuggestedPlayers`,"
@@ -998,6 +1000,7 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
         if (!sqlfile) io.SayError("Can't create: '%s'", fstr.c_str());
 
         bool first = true;
+        bool sourceitem = false;
         uint32 count = 0;
         uint32 counttotal = 0;
         uint8 MAX_FIELDS = 102; // Max query values
@@ -1025,6 +1028,9 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
                         i == 64)
                     {
                         int32 tmpint = fields[i].GetInt32();
+
+                        if (i == 19 && tmpint > 0)
+                            sourceitem = true;
 
                         // Mask QuestFlags
                         if (i == 20)
@@ -1068,7 +1074,13 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
                     }
                     free(tmp);
                 }
-                insertsql.append("','").append(_WDB_VERIFIED).append("')");
+                // Set SrcItemCount to 1 if SrcItemId exists
+                if (sourceitem)
+                    insertsql.append("','1','").append(_WDB_VERIFIED).append("')");
+                else
+                    insertsql.append("','0','").append(_WDB_VERIFIED).append("')");
+
+                sourceitem = false;
 
                 // Haben wir MAX_INSERTS erreicht und Daten übrig, dann Insert senden und löschen?!
                 if (count >= MAX_INSERTS && (count+counttotal+1) < result->GetRowCount())
@@ -1099,6 +1111,8 @@ void DatabaseUpdate::CreateQuestInsert(const char* wdbdb, const char* worlddb, D
                         "`ReqItemId1`,`ReqItemCount1`,`ReqItemId2`,`ReqItemCount2`,`ReqItemId3`,`ReqItemCount3`,"
                         "`ReqItemId4`,`ReqItemCount4`,`ReqItemId5`,`ReqItemCount5`,`ReqItemId6`,`ReqItemCount6`,"
                         "`ObjectiveText1`,`ObjectiveText2`,`ObjectiveText3`,`ObjectiveText4`,"
+                        // Set SrcItemCount to 1 if SrcItemId exists
+                        "`SrcItemCount`,"
                         "`WDBVerified`) VALUES\n('");
 
                     first = true;
