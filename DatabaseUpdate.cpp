@@ -562,7 +562,7 @@ void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Da
                                         free(tmpchar);
                                     }
                                 }
-                                // TODO: REMOVE IF CORE SUPPORT INT VALUES!
+                                // TODO: REMOVE IF CORE SUPPORTS INT VALUES!
                                 // RandomProperty - Workaround until Trinitycore accept -1 values
                                 if (i == 103 && tmpint < 0)
                                     tmpint = 0;
@@ -2420,13 +2420,23 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                 }
                 if ((docolumn && ColumnExists(columns, "RandomProperty")) || !docolumn)
                 {
-                    // sheath
-                    if (fields[205].GetInt32() != fields[206].GetInt32())
+                    // RandomProperty
+                    int32 tmpint = fields[205].GetInt32();
+
+                    // TODO: REMOVE IF CORE SUPPORTS INT VALUES!
+                    // Workaround until Trinitycore supports -1 values
+                    if (tmpint < 0)
+                        tmpint = 0;
+
+                    if (tmpint != fields[206].GetInt32())
                     {
-                        if (first) updatesql.append("SET `RandomProperty`='");
-                        else updatesql.append("`RandomProperty`='");
+                        if (first)
+                            updatesql.append("SET `RandomProperty`='");
+                        else
+                            updatesql.append("`RandomProperty`='");
+
                         tmp = (char*)malloc(32);
-                        sprintf(tmp, "%i", fields[205].GetInt32());
+                        sprintf(tmp, "%i", tmpint);
                         updatesql.append(tmp).append("',");
                         free(tmp);
                         first = false;
