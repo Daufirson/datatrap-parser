@@ -3233,13 +3233,33 @@ void DatabaseUpdate::CreateQuestUpdate(const char* wdbdb, const char* worlddb, D
                     if ((docolumn && ColumnExists(columns, column4[i])) || !docolumn)
                     {
                         tmpstr = (char*)malloc(32);
-                        int32 tmpint = 0;
+                        uint16 index = (139+i*2);
+                        int32 tmpint = fields[index].GetInt32();
 
-                        // GOs umrechnen für den Core
-                        if ((139+i*2 == 139 || 139+i*2 == 147 || 139+i*2 == 155 || 139+i*2 == 163) && fields[139+i*2].GetInt32() < 0)
-                            tmpint = (fields[139+i*2].GetInt32() + 2147483648)*-1;
-                        else
-                            tmpint = fields[139+i*2].GetInt32();
+                        if (index == 139 || index == 147 || index == 155 || index == 163)
+                        {
+                            // GO calculation for the Trinitycore
+                            if (tmpint < 0)
+                                tmpint = ((tmpint + 2147483648)*-1);
+
+                            // Workaround for Trinitycore: Set ReqCreatureOrGOCountx to 0 if ReqCreatureOrGOIdx is 0
+                            if (tmpint == 0)
+                                fields[index+2].SetValue("0");
+                        }
+
+                        if (index == 143 || index == 151 || index == 159 || index == 167)
+                        {
+                            // Workaround for Trinitycore: Set ReqSourceCountx to 0 if ReqSourceIdx is 0
+                            if (tmpint == 0)
+                                fields[index+2].SetValue("0");
+                        }
+
+                        if (index == 171 || index == 175 || index == 179 || index == 183 || index == 187 || index == 191)
+                        {
+                            // Workaround for Trinitycore: Set ReqItemCountx to 0 if ReqItemIdx is 0
+                            if (tmpint == 0)
+                                fields[index+2].SetValue("0");
+                        }
 
                         sprintf(tmpstr, "%i", tmpint);
 
