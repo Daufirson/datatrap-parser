@@ -10,10 +10,10 @@ void System::SayWelcome(char* str)
 #else
     system("clear");
 #endif
-    printf("-------------------------------------------------------------------------\n"
-        "  DataTrap v%s - http://www.uwom.de - datatrap@uwom.de - Freeware\n"
-        "  Created and Copyright ©%s by WarHead - United Worlds of MaNGOS\n"
-        "-------------------------------------------------------------------------\n\n",
+    printf("--------------------------------------------------------------------------\n"
+        " DataTrap v%s - http://www.uwom.de - datatrap@uwom.de - Open Source\n"
+        " Written and Copyrighted © %s by WarHead - United Worlds of MaNGOS\n"
+        "--------------------------------------------------------------------------\n\n",
            _VERSION, _YEAR);
 
     // WICHTIG: Heimat-Pfad initialisieren!
@@ -128,10 +128,7 @@ void System::ShowCFG()
 void System::SayBye()
 {
 #if PLATFORM == PLATFORM_WINDOWS
-    printf("\nDonates are always welcome! Thanks to Qubix for his help.");
     if (usegetch) _getch();
-#else
-    printf("\nDonates are always welcome! Thanks to Qubix for his help.\n");
 #endif
     WriteCFG();
 }

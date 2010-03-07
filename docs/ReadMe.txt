@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------
  DataTrap v3.0.0.46 - http://www.uwom.de - datatrap@uwom.de - Open Source
-  Created and Copyright ©2008-2010 by WarHead - United Worlds of MaNGOS
+ Written and Copyrighted © 2008-2010 by WarHead - United Worlds of MaNGOS
 -------------------------------------------------------------------------
 
 With this program everyone should understand the original data of
@@ -113,6 +113,8 @@ DataTrap.
 
 Of course MySQL has to be installed in order to use all functions
 of Datatrap dealing with databases.
+
+Thanks to Qubix for his help.
 
 -------------------------------------------------------------------------
 And now have fun while watching behind the scenes!

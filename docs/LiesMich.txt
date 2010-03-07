@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------
  DataTrap v3.0.0.46 - http://www.uwom.de - datatrap@uwom.de - Open Source
-  Created and Copyright ©2008-2010 by WarHead - United Worlds of MaNGOS
+ Written and Copyrighted © 2008-2010 by WarHead - United Worlds of MaNGOS
 -------------------------------------------------------------------------
 
 Mit diesem Programm können endlich alle mitreden, wenn es um die
@@ -116,6 +116,8 @@ erstellten Batch-Datei (executesql.cmd) importieren.
 
 Das für alle Funktionen die etwas in eine Datenbank schreiben MySQL
 installiert sein muss, versteht sich wohl von selbst. ;)
+
+Dank an Qubix für seine Hilfe.
 
 -------------------------------------------------------------------------
 Nun wünschen wir ihnen viel Spass beim schauen hinter die Kulissen!
