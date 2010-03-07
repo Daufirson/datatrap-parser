@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------
- DataTrap v3.0.0.46 - http://www.uwom.de - datatrap@uwom.de - Open Source
+ DataTrap v3.1.1.57 - http://www.uwom.de - datatrap@uwom.de - Open Source
  Written and Copyrighted © 2008-2010 by WarHead - United Worlds of MaNGOS
 -------------------------------------------------------------------------
 
@@ -16,7 +16,7 @@ Es können z.B. die DBCs extrahiert und (userfreundlich aufbereitet)
 in eine MySQL Datenbank importiert/exportiert werden. Das ist aber
 längst nicht alles, probieren sie es halt einfach mal aus.
 
-Benötigt Trinitycore Rev >= 7332.
+Benötigt Trinitycore Rev >= 7469.
 
 -------------------------------------------------------------------------
 Zur Übersicht der Funktionen hier die Hilfe-Seite von DataTrap:

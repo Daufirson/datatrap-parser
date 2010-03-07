@@ -134,7 +134,7 @@ inline float finiteAlways(float f) { return finite(f) ? f : 0.0f; }
 #define MAX_DBCS            246
 #define MAX_LOCALE          12
 
-#define _VERSION            "3.0.0.46"
+#define _VERSION            "3.1.1.57"
 #define _CLIENT_VERSION     "3.3.2.11403"
 #define _WDB_VERIFIED       "11403"
 #define _YEAR               "2008-2010"
