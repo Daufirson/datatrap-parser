@@ -1,3 +1,7 @@
+v3.2.2.59
+---------
+For the changes go to: https://code.google.com/p/datatrap/
+
 v3.1.1.57
 ---------
 For the changes go to: https://code.google.com/p/datatrap/

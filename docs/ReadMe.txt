@@ -1,10 +1,10 @@
 -------------------------------------------------------------------------
- DataTrap v3.1.1.57 - http://www.uwom.de - datatrap@uwom.de - Open Source
+ DataTrap v3.2.2.59 - http://www.uwom.de - datatrap@uwom.de - Open Source
  Written and Copyrighted © 2008-2010 by WarHead - United Worlds of MaNGOS
 -------------------------------------------------------------------------
 
 With this program everyone should understand the original data of
-the World of Warcraft®™ v3.3.2.11403 client.
+the World of Warcraft®™ v3.3.3.11723 client.
 
 This program is Win32 console based. If you have no idea what this 
 means you should better delete this tool from your HardDisk. It
@@ -15,7 +15,7 @@ E.g. you may be able to extract the DBCs (in a user-friendy way!)
 and import/export them to a MySQL database. At least this feature
 is not the only one, you may try it your way and find out.
 
-Requires Trinitycore Rev >= 7469.
+Requires Trinitycore Rev >= 7834.
 
 -------------------------------------------------------------------------
 Function overview from DataTrap - Help:
@@ -26,7 +26,7 @@ Usage: DataTrap -switch value (more as one pair is possible)
 '-h'                   - this commandline help
 '-c'                   - the current configuration data
 
-'-a mangos'            - the db name of your world db (default: mangos)
+'-a tdb'               - the db name of your world db (default: tdb)
 '-d dbcdata'           - the db name for dbc data (default: dbcdata)
 '-w wdbdata'           - the db name for wdb data (default: wdbdata)
 

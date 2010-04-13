@@ -562,11 +562,6 @@ void DatabaseUpdate::CreateItemInsert(const char* wdbdb, const char* worlddb, Da
                                         free(tmpchar);
                                     }
                                 }
-                                // TODO: REMOVE IF CORE SUPPORTS INT VALUES!
-                                // RandomProperty - Workaround until Trinitycore accept -1 values
-                                if (i == 103 && tmpint < 0)
-                                    tmpint = 0;
-
                                 sprintf(tmp, "%i", tmpint);
                                 if (i+1 < 125) insertsql.append(tmp).append("','");
                                 else insertsql.append(tmp);
@@ -2277,24 +2272,7 @@ void DatabaseUpdate::CreateItemUpdate(const char* wdbdb, const char* worlddb, Da
                     if ((docolumn && ColumnExists(columns, column4[i])) || !docolumn)
                     {
                         int32 tmpint = fields[127+i*2].GetInt32();
-                        uint16 index = (127+i*2);
 
-                        // TODO: REMOVE IF CORE SUPPORTS INT VALUES!
-                        // spellid_x - Workaround until Trinitycore supports -1 values
-                        if (index == 127 || index == 139 || index == 151 || index == 163 || index == 175)
-                        {
-                            if (tmpint < 0)
-                            {
-                                tmpint = 0;
-                                for (uint8 j=1; j<6; ++j)
-                                {
-                                    if (j == 3 || j == 5)
-                                        fields[index+j*2].SetValue("-1");
-                                    else
-                                        fields[index+j*2].SetValue("0");
-                                }
-                            }
-                        }
                         if (tmpint != fields[128+i*2].GetInt32())
                         {
                             if (first)
