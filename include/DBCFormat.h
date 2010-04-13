@@ -11,7 +11,7 @@ typedef struct DBCFileListStruct
     std::string col_desc[300];
 } DBCFLS;
 
-void FillDBCColumnNames(); // 246 (MAX_DBCS) @ 3.3.2.11403
+void FillDBCColumnNames(); // 246 (MAX_DBCS) @ 3.3.3a.11723
 
 static DBCFLS DBCFileList[] =
 {
@@ -29,7 +29,7 @@ static DBCFLS DBCFileList[] =
     {"BankBagSlotPrices.dbc", "ii"},
     {"BannedAddOns.dbc", "iiiiiiiiiii"},
     {"BarberShopStyle.dbc", "iissssssssssssssssissssssssssssssssifiii"},
-    {"BattlemasterList.dbc", "iiiiiiiiiiiissssssssssssssssiii"},
+    {"BattlemasterList.dbc", "iiiiiiiiiiissssssssssssssssiiiii"},
     {"CameraShakes.dbc", "iiifffff"},
     {"Cfg_Categories.dbc", "iiiiiiiiiiiiiiiiiiiii"},
     {"Cfg_Configs.dbc", "iiii"},
@@ -62,10 +62,7 @@ static DBCFLS DBCFileList[] =
     {"DeclinedWord.dbc", "is"},
     {"DeclinedWordCases.dbc", "iiis"},
     {"DestructibleModelData.dbc", "iiiiiiiiiiiiiiiiiii"},
-
-    // NEW IN 3.3.x
     {"DungeonEncounter.dbc", "iiiiissssssssssssssssii"},
-
     {"DungeonMap.dbc", "iiiffffi"},
     {"DungeonMapChunk.dbc", "iiiif"},
     {"DurabilityCosts.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
@@ -131,12 +128,9 @@ static DBCFLS DBCFileList[] =
     {"ItemVisuals.dbc", "iiiiii"},
     {"Languages.dbc", "issssssssssssssssi"},
     {"LanguageWords.dbc", "iis"},
-
-    // NEW IN 3.3.x
     {"LFGDungeonExpansion.dbc", "iiiiiiii"},
     {"LFGDungeonGroup.dbc", "issssssssssssssssiiii"},
-
-    {"LFGDungeons.dbc", "issssssssssssssssiiiiiiiiiiiiiii"},
+    {"LFGDungeons.dbc", "issssssssssssssssiiiiiiiiiiiiiiissssssssssssssssi"},
     {"Light.dbc", "iifffffiiiiiiii"},
     {"LightFloatBand.dbc", "iiiiffffffffffffffffffffffffffffff"},
     {"LightIntBand.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
@@ -172,17 +166,11 @@ static DBCFLS DBCFileList[] =
     {"PetitionType.dbc", "isi"},
     {"PetPersonality.dbc", "issssssssssssssssiiiffff"},
     {"PowerDisplay.dbc", "iiiiii"},
-
-    // NEW IN 3.3.x
     {"PvpDifficulty.dbc", "iiiiii"},
     {"QuestFactionReward.dbc", "iiiiiiiiiii"},
-
     {"QuestInfo.dbc", "issssssssssssssssi"},
     {"QuestSort.dbc", "issssssssssssssssi"},
-
-    // NEW IN 3.3.x
     {"QuestXP.dbc", "iiiiiiiiiii"},
-
     {"RandPropPoints.dbc", "iiiiiiiiiiiiiiii"},
     {"Resistances.dbc", "iiissssssssssssssssi"},
     {"ScalingStatDistribution.dbc", "iiiiiiiiiiiiiiiiiiiiii"},
@@ -206,15 +194,12 @@ static DBCFLS DBCFileList[] =
     {"SoundSamplePreferences.dbc", "iiiiiifffffffffff"},
     {"SoundWaterType.dbc", "iiii"},
     {"SpamMessages.dbc", "is"},
-    {"Spell.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiifiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiffffffiiiiiiiiiiiiiiiiiiiiifffiiiiiiiiiiiiiiifffiiiiiiiiiiiiiissssssssssssssssissssssssssssssssiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiifffiiiiiiiiiiiiiii"},
+    {"Spell.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiifiiiiiiiiiiiiiiiiiiiiiiiiiiiiifffiiiiiiiiiiiiiiiiiiiiifffiiiiiiiiiiiiiiifffiiiiiiiiiiiiiissssssssssssssssissssssssssssssssiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiifffiiiiiiiiiiiiiii"},
     {"SpellCastTimes.dbc", "iiii"},
     {"SpellCategory.dbc", "ii"},
     {"SpellChainEffects.dbc", "iiiiiiisiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
     {"SpellDescriptionVariables.dbc", "is"},
-
-    // NEW IN 3.3.x
     {"SpellDifficulty.dbc", "iiiii"},
-
     {"SpellDispelType.dbc", "issssssssssssssssiiis"},
     {"SpellDuration.dbc", "iiii"},
     {"SpellEffectCameraShakes.dbc", "iiii"},
@@ -245,10 +230,7 @@ static DBCFLS DBCFileList[] =
     {"TaxiNodes.dbc", "iifffssssssssssssssssiii"},
     {"TaxiPath.dbc", "iiii"},
     {"TaxiPathNode.dbc", "iiiifffiiii"},
-
-    // NEW IN 3.3.x
     {"TeamContributionPoints.dbc", "if"},
-
     {"TerrainType.dbc", "isiiii"},
     {"TerrainTypeSounds.dbc", "i"},
     {"TotemCategory.dbc", "issssssssssssssssiii"},
@@ -258,13 +240,10 @@ static DBCFLS DBCFileList[] =
     {"UISoundLookups.dbc", "iis"},
     {"UnitBlood.dbc", "iiiiissssi"},
     {"UnitBloodLevels.dbc", "iiii"},
-    {"Vehicle.dbc", "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"},
+    {"Vehicle.dbc", "iiffffiiiiiiiifffffffffffffffiiiififiiii"},
     {"VehicleSeat.dbc", "iiiffffffffffiiiiiiiffffffiiifffiiiiiiiffiiiiiiiiiiiiiiiii"},
-
-    // NEW IN 3.3.x
     {"VehicleUIIndicator.dbc", "ii"},
     {"VehicleUIIndSeat.dbc", "iiiff"},
-
     {"VideoHardware.dbc", "iiiiiiiiiiiiiiiiiissiii"},
     {"VocalUISounds.dbc", "iiiiiii"},
     {"WeaponImpactSounds.dbc", "iiiiiiiiiiiiiiiiiiiiiii"},
