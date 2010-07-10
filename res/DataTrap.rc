@@ -59,8 +59,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,2,2,59
- PRODUCTVERSION 3,2,2,59
+ FILEVERSION 3,2,3,60
+ PRODUCTVERSION 3,2,3,60
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x9L
@@ -78,13 +78,13 @@ BEGIN
             VALUE "Comments", "http://www.uwom.de"
             VALUE "CompanyName", "United Worlds of MaNGOS"
             VALUE "FileDescription", "DataTrap"
-            VALUE "FileVersion", "3, 2, 2, 59"
+            VALUE "FileVersion", "3, 2, 3, 60"
             VALUE "InternalName", "DataTrap"
             VALUE "LegalCopyright", "Copyright (c) 2008-2010 by WarHead"
             VALUE "OriginalFilename", "DataTrap"
-            VALUE "PrivateBuild", "11723"
+            VALUE "PrivateBuild", "12340"
             VALUE "ProductName", "DataTrap"
-            VALUE "ProductVersion", "3, 2, 2, 59"
+            VALUE "ProductVersion", "3, 2, 3, 60"
         END
     END
     BLOCK "VarFileInfo"

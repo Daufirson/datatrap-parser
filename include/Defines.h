@@ -134,9 +134,9 @@ inline float finiteAlways(float f) { return finite(f) ? f : 0.0f; }
 #define MAX_DBCS            246
 #define MAX_LOCALE          12
 
-#define _VERSION            "3.2.2.59"
-#define _CLIENT_VERSION     "3.3.3.11723"
-#define _WDB_VERIFIED       "11723"
+#define _VERSION            "3.2.3.60"
+#define _CLIENT_VERSION     "3.3.5.12340"
+#define _WDB_VERIFIED       "12340"
 #define _YEAR               "2008-2010"
 #define _CONFIGFILE         "DataTrap.cfg"
 #define _LOGFILE            "DataTrap.log"

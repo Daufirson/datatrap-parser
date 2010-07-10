@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{A17042A1-2ED4-4104-8864-233D3780BD66}
 AppName=DataTrap
-AppVerName=DataTrap v3.2.2.59
+AppVerName=DataTrap v3.2.3.60
 AppPublisher=United Worlds of MaNGOS
 AppPublisherURL=http://www.uwom.de
 AppSupportURL=http://www.uwom.de
@@ -16,7 +16,7 @@ DefaultDirName={pf}\DataTrap
 DefaultGroupName=DataTrap
 DisableProgramGroupPage=yes
 OutputDir=.
-OutputBaseFilename=DataTrap_32259_Setup
+OutputBaseFilename=DataTrap_32360_Setup
 SetupIconFile=..\res\DataTrap.ico
 Compression=lzma
 SolidCompression=yes
@@ -44,7 +44,7 @@ Source: "..\docs\ReadMe.txt"; DestDir: "{app}\docs"; Flags: ignoreversion isread
 Source: "..\docs\Changes.txt"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: english
 Source: "..\docs\Aenderungen.txt"; DestDir: "{app}\docs"; Flags: ignoreversion; Languages: german
 
-Source: "..\sql_updates\49_wdb_questcache.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
+; Source: "..\sql_updates\49_wdb_questcache.sql"; DestDir: "{app}\sql_updates"; Flags: ignoreversion;
 
 Source: "..\examples\Config.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;
 Source: "..\examples\Create SQL.cmd"; DestDir: "{app}\examples"; Flags: ignoreversion;
