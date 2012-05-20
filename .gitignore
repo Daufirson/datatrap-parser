@@ -1,0 +1,12 @@
+
+/src/libs/Release/
+/src/libs/Debug/
+Release/
+Debug/
+.directory
+*.orig
+*.rej
+*~
+*.ncb
+*.suo
+DataTrap*.exe

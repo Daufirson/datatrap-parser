@@ -1,0 +1,11 @@
+= DataTrap -- Thanks/credits file =
+
+DataTrap is a derivation/rewrite of http://www.uwom.de - United Worlds of MaNGOS program, 
+which was originally written
+by WarHead. This thanks file is to credit the people that further helped DataTrap
+by submitting bug reports, code patches, and suggestions. Thanks to the all the
+communities involved!
+
+Thanks go out to the following people for various patches/code from DataTrap
+(listed in the order they were added): 
+WarHead, Qubix, SkyFire, Bootz(Aptiva), more to come.

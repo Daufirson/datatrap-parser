@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------
- DataTrap v3.2.3.60 - http://www.uwom.de - datatrap@uwom.de - Open Source
- Written and Copyrighted © 2008-2010 by WarHead - United Worlds of MaNGOS
+ DataTrap v3.2.4.61 - http://www.projectskyfire.org - Open Source
+ Written and Copyrighted © 2012 by Project-SkyFire Team - 4.xx parser
 -------------------------------------------------------------------------
 
 With this program everyone should understand the original data of
@@ -15,7 +15,7 @@ E.g. you may be able to extract the DBCs (in a user-friendy way!)
 and import/export them to a MySQL database. At least this feature
 is not the only one, you may try it your way and find out.
 
-Requires Trinitycore Rev >= 8874.
+Requires Trinitycore Rev >= 15753.
 
 -------------------------------------------------------------------------
 Function overview from DataTrap - Help:

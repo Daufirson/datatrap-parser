@@ -1,3 +1,12 @@
+v3.2.4.61   
+---------
+- Moved from HG->Git. 
+- Removed German locals for English
+- Codestyle clean-ups
+- Structure changes
+- Updated copyrighting
+- Final clean-up for version 3.3.5 before moving to cataclysm 4.xx
+
 v3.2.3.60
 ---------
 For the changes go to: https://code.google.com/p/datatrap/
